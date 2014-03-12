@@ -1,0 +1,125 @@
+<?php
+
+namespace Zoop\Promotion\Test\Unserialize;
+
+use Zoop\Promotion\Test\BaseTest;
+use Zoop\Promotion\DataModel\UnlimitedPromotion;
+use Zoop\Promotion\DataModel\LimitedPromotion;
+use Zoop\Promotion\DataModel\Discount;
+use Zoop\Shard\Serializer\Unserializer;
+
+class UnserializerTest extends BaseTest
+{
+//    public function testUnserializerCreateUpdateAddDiscount()
+//    {
+//        $documentManager = $this->getDocumentManager();
+//
+//        // create promotion from json
+//        $createData = json_decode(
+//            file_get_contents(__DIR__ . '/TestAsset/CreateUnlimitedPromotion.json'),
+//            true
+//        );
+//
+//        $created = $this->getUnserializer()->fromArray(
+//            $createData,
+//            self::DOCUMENT_UNLIMITED_PROMOTION
+//        );
+//        $documentManager->persist($created);
+//        $documentManager->flush();
+//        $id = $created->getId();
+//        $this->assertTrue($created instanceof UnlimitedPromotion);
+//        $this->assertCount(1, $created->getDiscounts());
+//        $documentManager->clear();
+//
+//        //update the created document
+//        $updatedData = json_decode(
+//                file_get_contents(__DIR__ . '/TestAsset/UpdateUnlimitedPromotion.json'), true
+//        );
+//
+//        $updatedData['id'] = $id;
+//
+//        $updated = $this->getUnserializer()->fromArray(
+//            $updatedData,
+//            self::DOCUMENT_UNLIMITED_PROMOTION,
+//            $created,
+//            Unserializer::UNSERIALIZE_UPDATE
+//        );
+//        $this->assertTrue($updated instanceof UnlimitedPromotion);
+//        $this->assertCount(2, $updated->getDiscounts());
+//
+//        $documentManager->persist($updated);
+//        $documentManager->flush();
+//        $documentManager->clear();
+//
+//        //get from db and ensure it's the same as the persisted document
+//        $promotion = $documentManager->find(self::DOCUMENT_UNLIMITED_PROMOTION, $id);
+//
+//        $this->assertTrue($promotion instanceof UnlimitedPromotion);
+//        $this->assertCount(2, $promotion->getDiscounts());
+//
+//        $sproductDiscount = $promotion->getDiscounts()[0];
+//        $this->assertTrue($sproductDiscount instanceof Discount\PercentageAmountOff);
+//        $this->assertEquals(10, $sproductDiscount->getValue());
+//        $this->assertEquals('Product', $sproductDiscount->getVariable()->getName());
+//
+//        $shippingDiscount = $promotion->getDiscounts()[1];
+//        $this->assertTrue($shippingDiscount instanceof Discount\SetPrice);
+//        $this->assertEquals(0, $shippingDiscount->getValue());
+//        $this->assertEquals('Shipping', $shippingDiscount->getVariable()->getName());
+//    }
+//
+//    This is something we should look into as it currently doesn't quite
+//    work as expected
+//    
+//    
+//    public function testUnserializeUnlimitedToLimited()
+//    {
+//        $documentManager = $this->getDocumentManager();
+//
+//        // create promotion from json
+//        $createData = json_decode(
+//            file_get_contents(__DIR__ . '/TestAsset/CreateUnlimitedPromotion.json'),
+//            true
+//        );
+//
+//        $created = $this->getUnserializer()->fromArray(
+//            $createData,
+//            self::DOCUMENT_UNLIMITED_PROMOTION
+//        );
+//        $documentManager->persist($created);
+//        $documentManager->flush();
+//        $id = $created->getId();
+//        $this->assertTrue($created instanceof UnlimitedPromotion);
+//        $this->assertCount(1, $created->getDiscounts());
+//        $documentManager->clear();
+//
+//        //update the created document
+//        $updatedData = json_decode(
+//                file_get_contents(__DIR__ . '/TestAsset/CreateLimitedPromotion.json'), true
+//        );
+//
+//        $updatedData['id'] = $id;
+//
+//        $updated = $this->getUnserializer()->fromArray(
+//            $updatedData,
+//            self::DOCUMENT_ABSTRACT_PROMOTION
+//        );
+//        $this->assertTrue($updated instanceof LimitedPromotion);
+////        $this->assertCount(1, $updated->getDiscounts());
+//
+//        $documentManager->persist($updated);
+//        $documentManager->flush();
+//        $documentManager->clear();
+//
+//        //get from db and ensure it's the same as the persisted document
+//        $promotion = $documentManager->find(self::DOCUMENT_LIMITED_PROMOTION, $id);
+//
+//        $this->assertTrue($promotion instanceof LimitedPromotion);
+//        $this->assertCount(1, $promotion->getDiscounts());
+//
+//        $sproductDiscount = $promotion->getDiscounts()[0];
+//        $this->assertTrue($sproductDiscount instanceof Discount\PercentageAmountOff);
+//        $this->assertEquals(10, $sproductDiscount->getValue());
+//        $this->assertEquals('Product', $sproductDiscount->getVariable()->getName());
+//    }
+}

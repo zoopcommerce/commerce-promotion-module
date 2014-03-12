@@ -1,0 +1,75 @@
+{
+    "name": "zoopcommerce/commerce-promotion-module",
+    "description": "Commerce - Promotion Module",
+    "type": "library",
+    "keywords": [
+        "zoop",
+        "commerce",
+        "doctrine",
+        "zf2",
+        "zoop",
+        "shard",
+        "mongo"
+    ],
+    "homepage": "http://zoopcommerce.com",
+    "authors": [
+        {
+            "name": "Josh Stuart",
+            "email": "josh.stuart@zoopcommerce.com"
+        },
+        {
+            "name": "Tim Roediger",
+            "email": "superdweebie@gmail.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "git@github.com:zoopcommerce/commerce-common-module.git"
+        },
+        {
+            "type": "vcs",
+            "url":  "git@github.com:zoopcommerce/commerce-inventory-module.git"
+        },
+        {
+            "type": "vcs",
+            "url":  "git@github.com:zoopcommerce/commerce-order-module.git"
+        },
+        {
+            "type": "vcs",
+            "url":  "git@github.com:zoopcommerce/commerce-product-module.git"
+        },
+        {
+            "type": "vcs",
+            "url":  "git@github.com:zoopcommerce/commerce-store-module.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/superdweebie/mongodb-odm"
+        }
+    ],
+    "require": {
+        "php"                                       : ">=5.4",
+        "doctrine/annotations"                      : "dev-master#a11349d39d85bef75a71bd69bd604ac4fb993f03 as dev-master",
+        "zoopcommerce/commerce-common-module"       : "dev-master",
+        "zoopcommerce/commerce-inventory-module"    : "dev-master",
+        "zoopcommerce/commerce-order-module"        : "dev-master",
+        "zoopcommerce/commerce-product-module"      : "dev-master",
+        "zoopcommerce/commerce-store-module"        : "dev-master",
+        "zoopcommerce/shard"                        : "~4.0",
+        "doctrine/doctrine-mongo-odm-module"        : "1.0.x-dev",
+        "doctrine/doctrine-module"                  : "1.0.x-dev as 1.0",
+        "doctrine/mongodb-odm"                      : "dev-hotfix719 as 1.0.0-BETA9"
+    },
+    "require-dev": {
+        "phpunit/phpunit"           : ">=3.7",
+        "squizlabs/php_codesniffer" : "1.4.*",
+        "phpmd/phpmd"               : "1.4.*",
+        "zoopcommerce/slipstream"   : "~0.1"
+    },
+    "autoload": {
+        "psr-0": {
+            "Zoop\\Promotion": "src/"
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "name": "Test",
+    "active": true,
+    "allowCombination": true,
+    "expires": false,
+    "startDate": null,
+    "endDate": null,
+    "limited": false,
+    "coupon": false,
+    "discounts": [{
+        "type": "PercentageAmountOff",
+        "variable": {
+            "type": "Product",
+            "name": "Product"
+        },
+        "value": "10",
+        "conditions": []
+    }],
+    "couponsMap": [],
+    "type": "Unlimited"
+}
