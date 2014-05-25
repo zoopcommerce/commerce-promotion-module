@@ -9,7 +9,7 @@ class ProductFullPrice extends AbstractCartRule implements RuleInterface
 
     public function getVariable()
     {
-        return $this->getVariableCartProductFullPrice();
+        return $this->getVariableOrderProductFullPrice();
     }
 
 }

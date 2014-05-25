@@ -9,7 +9,7 @@ class ShippingType extends AbstractCartRule implements RuleInterface
 
     public function getVariable()
     {
-        return $this->getVariableCartShippingType();
+        return $this->getVariableOrderShippingType();
     }
 
 }

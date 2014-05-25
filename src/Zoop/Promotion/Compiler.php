@@ -68,9 +68,9 @@ class Compiler
 
         if (!empty($compiledFunctions)) {
             $function[] = $this->getFunctionHeader();
-            $function[] = 'if(is_array(' . $this->getVariableCartProducts() . ')) {';
-            $function[] = 'foreach(' . $this->getVariableCartProducts() . ' as ' . $this->getVariableCartProductPrefix() . ') {';
-            $function[] = 'if(in_array(' . $this->getVariableCartProductId() . ', ' . $this->getVariableConditionalProducts() . ') || in_array(0, ' . $this->getVariableConditionalProducts() . ')) {';
+            $function[] = 'if(is_array(' . $this->getVariableOrderProducts() . ')) {';
+            $function[] = 'foreach(' . $this->getVariableOrderProducts() . ' as ' . $this->getVariableOrderProductPrefix() . ') {';
+            $function[] = 'if(in_array(' . $this->getVariableOrderProductId() . ', ' . $this->getVariableConditionalProducts() . ') || in_array(0, ' . $this->getVariableConditionalProducts() . ')) {';
             $function[] = self::VARIABLE_FUNCTIONS . '[] = ' . $compiledFunctions;
             $function[] = '}';
             $function[] = '}';

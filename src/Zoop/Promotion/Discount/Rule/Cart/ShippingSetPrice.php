@@ -9,10 +9,10 @@ class ShippingSetPrice extends AbstractCartRule implements RuleInterface
 
     public function getFunction()
     {
-        return 'if (!empty(' . $this->getVariableCartTotalShippingPrice() . ') && !empty(' . $this->getVariableCartProductShippingPrice() . ')) {
-                    $discount = ' . $this->getVariableCartProductShippingPrice() . ' - ((' . $this->getVariableCartProductShippingPrice() . ' / ' . $this->getVariableCartTotalShippingPrice() . ') * ' . self::RULE_VALUE_VARIABLE . ');
+        return 'if (!empty(' . $this->getVariableOrderTotalShippingPrice() . ') && !empty(' . $this->getVariableOrderProductShippingPrice() . ')) {
+                    $discount = ' . $this->getVariableOrderProductShippingPrice() . ' - ((' . $this->getVariableOrderProductShippingPrice() . ' / ' . $this->getVariableOrderTotalShippingPrice() . ') * ' . self::RULE_VALUE_VARIABLE . ');
                     if ($discount < 0) {
-                        return (float) ' . $this->getVariableCartProductShippingPrice() . ';
+                        return (float) ' . $this->getVariableOrderProductShippingPrice() . ';
                     } else {
                         return (float) $discount;
                     }

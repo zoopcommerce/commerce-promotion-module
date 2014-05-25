@@ -9,10 +9,10 @@ class ProductWholesalePrice extends AbstractCartRule implements RuleInterface
 
     public function getFunction()
     {
-        return 'if (!empty(' . $this->getVariableCartProductFullPrice() . ') && !empty(' . $this->getVariableCartProductWholesalePrice() . ')) {
-                    $discount = ' . $this->getVariableCartProductFullPrice() . ' - ' . $this->getVariableCartProductWholesalePrice() . ';
+        return 'if (!empty(' . $this->getVariableOrderProductFullPrice() . ') && !empty(' . $this->getVariableOrderProductWholesalePrice() . ')) {
+                    $discount = ' . $this->getVariableOrderProductFullPrice() . ' - ' . $this->getVariableOrderProductWholesalePrice() . ';
                     if ($discount < 0) {
-                        return (float) ' . $this->getVariableCartProductFullPrice() . ';
+                        return (float) ' . $this->getVariableOrderProductFullPrice() . ';
                     } else {
                         return (float) $discount;
                     }

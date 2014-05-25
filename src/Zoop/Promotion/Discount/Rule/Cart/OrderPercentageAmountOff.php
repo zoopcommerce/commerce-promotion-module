@@ -9,7 +9,7 @@ class OrderPercentageAmountOff extends AbstractCartRule implements RuleInterface
 
     public function getFunction()
     {
-        return 'return ((' . $this->getVariableCartProductFullPrice() . ' * (int) ' . $this->getVariableCartProductQuantity() . ') + ' . $this->getVariableCartProductShippingPrice() . ') * (' . self::RULE_VALUE_VARIABLE . '/100);';
+        return 'return ((' . $this->getVariableOrderProductFullPrice() . ' * (int) ' . $this->getVariableOrderProductQuantity() . ') + ' . $this->getVariableOrderProductShippingPrice() . ') * (' . self::RULE_VALUE_VARIABLE . '/100);';
     }
 
 }

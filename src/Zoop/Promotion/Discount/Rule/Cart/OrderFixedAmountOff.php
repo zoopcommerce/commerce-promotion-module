@@ -9,8 +9,8 @@ class OrderFixedAmountOff extends AbstractCartRule implements RuleInterface
 
     public function getFunction()
     {
-        return 'if (!empty(' . $this->getVariableCartTotalPrice() . ')) {
-            return (float) ((' . $this->getVariableCartProductShippingPrice() . ' + (' . $this->getVariableCartProductFullPrice() . ' * ' . $this->getVariableCartProductQuantity() . ')) / ' . $this->getVariableCartTotalPrice() . ') * ' . self::RULE_VALUE_VARIABLE . ';
+        return 'if (!empty(' . $this->getVariableOrderTotalPrice() . ')) {
+            return (float) ((' . $this->getVariableOrderProductShippingPrice() . ' + (' . $this->getVariableOrderProductFullPrice() . ' * ' . $this->getVariableOrderProductQuantity() . ')) / ' . $this->getVariableOrderTotalPrice() . ') * ' . self::RULE_VALUE_VARIABLE . ';
         }';
     }
 

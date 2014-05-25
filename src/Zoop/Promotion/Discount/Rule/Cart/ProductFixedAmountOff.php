@@ -9,11 +9,11 @@ class ProductFixedAmountOff extends AbstractCartRule implements RuleInterface
 
     public function getFunction()
     {
-        return 'if(!empty(' . $this->getVariableCartProductFullPrice() . ')){
-                    $discount = ' . $this->getVariableCartProductFullPrice() . ' - ' . self::RULE_VALUE_VARIABLE . ';
+        return 'if(!empty(' . $this->getVariableOrderProductFullPrice() . ')){
+                    $discount = ' . $this->getVariableOrderProductFullPrice() . ' - ' . self::RULE_VALUE_VARIABLE . ';
 
                     if($discount < 0) {
-                        return (float) ' . $this->getVariableCartProductFullPrice() . ';
+                        return (float) ' . $this->getVariableOrderProductFullPrice() . ';
                     } else {
                         return (float) ' . self::RULE_VALUE_VARIABLE . ';
                     }

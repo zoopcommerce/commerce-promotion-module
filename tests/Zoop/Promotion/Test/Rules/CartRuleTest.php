@@ -136,7 +136,7 @@ class CartRuleTest extends BaseTest
     {
         $function[] = $this->getVariableConditionalProducts() . '=[];';
         $function[] = '$discount=0;';
-        $function[] = 'foreach(' . $this->getVariableCartProducts() . ' as ' . $this->getVariableCartProductPrefix() . ') {';
+        $function[] = 'foreach(' . $this->getVariableOrderProducts() . ' as ' . $this->getVariableOrderProductPrefix() . ') {';
         $function[] = '$functions[] = ' . $this->createCartSubFunction($code);
         $function[] = '}';
 

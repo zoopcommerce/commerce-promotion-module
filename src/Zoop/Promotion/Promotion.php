@@ -139,10 +139,12 @@ class Promotion
         $this->break = (bool) $break;
     }
 
-    public function getCartDiscount($totalQuantity, $totalPrice, $totalWholesalePrice, $totalProductPrice, $totalDiscountPrice, $totalShippingPrice, $shippingType, $shippingCountry, $cartProducts)
+    public function getCartDiscount()
     {
         $totalDiscount = 0;
         $break = false;
+        
+        $order = $this->getOrder();
 
         /* @var $promotion PromotionInterface */
         if($this->getBreak() === false) {
@@ -155,7 +157,7 @@ class Promotion
                     $function = create_function($this->getCartFunctionArguments() . ', &' . Compiler::VARIABLE_DISCOUNT_APPLIED, $discountFunction);
 
                     if (!empty($function)) {
-                        $discount = $function($totalQuantity, $totalPrice, $totalWholesalePrice, $totalProductPrice, $totalDiscountPrice, $totalShippingPrice, $shippingType, $shippingCountry, $cartProducts, $discountApplied);
+                        $discount = $function($order, $discountApplied);
 
                         if ($discountApplied === true) {
                             if ($this->reservePromotion($promotion)) {

@@ -9,7 +9,7 @@ class ProductQuantity extends AbstractCartRule implements RuleInterface
 
     public function getVariable()
     {
-        return $this->getVariableCartProductQuantity();
+        return $this->getVariableOrderProductQuantity();
     }
 
 }

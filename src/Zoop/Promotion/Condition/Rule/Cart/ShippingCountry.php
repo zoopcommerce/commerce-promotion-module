@@ -9,7 +9,7 @@ class ShippingCountry extends AbstractCartRule implements RuleInterface
 
     public function getVariable()
     {
-        return $this->getVariableCartShippingCountry();
+        return $this->getVariableOrderShippingCountry();
     }
 
 }

@@ -14,11 +14,11 @@ class OrderQuantity extends AbstractCartRule implements RuleInterface
 
     public function getVariable()
     {
-        return 'function() use (' . $this->getVariableCartProducts() . ', ' . $this->getVariableConditionalProducts() . ') {
+        return 'function() use (' . $this->getVariableOrderProducts() . ', ' . $this->getVariableConditionalProducts() . ') {
                     $quantity = 0;
-                    foreach(' . $this->getVariableCartProducts() . ' as ' . $this->getVariableCartProductPrefix() . ') {
-                        if(in_array(' . $this->getVariableCartProductId() . ',' . $this->getVariableConditionalProducts() . ')) {
-                            $quantity += ' . $this->getVariableCartProductQuantity() . ';
+                    foreach(' . $this->getVariableOrderProducts() . ' as ' . $this->getVariableOrderProductPrefix() . ') {
+                        if(in_array(' . $this->getVariableOrderProductId() . ',' . $this->getVariableConditionalProducts() . ')) {
+                            $quantity += ' . $this->getVariableOrderProductQuantity() . ';
                         }
                     }
                     return $quantity;
