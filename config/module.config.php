@@ -5,7 +5,7 @@ return array(
         'shard' => [
             'manifest' => [
                 'commerce' => [
-                    'documents' => [
+                    'models' => [
                         'Zoop\Promotion\DataModel' => __DIR__ . '/../src/Zoop/Promotion/DataModel'
                     ]
                 ]
