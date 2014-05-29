@@ -35,9 +35,18 @@ class GetPromotionsTest extends BaseTest
         $order = $this->getOrder(1, 100);
 
         //add promotion to DB
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1], date('Y-m-d', strtotime('Yesterday')), date('Y-m-d', strtotime('Tomorrow')));
+        $this->createLimitedPromotion(
+            ['limit' => 1, 'available' => 1],
+            date('Y-m-d', strtotime('Yesterday')),
+            date('Y-m-d', strtotime('Tomorrow'))
+        );
         $this->getDocumentManager()->clear();
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1], date('Y-m-d', strtotime('Yesterday')), date('Y-m-d', strtotime('Tomorrow')));
+        
+        $this->createLimitedPromotion(
+            ['limit' => 1, 'available' => 1],
+            date('Y-m-d', strtotime('Yesterday')),
+            date('Y-m-d', strtotime('Tomorrow'))
+        );
         $this->getDocumentManager()->clear();
 
         $promotion = $this->getPromotionChain($order);
@@ -55,9 +64,18 @@ class GetPromotionsTest extends BaseTest
         $order = $this->getOrder(1, 100);
 
         //add promotion to DB
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1], date('Y-m-d', strtotime('Tomorrow')), date('Y-m-d', strtotime('+2 Days')));
+        $this->createLimitedPromotion(
+            ['limit' => 1, 'available' => 1],
+            date('Y-m-d', strtotime('Tomorrow')),
+            date('Y-m-d', strtotime('+2 Days'))
+        );
         $this->getDocumentManager()->clear();
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1], date('Y-m-d', strtotime('Tomorrow')), date('Y-m-d', strtotime('+2 Days')));
+        
+        $this->createLimitedPromotion(
+            ['limit' => 1, 'available' => 1],
+            date('Y-m-d', strtotime('Tomorrow')),
+            date('Y-m-d', strtotime('+2 Days'))
+        );
         $this->getDocumentManager()->clear();
 
         $promotion = $this->getPromotionChain($order);
@@ -75,9 +93,18 @@ class GetPromotionsTest extends BaseTest
         $order = $this->getOrder(1, 100);
 
         //add promotion to DB
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1], date('Y-m-d', strtotime('-2 Days')), date('Y-m-d', strtotime('Yesterday')));
+        $this->createLimitedPromotion(
+            ['limit' => 1, 'available' => 1],
+            date('Y-m-d', strtotime('-2 Days')),
+            date('Y-m-d', strtotime('Yesterday'))
+        );
         $this->getDocumentManager()->clear();
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1], date('Y-m-d', strtotime('-2 Days')), date('Y-m-d', strtotime('Yesterday')));
+        
+        $this->createLimitedPromotion(
+            ['limit' => 1, 'available' => 1],
+            date('Y-m-d', strtotime('-2 Days')),
+            date('Y-m-d', strtotime('Yesterday'))
+        );
         $this->getDocumentManager()->clear();
 
         $promotion = $this->getPromotionChain($order);
@@ -95,11 +122,25 @@ class GetPromotionsTest extends BaseTest
         $order = $this->getOrder(1, 100);
 
         //add promotion to DB
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1], date('Y-m-d', strtotime('-2 Days')), date('Y-m-d', strtotime('Yesterday')));
+        $this->createLimitedPromotion(
+            ['limit' => 1, 'available' => 1],
+            date('Y-m-d', strtotime('-2 Days')),
+            date('Y-m-d', strtotime('Yesterday'))
+        );
         $this->getDocumentManager()->clear();
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1], date('Y-m-d', strtotime('Tomorrow')), date('Y-m-d', strtotime('+2 Days')));
+        
+        $this->createLimitedPromotion(
+            ['limit' => 1, 'available' => 1],
+            date('Y-m-d', strtotime('Tomorrow')),
+            date('Y-m-d', strtotime('+2 Days'))
+        );
         $this->getDocumentManager()->clear();
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1], date('Y-m-d', strtotime('Yesterday')), date('Y-m-d', strtotime('Tomorrow')));
+        
+        $this->createLimitedPromotion(
+            ['limit' => 1, 'available' => 1],
+            date('Y-m-d', strtotime('Yesterday')),
+            date('Y-m-d', strtotime('Tomorrow'))
+        );
         $this->getDocumentManager()->clear();
 
         $promotion = $this->getPromotionChain($order);
@@ -118,9 +159,20 @@ class GetPromotionsTest extends BaseTest
         $order = $this->getOrder(1, 100, $couponCode);
 
         //add promotion to DB
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1], null, null, $couponCode);
+        $this->createLimitedPromotion(
+            ['limit' => 1, 'available' => 1],
+            null,
+            null,
+            $couponCode
+        );
         $this->getDocumentManager()->clear();
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1], null, null, $couponCode);
+        
+        $this->createLimitedPromotion(
+            ['limit' => 1, 'available' => 1],
+            null,
+            null,
+            $couponCode
+        );
         $this->getDocumentManager()->clear();
 
         $promotion = $this->getPromotionChain($order);
@@ -139,9 +191,21 @@ class GetPromotionsTest extends BaseTest
         $order = $this->getOrder(1, 100, $couponCode);
 
         //add promotion to DB
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1], date('Y-m-d', strtotime('Yesterday')), date('Y-m-d', strtotime('Tomorrow')), $couponCode);
+        $this->createLimitedPromotion(
+            ['limit' => 1, 'available' => 1],
+            date('Y-m-d', strtotime('Yesterday')),
+            date('Y-m-d', strtotime('Tomorrow')),
+            $couponCode
+        );
+        
         $this->getDocumentManager()->clear();
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1], date('Y-m-d', strtotime('-2 Days')), date('Y-m-d', strtotime('Yesterday')), $couponCode);
+        
+        $this->createLimitedPromotion(
+            ['limit' => 1, 'available' => 1],
+            date('Y-m-d', strtotime('-2 Days')),
+            date('Y-m-d', strtotime('Yesterday')),
+            $couponCode
+        );
         $this->getDocumentManager()->clear();
 
         $promotion = $this->getPromotionChain($order);
@@ -161,8 +225,18 @@ class GetPromotionsTest extends BaseTest
         $order = $this->getOrder(1, 100, $orderCouponCode);
 
         //add promotion to DB
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1], null, null, $couponCode);
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1], null, null, $couponCode);
+        $this->createLimitedPromotion(
+            ['limit' => 1, 'available' => 1],
+            null,
+            null,
+            $couponCode
+        );
+        $this->createLimitedPromotion(
+            ['limit' => 1, 'available' => 1],
+            null,
+            null,
+            $couponCode
+        );
         $this->getDocumentManager()->clear();
 
         $promotion = $this->getPromotionChain($order);
@@ -184,10 +258,15 @@ class GetPromotionsTest extends BaseTest
         $order3 = $this->getOrder(3, 100);
 
         //add promotion to DB
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1], null, null, [
-            $couponCode1,
-            $couponCode2
-        ]);
+        $this->createLimitedPromotion(
+            ['limit' => 1, 'available' => 1],
+            null,
+            null,
+            [
+                $couponCode1,
+                $couponCode2
+            ]
+        );
         $this->getDocumentManager()->clear();
 
         $promotion1 = $this->getPromotionChain($order1);

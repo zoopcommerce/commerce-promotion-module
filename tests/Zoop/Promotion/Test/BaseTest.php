@@ -7,121 +7,102 @@ use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use Zoop\Shard\Manifest;
 use Zoop\Shard\Serializer\Unserializer;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Zoop\Legacy\Promotion\DataModel\PromotionInterface;
-use Zoop\Legacy\Order\DataModel\Order;
-use Zoop\Legacy\Order\DataModel\Total;
-use Zoop\Legacy\Store\DataModel\Store;
-use Zoop\Legacy\Promotion\DataModel\LimitedPromotion;
-use Zoop\Legacy\Promotion\DataModel\UnlimitedPromotion;
-use Zoop\Legacy\Promotion\DataModel\Register\Infinite;
-use Zoop\Legacy\Promotion\DataModel\Register\Finite;
-use Zoop\Legacy\Promotion\DataModel\Register\Coupon;
+use Zoop\Promotion\DataModel\PromotionInterface;
+use Zoop\Order\DataModel\Order;
+use Zoop\Order\DataModel\Total;
+use Zoop\Store\DataModel\Store;
+use Zoop\Promotion\DataModel\LimitedPromotion;
+use Zoop\Promotion\DataModel\UnlimitedPromotion;
+use Zoop\Promotion\DataModel\Register\Infinite;
+use Zoop\Promotion\DataModel\Register\Finite;
+use Zoop\Promotion\DataModel\Register\Coupon;
 use Zoop\Shard\Core\Events;
 
 abstract class BaseTest extends AbstractHttpControllerTestCase
 {
-    const TEST_DB = 'zoop-phpunit';
-    const DOCUMENT_ORDER = 'Zoop\Legacy\Order\DataModel\Order';
-    const DOCUMENT_STORE = 'Zoop\Legacy\Store\DataModel\Store';
-    const DOCUMENT_ABSTRACT_PROMOTION = 'Zoop\Legacy\Promotion\DataModel\AbstractPromotion';
-    const DOCUMENT_UNLIMITED_PROMOTION = 'Zoop\Legacy\Promotion\DataModel\UnlimitedPromotion';
-    const DOCUMENT_LIMITED_PROMOTION = 'Zoop\Legacy\Promotion\DataModel\LimitedPromotion';
+    const DOCUMENT_ORDER = 'Zoop\Order\DataModel\Order';
+    const DOCUMENT_STORE = 'Zoop\Store\DataModel\Store';
+    const DOCUMENT_ABSTRACT_PROMOTION = 'Zoop\Promotion\DataModel\AbstractPromotion';
+    const DOCUMENT_UNLIMITED_PROMOTION = 'Zoop\Promotion\DataModel\UnlimitedPromotion';
+    const DOCUMENT_LIMITED_PROMOTION = 'Zoop\Promotion\DataModel\LimitedPromotion';
 
-    protected $documentManager;
-    protected $unserializer;
-    protected $manifest;
-    protected $db;
-    protected $store;
+    protected static $documentManager;
+    protected static $dbName;
+    protected static $unserializer;
+    protected static $manifest;
+    protected static $store;
 
     public function setUp()
     {
-        require_once __DIR__ . '/../../../public/commerce/config.php';
-        require_once __DIR__ . '/../../../module/Commerce/src/constants.php';
+        if (!isset(self::$documentManager)) {
+            $this->setApplicationConfig(
+                require __DIR__ . '/../../../test.application.config.php'
+            );
+            self::$documentManager = $this->getApplicationServiceLocator()->get('shard.commerce.modelmanager');
 
-        $this->setApplicationConfig(
-                include __DIR__ . '/../../../config/application.config.php'
-        );
+            $eventManager = self::$documentManager->getEventManager();
+            $eventManager->addEventListener(Events::EXCEPTION, $this);
+        }
 
-        $tempDir = __DIR__ . '/../../../data/temp/';
+        if (!isset(self::$dbName)) {
+            self::$dbName = $this->getApplicationServiceLocator()->get('config')['doctrine']['odm']['connection']['commerce']['dbname'];
+        }
 
-        $manifest = $this->getApplicationServiceLocator()
-                ->get('shard.commerce.manifest');
+        if (!isset(self::$manifest)) {
+            self::$manifest = $this->getApplicationServiceLocator()->get('shard.commerce.manifest');
+        }
 
-        $dm = $this->getApplicationServiceLocator()
-                ->get('shard.commerce.modelmanager');
+        if (!isset(self::$unserializer)) {
+            self::$unserializer = self::$manifest->getServiceManager()->get('unserializer');
+        }
 
-        $unserializer = $manifest->getServiceManager()
-                ->get('unserializer');
-
-        $this->setManifest($manifest);
-        $this->setDocumentManager($dm);
-
-        $this->setUnserializer($unserializer);
-
-        $eventManager = $dm->getEventManager();
-        $eventManager->addEventListener(Events::EXCEPTION, $this);
+        if (!isset(self::$store)) {
+            self::$store = $this->getStore();
+        }
 
         $this->calls = [];
+    }
+
+    /**
+     * @return DocumentManager
+     */
+    public static function getDocumentManager()
+    {
+        return self::$documentManager;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public static function getDbName()
+    {
+        return self::$dbName;
     }
 
     /**
      *
      * @return Manifest
      */
-    public function getManifest()
+    public static function getManifest()
     {
-        return $this->manifest;
-    }
-
-    /**
-     *
-     * @param Manifest $manifest
-     */
-    public function setManifest(Manifest $manifest)
-    {
-        $this->manifest = $manifest;
-    }
-
-    /**
-     *
-     * @return DocumentManager
-     */
-    public function getDocumentManager()
-    {
-        return $this->documentManager;
+        return self::$manifest;
     }
 
     /**
      *
      * @return Unserializer
      */
-    public function getUnserializer()
+    public static function getUnserializer()
     {
-        return $this->unserializer;
-    }
-
-    /**
-     *
-     * @param DocumentManager $documentManager
-     */
-    public function setDocumentManager(DocumentManager $documentManager)
-    {
-        $this->documentManager = $documentManager;
-    }
-
-    /**
-     *
-     * @param Unserializer $unserializer
-     */
-    public function setUnserializer(Unserializer $unserializer)
-    {
-        $this->unserializer = $unserializer;
+        return self::$unserializer;
     }
 
     protected function getOrder($id, $totalOrderPrice = null, $coupon = null)
     {
+        $store= $this->getStore();
+        die(vaR_dump($store));
         $order = new Order;
-        $order->setCreatedOn(new DateTime);
         $order->setLegacyId($id);
         $order->setStore($this->getStore()->getSubdomain());
 
@@ -156,30 +137,32 @@ abstract class BaseTest extends AbstractHttpControllerTestCase
      */
     protected function getStore()
     {
-        if (!isset($this->store)) {
+        if (!isset(self::$store)) {
             $store = new Store;
             $store->setName('Demo');
             $store->setSubdomain('demo');
+            $store->setSlug('demo');
+            $store->setEmail('info@demo.com');
 
             $this->getDocumentManager()->persist($store);
             $this->getDocumentManager()->flush($store);
             $id = $store->getId();
             $this->getDocumentManager()->clear($store);
-            unset($store);
+           self::$store = 
 
-            $this->store = $this->getDocumentManager()->createQueryBuilder(self::DOCUMENT_STORE)
-                    ->field('id')->equals($id)
-                    ->getQuery()
-                    ->getSingleResult();
+            self::$store = $this->getDocumentManager()->createQueryBuilder(self::DOCUMENT_STORE)
+                ->field('id')->equals($id)
+                ->getQuery()
+                ->getSingleResult();
+            die(VaR_dump(self::$store , $id));
         }
-        return $this->store;
+        return self::$store;
     }
 
     protected function createLimitedPromotion($limits = [], $startDate = null, $endDate = null, $couponCode = null)
     {
         $limited = new LimitedPromotion;
         $limited->addStore($this->getStore()->getSubdomain());
-        $limited->setCreatedOn(new DateTime);
 
         if (!empty($startDate)) {
             $limited->setStartDate(new DateTime($startDate));
@@ -240,7 +223,6 @@ abstract class BaseTest extends AbstractHttpControllerTestCase
     {
         $unlimited = new UnlimitedPromotion;
         $unlimited->addStore($this->getStore()->getSubdomain());
-        $unlimited->setCreatedOn(new DateTime);
         $unlimited->setNumberUsed((int) $used);
 
         if (!empty($startDate)) {
@@ -286,14 +268,14 @@ abstract class BaseTest extends AbstractHttpControllerTestCase
     /**
      *
      * @param string $id
-     * @return Zoop\Legacy\Promotion\DataModel\AbstractPromotion
+     * @return Zoop\Promotion\DataModel\AbstractPromotion
      */
     protected function getPromotion($id)
     {
         $promotion = $this->getDocumentManager()->createQueryBuilder(self::DOCUMENT_ABSTRACT_PROMOTION)
-                ->field('id')->equals($id)
-                ->getQuery()
-                ->getSingleResult();
+            ->field('id')->equals($id)
+            ->getQuery()
+            ->getSingleResult();
 
         return $promotion;
     }
@@ -311,18 +293,17 @@ abstract class BaseTest extends AbstractHttpControllerTestCase
         }
     }
 
-    public function tearDown()
+    public static function tearDownAfterClass()
     {
-        $this->clearDatabase();
+        self::clearDatabase();
     }
 
-    public function clearDatabase()
+    public static function clearDatabase()
     {
-        if ($this->documentManager) {
-            $db = $this->getApplicationServiceLocator()->get('config')['doctrine']['odm']['connection']['commerce']['dbname'];
-            $collections = $this->getDocumentManager()
-                            ->getConnection()
-                            ->selectDatabase($db)->listCollections();
+        if (isset(self::$documentManager) && isset(self::$dbName)) {
+            $collections = self::$documentManager
+                ->getConnection()
+                ->selectDatabase(self::$dbName)->listCollections();
 
             foreach ($collections as $collection) {
                 /* @var $collection \MongoCollection */
@@ -333,8 +314,7 @@ abstract class BaseTest extends AbstractHttpControllerTestCase
 
     public function __call($name, $arguments)
     {
-        var_dump($name, $arguments[0]);
+        die(var_dump($name, $arguments[0]));
         $this->calls[$name] = $arguments;
     }
-
 }

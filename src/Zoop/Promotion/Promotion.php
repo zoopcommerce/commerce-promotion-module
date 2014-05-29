@@ -143,7 +143,7 @@ class Promotion
     {
         $totalDiscount = 0;
         $break = false;
-        
+
         $order = $this->getOrder();
 
         /* @var $promotion PromotionInterface */

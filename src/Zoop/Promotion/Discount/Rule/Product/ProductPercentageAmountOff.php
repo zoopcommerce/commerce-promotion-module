@@ -9,7 +9,7 @@ class ProductPercentageAmountOff extends AbstractProductRule implements RuleInte
 
     public function getFunction()
     {
-        return 'if (!empty(' . $this->getVariableProductFullPrice() . ')) {
+        return 'if (' . $this->getVariableProductFullPrice() . ') {
                     return (float) (' . $this->getVariableProductFullPrice() . ' * (' . self::RULE_VALUE_VARIABLE . '/100));
                 }';
     }

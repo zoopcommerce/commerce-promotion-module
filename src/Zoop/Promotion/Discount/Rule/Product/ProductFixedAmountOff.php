@@ -9,7 +9,7 @@ class ProductFixedAmountOff extends AbstractProductRule implements RuleInterface
 
     public function getFunction()
     {
-        return 'if (!empty(' . $this->getVariableProductFullPrice() . ')){
+        return 'if (' . $this->getVariableProductFullPrice() . '){
                     $discount = ' . $this->getVariableProductFullPrice() . ' - ' . self::RULE_VALUE_VARIABLE . ';
 
                     if($discount < 0) {

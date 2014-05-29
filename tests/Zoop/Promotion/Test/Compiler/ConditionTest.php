@@ -29,7 +29,6 @@ class ConditionTest extends BaseTest
 
     public function testCompiledSingleCondition()
     {
-
         $compiler = new ConditionCompiler;
 
         $discount = new Discount\PercentageAmountOff;

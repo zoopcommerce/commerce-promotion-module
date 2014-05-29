@@ -5,6 +5,11 @@ namespace Zoop\Promotion\Test\Rules;
 use Zoop\Promotion\Test\BaseTest;
 use Zoop\Promotion\Discount\Rule\Cart;
 use Zoop\Promotion\CartVariablesTrait;
+use Zoop\Order\DataModel\Order;
+use Zoop\Order\DataModel\Total;
+use Zoop\Order\DataModel\Item\SingleItem;
+use Zoop\Order\DataModel\Item\PhysicalSku;
+use Zoop\Order\DataModel\Item\Price;
 
 class CartRuleTest extends BaseTest
 {
@@ -13,33 +18,6 @@ class CartRuleTest extends BaseTest
     const RULE_FIXED_VALUE = 10;
     const RULE_PERCENTAGE_VALUE = 10;
     const RULE_SET_PRICE = 10;
-
-    protected static $cart = [
-        'totalQuantity' => 2,
-        'totalPrice' => 120,
-        'totalProductPrice' => 100,
-        'totalWholesalePrice' => 50,
-        'totalDiscountPrice' => 0,
-        'totalShippingPrice' => 20,
-        'shippingType' => 'Regular',
-        'shippingCountry' => 'AU',
-        'products' => [
-            [
-                'productId' => 101,
-                'fullPrice' => 60,
-                'totalShipping' => 15,
-                'wholesalePrice' => 30,
-                'quantity' => 1
-            ],
-            [
-                'productId' => 102,
-                'fullPrice' => 40,
-                'totalShipping' => 5,
-                'wholesalePrice' => 20,
-                'quantity' => 1
-            ]
-        ]
-    ];
 
     public function testOrderFixedAmountOff()
     {
@@ -119,17 +97,7 @@ class CartRuleTest extends BaseTest
 
     protected function getDiscount($function)
     {
-        return $function(
-            self::$cart['totalQuantity'],
-            self::$cart['totalPrice'],
-            self::$cart['totalWholesalePrice'],
-            self::$cart['totalProductPrice'],
-            self::$cart['totalDiscountPrice'],
-            self::$cart['totalShippingPrice'],
-            self::$cart['shippingType'],
-            self::$cart['shippingCountry'],
-            self::$cart['products']
-        );
+        return $function($this->getOrder());
     }
 
     protected function compileFunction($code)
@@ -163,6 +131,45 @@ class CartRuleTest extends BaseTest
             $this->getCartFunctionArguments(),
             $this->compileFunction($code)
         );
+    }
+    
+    protected function getOrder()
+    {
+        $order = new Order;
+        $order->setEmail('test@email.com');
+        $order->setState('in-progress');
+        $order->setStore($this->getStore());
+        $order->setLegacyId(1);
+        
+        $total = new Total; 
+        $total->setShippingPrice(5);
+        $total->setProductWholesalePrice(15);
+        $total->setProductListPrice(25);
+        $total->setTaxIncluded(2);
+        $total->setProductQuantity(1);
+        $total->setDiscountPrice(0);
+        $total->setOrderPrice(20);
+        
+        $order->setTotal($total);
+        
+        $sku = new PhysicalSku;
+        
+        $price = new Price;
+        $price->setWholesale(15);
+        $price->setList(25);
+        $price->setShipping(5);
+        $price->setDiscount(0);
+                
+        $item = new SingleItem;
+        $item->setBrand('Some brand');
+        $item->setSku($sku);
+        $item->setPrice($price);
+        $item->setName('Some name');
+        $item->setLegacyId(1);
+        
+        $order->addItem($item);
+        die(Var_dump($order));
+        return $order;
     }
 
 }

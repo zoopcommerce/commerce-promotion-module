@@ -9,7 +9,7 @@ class ProductWholesalePrice extends AbstractProductRule implements RuleInterface
 
     public function getFunction()
     {
-        return 'if (!empty(' . $this->getVariableProductFullPrice() . ') && !empty(' . $this->getVariableProductWholesalePrice() . ')) {
+        return 'if (' . $this->getVariableProductFullPrice() . ' && ' . $this->getVariableProductWholesalePrice() . ') {
                     $discount = ' . $this->getVariableProductFullPrice() . ' - ' . $this->getVariableProductWholesalePrice() . ';
 
                     if ($discount < 0) {
