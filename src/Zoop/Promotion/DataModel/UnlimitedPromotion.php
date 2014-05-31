@@ -2,7 +2,6 @@
 
 namespace Zoop\Promotion\DataModel;
 
-use Zoop\Promotion\DataModel\Register\Coupon;
 use Zoop\Promotion\DataModel\Register\Infinite;
 //Annotation imports
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
@@ -39,15 +38,6 @@ class UnlimitedPromotion extends AbstractPromotion implements PromotionInterface
     public function getRegistry()
     {
         return $this->registry;
-    }
-
-    /**
-     *
-     * @param Infinite $registry
-     */
-    public function setRegistry(Infinite $registry)
-    {
-        $this->registry = $registry;
     }
 
     /**

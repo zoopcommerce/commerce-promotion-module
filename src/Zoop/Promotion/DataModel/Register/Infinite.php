@@ -29,7 +29,7 @@ class Infinite extends AbstractRegister implements RegisterInterface
     /**
      * @ODM\String
      * @Shard\State({
-     * "available"
+     *      "available"
      * })
      */
     protected $state = self::STATE_AVAILABLE;

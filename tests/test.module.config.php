@@ -17,6 +17,10 @@ return [
                 'commerce' => [
                     'metadata_cache' => 'doctrine.cache.array',
                     'default_db' => $mongoZoopDatabase,
+                    'generate_proxies' => true,
+                    'proxy_dir' => __DIR__ . '/../data/proxies',
+                    'generate_hydrators' => true,
+                    'hydrator_dir' => __DIR__ . '/../data/hydrators',
                 ]
             ],
         ],

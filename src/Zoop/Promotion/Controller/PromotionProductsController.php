@@ -6,17 +6,16 @@ use Zoop\Promotion\DataModel\PromotionInterface;
 
 class PromotionProductsController extends AbstractController
 {
-
     public function get($id)
     {
         $promotionCursor = $this->getDm()->createQueryBuilder(self::PROMOTION_DATA_MODEL)
-                ->field('registry')->prime(true)
-                ->field('id')->equals($id)
-                ->field('stores')->in([$this->getStoreSubDomain()])
-                ->getQuery()
-                ->execute();
+            ->field('registry')->prime(true)
+            ->field('id')->equals($id)
+            ->field('stores')->in([$this->getStoreSubDomain()])
+            ->getQuery()
+            ->execute();
 
-        if (!empty($promotionCursor) && $serialize === true) {
+        if (!empty($promotionCursor)) {
             foreach ($promotionCursor as $promotion) {
                 return $this->getSerializer()->toJson($promotion);
             }
@@ -35,9 +34,9 @@ class PromotionProductsController extends AbstractController
 
         $promos = [];
         $promotions = $this->getDm()->createQueryBuilder(self::PROMOTION_DATA_MODEL)
-                ->field('stores')->in([$this->getStoreSubDomain()])
-                ->getQuery()
-                ->execute();
+            ->field('stores')->in([$this->getStoreSubDomain()])
+            ->getQuery()
+            ->execute();
 
         if (!empty($promotions)) {
             /* @var $promotion PromotionInterface */
@@ -64,5 +63,4 @@ class PromotionProductsController extends AbstractController
     {
 
     }
-
 }

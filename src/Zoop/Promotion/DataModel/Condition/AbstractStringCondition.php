@@ -15,7 +15,6 @@ use Zoop\Shard\Annotation\Annotations as Shard;
  */
 abstract class AbstractStringCondition extends AbstractCondition
 {
-
     /**
      * @ODM\EmbedOne(
      *  discriminatorField     = "type",
@@ -53,5 +52,4 @@ abstract class AbstractStringCondition extends AbstractCondition
     {
         $this->value = (string) $value;
     }
-
 }

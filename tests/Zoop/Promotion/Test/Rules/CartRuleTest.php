@@ -2,7 +2,7 @@
 
 namespace Zoop\Promotion\Test\Rules;
 
-use Zoop\Promotion\Test\BaseTest;
+use Zoop\Promotion\Test\AbstractTest;
 use Zoop\Promotion\Discount\Rule\Cart;
 use Zoop\Promotion\CartVariablesTrait;
 use Zoop\Order\DataModel\Order;
@@ -11,9 +11,8 @@ use Zoop\Order\DataModel\Item\SingleItem;
 use Zoop\Order\DataModel\Item\PhysicalSku;
 use Zoop\Order\DataModel\Item\Price;
 
-class CartRuleTest extends BaseTest
+class CartRuleTest extends AbstractTest
 {
-
     use CartVariablesTrait;
     const RULE_FIXED_VALUE = 10;
     const RULE_PERCENTAGE_VALUE = 10;
@@ -97,7 +96,7 @@ class CartRuleTest extends BaseTest
 
     protected function getDiscount($function)
     {
-        return $function($this->getOrder());
+        return $function($this->createOrder());
     }
 
     protected function compileFunction($code)
@@ -132,16 +131,16 @@ class CartRuleTest extends BaseTest
             $this->compileFunction($code)
         );
     }
-    
-    protected function getOrder()
+
+    protected function createOrder()
     {
         $order = new Order;
         $order->setEmail('test@email.com');
         $order->setState('in-progress');
         $order->setStore($this->getStore());
         $order->setLegacyId(1);
-        
-        $total = new Total; 
+
+        $total = new Total;
         $total->setShippingPrice(5);
         $total->setProductWholesalePrice(15);
         $total->setProductListPrice(25);
@@ -149,27 +148,26 @@ class CartRuleTest extends BaseTest
         $total->setProductQuantity(1);
         $total->setDiscountPrice(0);
         $total->setOrderPrice(20);
-        
+
         $order->setTotal($total);
-        
+
         $sku = new PhysicalSku;
-        
+
         $price = new Price;
         $price->setWholesale(15);
         $price->setList(25);
         $price->setShipping(5);
         $price->setDiscount(0);
-                
+
         $item = new SingleItem;
         $item->setBrand('Some brand');
         $item->setSku($sku);
         $item->setPrice($price);
         $item->setName('Some name');
         $item->setLegacyId(1);
-        
+
         $order->addItem($item);
-        die(Var_dump($order));
+        
         return $order;
     }
-
 }

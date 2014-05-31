@@ -14,10 +14,8 @@ use Zoop\Shard\Annotation\Annotations as Shard;
  */
 class Order extends AbstractVariable implements VariableInterface
 {
-
     /**
      * @ODM\String
      */
     protected $name = 'Order';
-
 }

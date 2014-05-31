@@ -16,15 +16,15 @@ class PromotionChainFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $dm = $serviceLocator->get('shard.commerce.modelmanager');
-        $sm = $serviceLocator->get('shard.commerce.servicemanager');
+
         $manifest = $serviceLocator->get('shard.commerce.manifest');
         /* @var $manifest \Zoop\Shard\Manifest */
         $unserializer = $manifest->getServiceManager()->get('unserializer');
         $serializer = $manifest->getServiceManager()->get('serializer');
         $softDelete = $manifest->getServiceManager()->get('softdeleter');
 
-        $order = $serviceLocator->get('zoop.commerce.order.legacy.model.active');
-        $store = $serviceLocator->get('zoop.commerce.store.legacy.model.active');
+        $order = $serviceLocator->get('zoop.commerce.order.active');
+        $store = $serviceLocator->get('zoop.commerce.store.active');
 
         $promotionChain = new PromotionChain;
 

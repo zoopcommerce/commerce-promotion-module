@@ -14,7 +14,6 @@ use Zoop\Shard\Annotation\Annotations as Shard;
  */
 abstract class AbstractIntegerCondition extends AbstractCondition
 {
-
     /**
      * @ODM\Int
      */
@@ -37,5 +36,4 @@ abstract class AbstractIntegerCondition extends AbstractCondition
     {
         $this->value = (int) $value;
     }
-
 }

@@ -2,22 +2,22 @@
 
 namespace Zoop\Promotion\Test\Promotion;
 
-use Zoop\Promotion\Test\BaseTest;
+use Zoop\Promotion\Test\AbstractTest;
 use Zoop\Promotion\PromotionChain;
 use Zoop\Order\DataModel\Order;
 
-class GetPromotionsTest extends BaseTest
+class GetPromotionsTest extends AbstractTest
 {
     public function testGetPromotionWithoutExpiry()
     {
         $this->clearDatabase();
 
-        $order = $this->getOrder(1, 100);
+        $order = $this->createOrder(1, 100);
 
         //add promotion to DB
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1]);
+        $this->createLimitedPromotion(['limit' => 1, 'available' => 1, 'in-cart' => 0, 'used' => 0]);
         $this->getDocumentManager()->clear();
-        $this->createLimitedPromotion(['limit' => 1, 'available' => 1]);
+        $this->createLimitedPromotion(['limit' => 1, 'available' => 1, 'in-cart' => 0, 'used' => 0]);
         $this->getDocumentManager()->clear();
 
         $promotion = $this->getPromotionChain($order);
@@ -32,7 +32,7 @@ class GetPromotionsTest extends BaseTest
     {
         $this->clearDatabase();
 
-        $order = $this->getOrder(1, 100);
+        $order = $this->createOrder(1, 100);
 
         //add promotion to DB
         $this->createLimitedPromotion(
@@ -41,7 +41,7 @@ class GetPromotionsTest extends BaseTest
             date('Y-m-d', strtotime('Tomorrow'))
         );
         $this->getDocumentManager()->clear();
-        
+
         $this->createLimitedPromotion(
             ['limit' => 1, 'available' => 1],
             date('Y-m-d', strtotime('Yesterday')),
@@ -61,7 +61,7 @@ class GetPromotionsTest extends BaseTest
     {
         $this->clearDatabase();
 
-        $order = $this->getOrder(1, 100);
+        $order = $this->createOrder(1, 100);
 
         //add promotion to DB
         $this->createLimitedPromotion(
@@ -70,7 +70,7 @@ class GetPromotionsTest extends BaseTest
             date('Y-m-d', strtotime('+2 Days'))
         );
         $this->getDocumentManager()->clear();
-        
+
         $this->createLimitedPromotion(
             ['limit' => 1, 'available' => 1],
             date('Y-m-d', strtotime('Tomorrow')),
@@ -90,7 +90,7 @@ class GetPromotionsTest extends BaseTest
     {
         $this->clearDatabase();
 
-        $order = $this->getOrder(1, 100);
+        $order = $this->createOrder(1, 100);
 
         //add promotion to DB
         $this->createLimitedPromotion(
@@ -99,7 +99,7 @@ class GetPromotionsTest extends BaseTest
             date('Y-m-d', strtotime('Yesterday'))
         );
         $this->getDocumentManager()->clear();
-        
+
         $this->createLimitedPromotion(
             ['limit' => 1, 'available' => 1],
             date('Y-m-d', strtotime('-2 Days')),
@@ -119,7 +119,7 @@ class GetPromotionsTest extends BaseTest
     {
         $this->clearDatabase();
 
-        $order = $this->getOrder(1, 100);
+        $order = $this->createOrder(1, 100);
 
         //add promotion to DB
         $this->createLimitedPromotion(
@@ -128,14 +128,14 @@ class GetPromotionsTest extends BaseTest
             date('Y-m-d', strtotime('Yesterday'))
         );
         $this->getDocumentManager()->clear();
-        
+
         $this->createLimitedPromotion(
             ['limit' => 1, 'available' => 1],
             date('Y-m-d', strtotime('Tomorrow')),
             date('Y-m-d', strtotime('+2 Days'))
         );
         $this->getDocumentManager()->clear();
-        
+
         $this->createLimitedPromotion(
             ['limit' => 1, 'available' => 1],
             date('Y-m-d', strtotime('Yesterday')),
@@ -156,7 +156,7 @@ class GetPromotionsTest extends BaseTest
         $this->clearDatabase();
 
         $couponCode = 'TEST';
-        $order = $this->getOrder(1, 100, $couponCode);
+        $order = $this->createOrder(1, 100, $couponCode);
 
         //add promotion to DB
         $this->createLimitedPromotion(
@@ -166,7 +166,7 @@ class GetPromotionsTest extends BaseTest
             $couponCode
         );
         $this->getDocumentManager()->clear();
-        
+
         $this->createLimitedPromotion(
             ['limit' => 1, 'available' => 1],
             null,
@@ -188,7 +188,7 @@ class GetPromotionsTest extends BaseTest
         $this->clearDatabase();
 
         $couponCode = 'TEST';
-        $order = $this->getOrder(1, 100, $couponCode);
+        $order = $this->createOrder(1, 100, $couponCode);
 
         //add promotion to DB
         $this->createLimitedPromotion(
@@ -197,9 +197,9 @@ class GetPromotionsTest extends BaseTest
             date('Y-m-d', strtotime('Tomorrow')),
             $couponCode
         );
-        
+
         $this->getDocumentManager()->clear();
-        
+
         $this->createLimitedPromotion(
             ['limit' => 1, 'available' => 1],
             date('Y-m-d', strtotime('-2 Days')),
@@ -222,7 +222,7 @@ class GetPromotionsTest extends BaseTest
 
         $couponCode = 'RIGHT';
         $orderCouponCode = 'WRONG';
-        $order = $this->getOrder(1, 100, $orderCouponCode);
+        $order = $this->createOrder(1, 100, $orderCouponCode);
 
         //add promotion to DB
         $this->createLimitedPromotion(
@@ -253,9 +253,9 @@ class GetPromotionsTest extends BaseTest
 
         $couponCode1 = 'RIGHT-1';
         $couponCode2 = 'RIGHT-2';
-        $order1 = $this->getOrder(1, 100, $couponCode1);
-        $order2 = $this->getOrder(2, 100, $couponCode2);
-        $order3 = $this->getOrder(3, 100);
+        $order1 = $this->createOrder(1, 100, $couponCode1);
+        $order2 = $this->createOrder(2, 100, $couponCode2);
+        $order3 = $this->createOrder(3, 100);
 
         //add promotion to DB
         $this->createLimitedPromotion(
@@ -294,17 +294,15 @@ class GetPromotionsTest extends BaseTest
 
         $couponCode1 = 'RIGHT-1';
         $couponCode2 = 'RIGHT-2';
-        $order1 = $this->getOrder(1, 100, $couponCode1);
-        $order2 = $this->getOrder(2, 100, $couponCode2);
-        $order3 = $this->getOrder(3, 100);
+        $order1 = $this->createOrder(1, 100, $couponCode1);
+        $order2 = $this->createOrder(2, 100, $couponCode2);
+        $order3 = $this->createOrder(3, 100);
 
         //add promotion to DB
         $this->createUnlimitedPromotion(null, null, [
             $couponCode1,
             $couponCode2
         ]);
-        $this->getDocumentManager()->clear();
-
         $promotion1 = $this->getPromotionChain($order1);
         $promotion1->setPromotions();
 
@@ -326,12 +324,24 @@ class GetPromotionsTest extends BaseTest
 
     protected function getPromotionChain(Order $order)
     {
+        $dm = $this->getDocumentManager();
+        $manifest = $this->getManifest();
+        $unserializer = $manifest->getServiceManager()->get('unserializer');
+        $serializer = $manifest->getServiceManager()->get('serializer');
+        $softDelete = $manifest->getServiceManager()->get('softdeleter');
+
+        $store = $this->getStore();
+
         $promotionChain = new PromotionChain;
-        $promotionChain->setManifest($this->getManifest());
+
+        $promotionChain->setDocumentManager($dm);
+        $promotionChain->setSerializer($serializer);
+        $promotionChain->setUnserializer($unserializer);
+        $promotionChain->setSoftDelete($softDelete);
+
+        $promotionChain->setStore($store);
         $promotionChain->setOrder($order);
-        $promotionChain->setStore($this->getStore());
 
         return $promotionChain;
     }
-
 }

@@ -8,7 +8,6 @@ use Zoop\Shard\Annotation\Annotations as Shard;
 
 abstract class AbstractVariable
 {
-
     /**
      * @ODM\String
      */
@@ -28,5 +27,4 @@ abstract class AbstractVariable
     {
         return $this->getName();
     }
-
 }

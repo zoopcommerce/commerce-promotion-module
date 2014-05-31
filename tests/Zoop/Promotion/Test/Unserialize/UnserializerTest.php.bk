@@ -2,13 +2,13 @@
 
 namespace Zoop\Promotion\Test\Unserialize;
 
-use Zoop\Promotion\Test\BaseTest;
+use Zoop\Promotion\Test\AbstractTest;
 use Zoop\Promotion\DataModel\UnlimitedPromotion;
 use Zoop\Promotion\DataModel\LimitedPromotion;
 use Zoop\Promotion\DataModel\Discount;
 use Zoop\Shard\Serializer\Unserializer;
 
-class UnserializerTest extends BaseTest
+class UnserializerTest extends AbstractTest
 {
 //    public function testUnserializerCreateUpdateAddDiscount()
 //    {

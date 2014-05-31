@@ -16,7 +16,6 @@ use Zoop\Shard\Annotation\Annotations as Shard;
  */
 abstract class AbstractCondition
 {
-
     /**
      * @ODM\EmbedOne(
      *   discriminatorField      = "type",
@@ -102,5 +101,4 @@ abstract class AbstractCondition
     {
         $this->order = $order;
     }
-
 }

@@ -5,6 +5,7 @@ namespace Zoop\Promotion\DataModel\Register;
 use \DateTime;
 use Zoop\Shard\Stamp\DataModel\CreatedOnTrait;
 use Zoop\Shard\SoftDelete\DataModel\SoftDeleteableTrait;
+use Zoop\Store\DataModel\Store;
 //Annotation imports
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Zoop\Shard\Annotation\Annotations as Shard;
@@ -23,20 +24,10 @@ use Zoop\Shard\Annotation\Annotations as Shard;
  */
 abstract class AbstractRegister
 {
-//    use CreatedOnTrait;
+    use CreatedOnTrait;
     use SoftDeleteableTrait;
 
     const STATE_AVAILABLE = 'available';
-
-    /**
-     * @ODM\Date
-     */
-    protected $createdOn;
-
-    /**
-     * @ODM\Date
-     */
-    protected $updatedOn;
 
     /**
      * @ODM\Id(strategy="UUID")
@@ -44,20 +35,20 @@ abstract class AbstractRegister
     protected $id;
 
     /**
-     * @return DateTime
+     * @ODM\Date
      */
-    public function getCreatedOn()
-    {
-        return $this->createdOn;
-    }
-
+    protected $updatedOn;
+    
     /**
-     * @param DateTime $createdOn
+     * Array. Stores that this product is part of.
+     * The Zones annotation means this field is used by the Zones filter so
+     * only products from the active store are available.
+     *
+     * @ODM\Collection
+     * @ODM\Index
+     * @Shard\Validator\Required
      */
-    public function setCreatedOn(DateTime $createdOn)
-    {
-        $this->createdOn = $createdOn;
-    }
+    protected $stores = [];
 
     /**
      * @return DateTime
@@ -78,6 +69,30 @@ abstract class AbstractRegister
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param array $stores
+     */
+    public function setStores(array $stores)
+    {
+        $this->stores = $stores;
+    }
+
+    /**
+     * @param Store $store
+     */
+    public function addStore(Store $store)
+    {
+        $this->stores[] = $store->getId();
+    }
+
+    /**
+     * @return array
+     */
+    public function getStores()
+    {
+        return $this->stores;
     }
 
     /**

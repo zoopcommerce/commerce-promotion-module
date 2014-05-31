@@ -2,11 +2,11 @@
 
 namespace Zoop\Promotion\Test\Rules;
 
-use Zoop\Promotion\Test\BaseTest;
+use Zoop\Promotion\Test\AbstractTest;
 use Zoop\Promotion\Discount\Rule\Product;
 use Zoop\Promotion\ProductVariablesTrait;
 
-class ProductRuleTest extends BaseTest
+class ProductRuleTest extends AbstractTest
 {
 
     use ProductVariablesTrait;

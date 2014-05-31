@@ -14,7 +14,6 @@ use Zoop\Shard\Annotation\Annotations as Shard;
  */
 abstract class AbstractFloatCondition extends AbstractCondition
 {
-
     /**
      * @ODM\Float
      */
@@ -37,5 +36,4 @@ abstract class AbstractFloatCondition extends AbstractCondition
     {
         $this->value = (float) $value;
     }
-
 }

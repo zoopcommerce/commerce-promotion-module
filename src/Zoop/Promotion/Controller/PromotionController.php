@@ -3,6 +3,7 @@
 namespace Zoop\Promotion\Controller;
 
 use \DateTime;
+use Zend\View\Model\JsonModel;
 use Zoop\Promotion\DataModel\AbstractPromotion;
 use Zoop\Promotion\DataModel\LimitedPromotion;
 use Zoop\Promotion\DataModel\UnlimitedPromotion;
@@ -28,21 +29,17 @@ class PromotionController extends AbstractController
      * @param boolean $serialize
      * @return PromotionInterface|string
      */
-    public function get($id, $serialize = true)
+    public function get($id)
     {
         $promotion = $this->getDm()->createQueryBuilder(self::PROMOTION_DATA_MODEL)
-                ->field('id')->equals($id)
-                ->field('stores')->in([$this->getStoreSubDomain()])
-                ->getQuery()
-                ->getSingleResult();
+            ->field('id')->equals($id)
+            ->field('stores')->in([$this->getStoreSubDomain()])
+            ->getQuery()
+            ->getSingleResult();
 
-        if (!empty($promotion) && $serialize === true) {
-            return $this->getSerializer()->toJson($promotion);
-        } else {
-            return $promotion;
-        }
-
-        return false;
+        $results = $this->getSerializer()->toArray($promotion);
+        
+        return new JsonModel($results);
     }
 
     public function getList()
@@ -51,19 +48,16 @@ class PromotionController extends AbstractController
 
         $promos = [];
         $promotions = $this->getDm()->createQueryBuilder(self::PROMOTION_DATA_MODEL)
-                ->field('stores')->in([$this->getStoreSubDomain()])
-                ->getQuery()
-                ->execute();
+            ->field('stores')->in([$this->getStoreSubDomain()])
+            ->getQuery()
+            ->execute();
 
-        if (!empty($promotions)) {
-            /* @var $promotion PromotionInterface */
-            foreach ($promotions as $promotion) {
-                $promos[] = $this->getSerializer()->toArray($promotion);
-            }
-            return json_encode($promos);
+        /* @var $promotion PromotionInterface */
+        foreach ($promotions as $promotion) {
+            $promos[] = $this->getSerializer()->toArray($promotion);
         }
 
-        return false;
+        return new JsonModel($promos);
     }
 
     public function create($data)
@@ -102,8 +96,8 @@ class PromotionController extends AbstractController
             $data = $this->lintData($data);
 
             if (
-                    ($data['type'] == self::TYPE_LIMITED_PROMOTION && $promotion instanceof UnlimitedPromotion) ||
-                    ($data['type'] == self::TYPE_UNLIMITED_PROMOTION && $promotion instanceof LimitedPromotion)
+                ($data['type'] == self::TYPE_LIMITED_PROMOTION && $promotion instanceof UnlimitedPromotion) ||
+                ($data['type'] == self::TYPE_UNLIMITED_PROMOTION && $promotion instanceof LimitedPromotion)
             ) {
                 $data['numberUsed'] = (int) $promotion->getNumberUsed();
 
@@ -138,6 +132,27 @@ class PromotionController extends AbstractController
         }
     }
 
+    public function remove($id)
+    {
+        $this->getSerializer()->setMaxNestingDepth(0);
+        /* @var $promotion PromotionInterface */
+        $promotion = $this->getDm()->createQueryBuilder(self::PROMOTION_DATA_MODEL)
+            ->field('stores')->in([$this->getStoreSubDomain()])
+            ->field('id')->equals($id)
+            ->getQuery()
+            ->getSingleResult();
+        if ($promotion) {
+            //remove/soft delete all promotion registry entries
+            $this->removeAllRegisters($promotion);
+
+            $this->getSoftDelete()->softDelete($promotion, $this->getDm()->getClassMetadata(get_class($promotion)));
+            $this->getDm()->flush();
+            return json_encode(['error' => false, 'message' => 'Promotion deleted']);
+        } else {
+            return json_encode(['error' => true, 'message' => 'Could not delete the promotion']);
+        }
+    }
+
     private function lintData($data)
     {
         if (isset($data['limited']) && $data['limited'] == true && isset($data['limit']) && !empty($data['limit'])) {
@@ -157,27 +172,6 @@ class PromotionController extends AbstractController
         }
 
         return $data;
-    }
-
-    public function remove($id)
-    {
-        $this->getSerializer()->setMaxNestingDepth(0);
-        /* @var $promotion PromotionInterface */
-        $promotion = $this->getDm()->createQueryBuilder(self::PROMOTION_DATA_MODEL)
-                ->field('stores')->in([$this->getStoreSubDomain()])
-                ->field('id')->equals($id)
-                ->getQuery()
-                ->getSingleResult();
-        if ($promotion) {
-            //remove/soft delete all promotion registry entries
-            $this->removeAllRegisters($promotion);
-
-            $this->getSoftDelete()->softDelete($promotion, $this->getDm()->getClassMetadata(get_class($promotion)));
-            $this->getDm()->flush();
-            return json_encode(['error' => false, 'message' => 'Promotion deleted']);
-        } else {
-            return json_encode(['error' => true, 'message' => 'Could not delete the promotion']);
-        }
     }
 
     /**
@@ -379,7 +373,11 @@ class PromotionController extends AbstractController
      */
     private function removeRegister(RegisterInterface $register)
     {
-        $this->getSoftDelete()->softDelete($register, $this->getDm()->getClassMetadata(get_class($register)));
+        $this->getSoftDelete()
+            ->softDelete(
+                $register,
+                $this->getDm()->getClassMetadata(get_class($register))
+            );
         $this->getDm()->flush();
     }
 
@@ -545,9 +543,9 @@ class PromotionController extends AbstractController
         }
 
         $registries = $this->getDm()->createQueryBuilder($model)
-                ->field('promotion')->references($promotion)
-                ->getQuery()
-                ->execute();
+            ->field('promotion')->references($promotion)
+            ->getQuery()
+            ->execute();
 
         if (!empty($registries)) {
             /* @var $register RegisterInterface */

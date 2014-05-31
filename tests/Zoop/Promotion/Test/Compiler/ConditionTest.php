@@ -2,7 +2,7 @@
 
 namespace Zoop\Promotion\Test\Compiler;
 
-use Zoop\Promotion\Test\BaseTest;
+use Zoop\Promotion\Test\AbstractTest;
 use Zoop\Promotion\DataModel\Condition\Operator\Conditional;
 use Zoop\Promotion\DataModel\Condition\Operator\Logical;
 use Zoop\Promotion\DataModel\Condition;
@@ -11,7 +11,7 @@ use Zoop\Promotion\DataModel\Discount\Variable;
 use Zoop\Promotion\Condition\Compiler as ConditionCompiler;
 use Zoop\Promotion\Discount\Compiler as DiscountCompiler;
 
-class ConditionTest extends BaseTest
+class ConditionTest extends AbstractTest
 {
     public function testEmptyCondition()
     {

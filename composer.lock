@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "2.6.5",
+            "version": "2.6.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "459e83a318911eb6685d0a6fd2dcd0495a660a51"
+                "reference": "37d5572e2408c5ea7104c361b64a187b1a0a53bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/459e83a318911eb6685d0a6fd2dcd0495a660a51",
-                "reference": "459e83a318911eb6685d0a6fd2dcd0495a660a51",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/37d5572e2408c5ea7104c361b64a187b1a0a53bd",
+                "reference": "37d5572e2408c5ea7104c361b64a187b1a0a53bd",
                 "shasum": ""
             },
             "require": {
@@ -72,7 +72,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2014-05-22 23:03:48"
+            "time": "2014-05-29 18:57:57"
         },
         {
             "name": "codeguy/upload",
@@ -160,7 +160,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan Wage",
+                    "name": "Jonathan H. Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -2071,12 +2071,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:zoopcommerce/commerce-order-module.git",
-                "reference": "e86663502bf036bf0f7dfd29e61daa7388259faf"
+                "reference": "7326efa82970c880edd87bed79396bc4bd37365d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zoopcommerce/commerce-order-module/zipball/e86663502bf036bf0f7dfd29e61daa7388259faf",
-                "reference": "e86663502bf036bf0f7dfd29e61daa7388259faf",
+                "url": "https://api.github.com/repos/zoopcommerce/commerce-order-module/zipball/7326efa82970c880edd87bed79396bc4bd37365d",
+                "reference": "7326efa82970c880edd87bed79396bc4bd37365d",
                 "shasum": ""
             },
             "require": {
@@ -2092,11 +2092,18 @@
                 "imagine/imagine": "dev-master#2ab2237f2445ea30fdf00fdd2ff4f2d8072e87ec as dev-master",
                 "mashape/unirest-php": "dev-master#e6682a5ad1e103606a6d9d44efdf6d9cb619410d as dev-master",
                 "melihucar/ftpclient": "dev-master#faab472b1f3118d4926b3cbfc7d21c9cba255c0f as dev-master",
+                "paypal/adaptiveaccounts-sdk-php": "v3.6.106",
+                "paypal/adaptivepayments-sdk-php": "v3.6.106",
+                "paypal/merchant-sdk-php": "v3.6.106",
+                "paypal/permissions-sdk-php": "v3.6.106",
                 "php": ">=5.4",
                 "sendgrid/sendgrid": "2.0.*",
                 "willdurand/geocoder": "2.4.*",
                 "zendframework/zendframework": "2.3.1 as dev-develop",
                 "zoopcommerce/commerce-common-module": "dev-master",
+                "zoopcommerce/commerce-payment-module": "dev-master",
+                "zoopcommerce/commerce-product-module": "dev-master",
+                "zoopcommerce/commerce-promotion-module": "dev-master",
                 "zoopcommerce/commerce-store-module": "dev-master",
                 "zoopcommerce/shard-module": "~3.0"
             },
@@ -2137,7 +2144,7 @@
                 "source": "https://github.com/zoopcommerce/commerce-order-module/tree/master",
                 "issues": "https://github.com/zoopcommerce/commerce-order-module/issues"
             },
-            "time": "2014-05-04 23:06:22"
+            "time": "2014-05-31 08:02:09"
         },
         {
             "name": "zoopcommerce/commerce-payment-module",
@@ -2224,12 +2231,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:zoopcommerce/commerce-product-module.git",
-                "reference": "1bea1a9d494bf116999caa4cfdb37bcc209b9d60"
+                "reference": "aad508688b5a200d5e2849135cdb3e016bcbf8e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zoopcommerce/commerce-product-module/zipball/1bea1a9d494bf116999caa4cfdb37bcc209b9d60",
-                "reference": "1bea1a9d494bf116999caa4cfdb37bcc209b9d60",
+                "url": "https://api.github.com/repos/zoopcommerce/commerce-product-module/zipball/aad508688b5a200d5e2849135cdb3e016bcbf8e6",
+                "reference": "aad508688b5a200d5e2849135cdb3e016bcbf8e6",
                 "shasum": ""
             },
             "require": {
@@ -2290,7 +2297,7 @@
                 "source": "https://github.com/zoopcommerce/commerce-product-module/tree/master",
                 "issues": "https://github.com/zoopcommerce/commerce-product-module/issues"
             },
-            "time": "2014-05-25 07:10:35"
+            "time": "2014-05-31 08:03:35"
         },
         {
             "name": "zoopcommerce/commerce-store-module",
@@ -2670,7 +2677,7 @@
                 {
                     "name": "Tim Roediger",
                     "email": "superdweebie@gmail.com",
-                    "homepage": "http://github.com/superdweebie"
+                    "homepage": "http://superdweebie.com"
                 }
             ],
             "description": "Add new behaviours to Doctrine Mongo ODM Documents",
@@ -2812,16 +2819,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.0.6",
+            "version": "2.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "bccecf50645068b44f49a84009e2a0499a500b99"
+                "reference": "58401826c8cfc8fd689b60026e91c337df374bca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/bccecf50645068b44f49a84009e2a0499a500b99",
-                "reference": "bccecf50645068b44f49a84009e2a0499a500b99",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/58401826c8cfc8fd689b60026e91c337df374bca",
+                "reference": "58401826c8cfc8fd689b60026e91c337df374bca",
                 "shasum": ""
             },
             "require": {
@@ -2873,7 +2880,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-04-30 09:01:21"
+            "time": "2014-05-26 14:55:24"
         },
         {
             "name": "phpunit/php-file-iterator",

@@ -2,14 +2,14 @@
 
 namespace Zoop\Promotion\Test\Promotion;
 
-use Zoop\Promotion\Test\BaseTest;
+use Zoop\Promotion\Test\AbstractTest;
 use Zoop\Promotion\Promotion;
 
-class UnlimitedPromotionTest extends BaseTest
+class UnlimitedPromotionTest extends AbstractTest
 {
     public function testSuccessfullyReservedPromotion()
     {
-        $order = $this->getOrder(1, 100);
+        $order = $this->createOrder(1, 100);
 
         $promotion = new Promotion;
         $promotion->setDocumentManager($this->getDocumentManager());
@@ -24,7 +24,7 @@ class UnlimitedPromotionTest extends BaseTest
 
     public function testSuccessfullySetUsedPromotion()
     {
-        $order = $this->getOrder(1, 100);
+        $order = $this->createOrder(1, 100);
 
         $promotion = new Promotion;
         $promotion->setDocumentManager($this->getDocumentManager());

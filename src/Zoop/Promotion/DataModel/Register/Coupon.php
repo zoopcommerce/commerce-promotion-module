@@ -2,7 +2,6 @@
 
 namespace Zoop\Promotion\DataModel\Register;
 
-use \DateTime;
 //Annotation imports
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Zoop\Shard\Annotation\Annotations as Shard;
@@ -15,7 +14,6 @@ use Zoop\Shard\Annotation\Annotations as Shard;
  */
 class Coupon
 {
-
     /**
      * @ODM\String
      */
@@ -38,5 +36,4 @@ class Coupon
     {
         $this->code = $code;
     }
-
 }

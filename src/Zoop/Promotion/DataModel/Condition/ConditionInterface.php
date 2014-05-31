@@ -7,7 +7,6 @@ use Zoop\Promotion\DataModel\Condition\Operator\Logical\LogicalInterface;
 
 interface ConditionInterface
 {
-
     public function getLogicalOperator();
 
     public function getConditionalOperator();

@@ -2,6 +2,8 @@
 
 namespace Zoop\Promotion\Controller;
 
+
+use Zend\Mvc\Controller\AbstractRestfulController;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Zoop\Promotion\Compiler;
 use Zoop\Promotion\DataModel\PromotionInterface;
@@ -11,7 +13,7 @@ use Zoop\Shard\SoftDelete\Extension as SoftDelete;
 use Zoop\Shard\Serializer\Serializer;
 use Zoop\Shard\Serializer\Unserializer;
 
-abstract class AbstractController
+abstract class AbstractController extends AbstractRestfulController
 {
     const PROMOTION_DATA_MODEL = 'Zoop\Promotion\DataModel\AbstractPromotion';
     const LIMITED_PROMOTION_DATA_MODEL = 'Zoop\Promotion\DataModel\LimitedPromotion';
@@ -62,16 +64,7 @@ abstract class AbstractController
      */
     public function getManifest()
     {
-        return $this->manifest;
-    }
-
-    /**
-     *
-     * @param Manifest $manifest
-     */
-    public function setManifest(Manifest $manifest)
-    {
-        $this->manifest = $manifest;
+        return $this->getServiceLocator()->get('shard.commerce.manifest');
     }
 
     /**
@@ -80,16 +73,7 @@ abstract class AbstractController
      */
     public function getStore()
     {
-        return $this->store;
-    }
-
-    /**
-     *
-     * @param Store $store
-     */
-    public function setStore(Store $store)
-    {
-        $this->store = $store;
+        return $this->getServiceLocator()->get('zoop.store.active');
     }
 
     /**
@@ -129,5 +113,4 @@ abstract class AbstractController
         $promotion->setCartFunction($compiler->getCompiledCartFunction());
         $promotion->setProductFunction($compiler->getCompiledProductFunction());
     }
-
 }

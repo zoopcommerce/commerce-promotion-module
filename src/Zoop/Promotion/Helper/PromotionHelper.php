@@ -1,18 +1,18 @@
 <?php
 
-namespace Zoop\Promotion;
+namespace Zoop\Promotion\Helper;
 
 use \DateTime;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Zoop\Order\DataModel\Order;
-use Zoop\Promotion\PromotionChain;
+use Zoop\Promotion\Helper\PromotionHelperChain;
 use Zoop\Promotion\Discount\Compiler;
 use Zoop\Promotion\DataModel\PromotionInterface;
 use Zoop\Promotion\DataModel\UnlimitedPromotion;
 use Zoop\Promotion\DataModel\LimitedPromotion;
 use Zoop\Promotion\DataModel\Register\Finite;
 
-class Promotion
+class PromotionHelper
 {
     const DOCUMENT_FINITE_REGISTER = 'Zoop\Promotion\DataModel\Register\Finite';
     const DOCUMENT_INFINITE_REGISTER = 'Zoop\Promotion\DataModel\Register\Infinite';
@@ -21,7 +21,7 @@ class Promotion
     use CartVariablesTrait;
     use ProductVariablesTrait;
 
-    private $promotionChain;
+    private $promotionChainHelper;
     private $order;
     private $dm;
     private $appliedPromotions;
@@ -78,20 +78,20 @@ class Promotion
 
     /**
      *
-     * @return PromotionChain
+     * @return PromotionHelperChain
      */
-    public function getPromotionChain()
+    public function getPromotionHelperChain()
     {
-        return $this->promotionChain;
+        return $this->promotionChainHelper;
     }
 
     /**
      *
-     * @param PromotionChain $promotionChain
+     * @param PromotionHelperChain $promotionChainHelper
      */
-    public function setPromotionChain(PromotionChain $promotionChain)
+    public function setPromotionHelperChain(PromotionHelperChain $promotionChainHelper)
     {
-        $this->promotionChain = $promotionChain;
+        $this->promotionChainHelper = $promotionChainHelper;
     }
 
     /**
@@ -148,7 +148,7 @@ class Promotion
 
         /* @var $promotion PromotionInterface */
         if($this->getBreak() === false) {
-            foreach ($this->getPromotionChain()->getPromotions() as $promotion) {
+            foreach ($this->getPromotionHelperChain()->getPromotions() as $promotion) {
                 $discountApplied = false;
                 $discountFunction = $promotion->getCartFunction();
                 $break = ($promotion->getAllowCombination() === false);
@@ -183,7 +183,7 @@ class Promotion
         $break = false;
 
         /* @var $promotion PromotionInterface */
-        foreach ($this->getPromotionChain()->getPromotions() as $promotion) {
+        foreach ($this->getPromotionHelperChain()->getPromotions() as $promotion) {
             $discountApplied = false;
             $discountFunction = $promotion->getProductFunction();
             $break = ($promotion->getAllowCombination() === false);
@@ -258,15 +258,15 @@ class Promotion
         $order = $this->getOrder();
         if (!empty($order)) {
             $this->getDocumentManager()->createQueryBuilder(self::DOCUMENT_FINITE_REGISTER)
-                    ->update()
-                    ->multiple(true)
-                    ->field('state')->set(Finite::STATE_AVAILABLE)
-                    ->field('order')->unsetField()
-                    ->field('stateExpiry')->unsetField()
-                    ->field('state')->equals(Finite::STATE_IN_CART)
-                    ->field('order')->references($order)
-                    ->getQuery()
-                    ->execute();
+                ->update()
+                ->multiple(true)
+                ->field('state')->set(Finite::STATE_AVAILABLE)
+                ->field('order')->unsetField()
+                ->field('stateExpiry')->unsetField()
+                ->field('state')->equals(Finite::STATE_IN_CART)
+                ->field('order')->references($order)
+                ->getQuery()
+                ->execute();
 
             $this->updateRegistryTotals();
         }
@@ -318,7 +318,7 @@ class Promotion
      */
     protected function extendAllPromotionsExpiry($expiry = '+3 Hours')
     {
-        $promotions = $this->getPromotionChain()->getPromotions();
+        $promotions = $this->getPromotionHelperChain()->getPromotions();
         if (is_array($promotions) && !empty($promotions)) {
             foreach ($promotions as $promotion) {
                 if ($promotion instanceof LimitedPromotion) {
@@ -340,18 +340,18 @@ class Promotion
         if (!empty($order)) {
             if ($promotion instanceof LimitedPromotion) {
                 $qb = $this->getDocumentManager()->createQueryBuilder(self::DOCUMENT_FINITE_REGISTER)
-                        ->findAndUpdate()
-                        ->returnNew();
+                    ->findAndUpdate()
+                    ->returnNew();
 
                 $qb->addAnd(
-                        $qb->expr()->field('promotion')->references($promotion)
-                                ->field('order')->references($order)
+                    $qb->expr()->field('promotion')->references($promotion)
+                        ->field('order')->references($order)
                 );
 
                 // Update found job
                 $registry = $qb->field('stateExpiry')->set(new DateTime($expiry))
-                        ->getQuery()
-                        ->execute();
+                    ->getQuery()
+                    ->execute();
             }
         }
         return false;
@@ -381,19 +381,19 @@ class Promotion
         if (!empty($order)) {
             if ($promotion instanceof LimitedPromotion) {
                 $qb = $this->getDocumentManager()->createQueryBuilder(self::DOCUMENT_FINITE_REGISTER)
-                        ->findAndUpdate()
-                        ->returnNew();
+                    ->findAndUpdate()
+                    ->returnNew();
 
                 $qb->addAnd(
-                        $qb->expr()->field('promotion')->references($promotion)
-                                ->field('state')->equals(Finite::STATE_IN_CART)
-                                ->field('order')->references($order)
+                    $qb->expr()->field('promotion')->references($promotion)
+                        ->field('state')->equals(Finite::STATE_IN_CART)
+                        ->field('order')->references($order)
                 );
 
                 // Update found job
                 $registry = $qb->field('state')->set(Finite::STATE_USED)
-                        ->getQuery()
-                        ->execute();
+                    ->getQuery()
+                    ->execute();
 
                 if (!empty($registry)) {
                     $this->incrementPromotionUsed($promotion);
@@ -453,38 +453,37 @@ class Promotion
 
             if (!empty($orderId)) {
                 $qb = $this->getDocumentManager()->createQueryBuilder(self::DOCUMENT_FINITE_REGISTER)
-                        ->findAndUpdate()
-                        ->returnNew();
+                    ->findAndUpdate()
+                    ->returnNew();
 
                 // I don't think this is the right way to go about this. But
                 // ODM doesn't seem to have a reference not equal to
                 $qb->addAnd(
-                        $qb->expr()->field('promotion')->references($promotion)
-                                ->field('state')->equals(Finite::STATE_AVAILABLE)
+                    $qb->expr()->field('promotion')->references($promotion)
+                        ->field('state')->equals(Finite::STATE_AVAILABLE)
                 );
 
                 if (!empty($orderId)) {
                     $qb->addAnd(
-                            $qb->expr()->field('order.$id')->notEqual($orderId)
+                        $qb->expr()->field('order.$id')->notEqual($orderId)
                     );
                 }
 
                 if (!empty($coupon)) {
                     $qb->addAnd(
-                            $qb->expr()->field('coupon.code')->equals($coupon)
+                        $qb->expr()->field('coupon.code')->equals($coupon)
                     );
                 }
 
                 // Update found job
                 $registry = $qb->field('state')->set(Finite::STATE_IN_CART)
-                        ->field('stateExpiry')->set(new DateTime($expiry))
-                        ->getQuery()
-                        ->execute();
+                    ->field('stateExpiry')->set(new DateTime($expiry))
+                    ->getQuery()
+                    ->execute();
 
                 if (!empty($registry)) {
                     $order->addPromotion($promotion);
                     $registry->setOrder($order);
-                    $this->getDocumentManager()->flush();
 
                     //increment promotion total
                     $this->incrementPromotionReserved($promotion);
@@ -508,25 +507,25 @@ class Promotion
             $coupon = $this->getOrder()->getCoupon();
 
             $qb = $this->getDocumentManager()->createQueryBuilder(self::DOCUMENT_FINITE_REGISTER)
-                    ->findAndUpdate()
-                    ->returnNew();
+                ->findAndUpdate()
+                ->returnNew();
 
             $qb->addAnd(
-                    $qb->expr()->field('promotion')->references($promotion)
-                            ->field('order')->references($order)
+                $qb->expr()->field('promotion')->references($promotion)
+                    ->field('order')->references($order)
             );
 
             if (!empty($coupon)) {
                 $qb->addAnd(
-                        $qb->expr()->field('coupon.code')->equals($coupon)
+                    $qb->expr()->field('coupon.code')->equals($coupon)
                 );
             }
 
             // Update found job
             $registry = $qb->field('state')->set($state)
-                    ->field('stateExpiry')->set(new DateTime($expiry))
-                    ->getQuery()
-                    ->execute();
+                ->field('stateExpiry')->set(new DateTime($expiry))
+                ->getQuery()
+                ->execute();
 
             if (!empty($registry)) {
                 return true;
@@ -548,39 +547,39 @@ class Promotion
 
         /* @var $result Doctrine\MongoDB\ArrayIterator */
         $result = $qb->map('function () {
-                        emit(
-                            this.promotion.$id,
-                            {count: 1, state: this.state}
-                        );
-                    };')
-                ->reduce('function (key, values) {
-                            var stateCount = {
-                                    \'available\': 0,
-                                    \'in-cart\': 0,
-                                    \'used\': 0
-                                };
-
-                            for (index in values) {
-                                stateCount[values[index].state] += values[index].count;
-                            }
-
-                            return stateCount;
-                        };')
-                ->finalize('function Finalize(key, reduced) {
-                        var stateCount = {
+                    emit(
+                        this.promotion.$id,
+                        {count: 1, state: this.state}
+                    );
+                };')
+            ->reduce('function (key, values) {
+                    var stateCount = {
                             \'available\': 0,
                             \'in-cart\': 0,
                             \'used\': 0
                         };
-                        if(reduced.count && reduced.state) {
-                                stateCount[reduced.state] = reduced.count;
-                        } else {
-                                stateCount = reduced;
-                        }
-                        return stateCount;
+
+                    for (index in values) {
+                        stateCount[values[index].state] += values[index].count;
+                    }
+
+                    return stateCount;
                 };')
-                ->getQuery()
-                ->execute();
+            ->finalize('function Finalize(key, reduced) {
+                    var stateCount = {
+                        \'available\': 0,
+                        \'in-cart\': 0,
+                        \'used\': 0
+                    };
+                    if(reduced.count && reduced.state) {
+                            stateCount[reduced.state] = reduced.count;
+                    } else {
+                            stateCount = reduced;
+                    }
+                    return stateCount;
+                };')
+            ->getQuery()
+            ->execute();
         $resultArray = $result->toArray();
 
         foreach ($resultArray as $result) {
@@ -588,9 +587,9 @@ class Promotion
                 //update
                 $totals = $result['value'];
                 $qb = $this->getDocumentManager()->createQueryBuilder(self::DOCUMENT_ABSTRACT_PROMOTION)
-                                ->findAndUpdate()
-                                ->returnNew()
-                                ->field('id')->equals($result['_id']);
+                    ->findAndUpdate()
+                    ->returnNew()
+                    ->field('id')->equals($result['_id']);
 
                 if (isset($totals['available']) && is_numeric($totals['available'])) {
                     $qb->field('numberAvailable')->set($totals['available']);
@@ -620,11 +619,11 @@ class Promotion
         $order = $this->getOrder();
         if (!empty($order)) {
             $registry = $this->getDocumentManager()->createQueryBuilder(self::DOCUMENT_FINITE_REGISTER)
-                    ->field('promotion')->references($promotion)
-                    ->field('order')->references($order)
-                    ->field('state')->in([Finite::STATE_IN_CART, Finite::STATE_USED])
-                    ->getQuery()
-                    ->getSingleResult();
+                ->field('promotion')->references($promotion)
+                ->field('order')->references($order)
+                ->field('state')->in([Finite::STATE_IN_CART, Finite::STATE_USED])
+                ->getQuery()
+                ->getSingleResult();
 
             if (!empty($registry)) {
                 return true;
@@ -644,12 +643,13 @@ class Promotion
                 foreach ($data as $d) {
                     if ($persist === true) {
                         $this->getDocumentManager()->persist($d);
+                        $this->getDocumentManager()->flush($d);
                     }
                 }
             } elseif ($persist === true) {
                 $this->getDocumentManager()->persist($data);
             }
-            $this->getDocumentManager()->flush();
+            $this->getDocumentManager()->flush($data);
         }
     }
 

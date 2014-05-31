@@ -4,7 +4,6 @@ namespace Zoop\Promotion;
 
 trait ProductVariablesTrait
 {
-
     protected static $variableProductPrefix = '$product';
     protected static $variableProductId = 'Id';
     protected static $variableProductWholesalePrice = 'WholesalePrice';
@@ -51,5 +50,4 @@ trait ProductVariablesTrait
 
         return implode(', ', $arguments);
     }
-
 }

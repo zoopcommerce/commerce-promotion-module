@@ -45,9 +45,9 @@ class Finite extends AbstractRegister implements RegisterInterface
     /**
      * @ODM\String
      * @Shard\State({
-     * "available",
-     * "in-cart",
-     * "used"
+     *      "available",
+     *      "in-cart",
+     *      "used"
      * })
      */
     protected $state = self::STATE_AVAILABLE;
@@ -137,5 +137,4 @@ class Finite extends AbstractRegister implements RegisterInterface
     {
         $this->order = $order;
     }
-
 }

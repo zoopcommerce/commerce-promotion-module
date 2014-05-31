@@ -1,76 +1,26 @@
 <?php
 
-namespace Zoop\Promotion;
+namespace Zoop\Promotion\Helper;
 
 use \DateTime;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Zoop\Store\DataModel\Store;
 use Zoop\Order\DataModel\Order;
 use Zoop\Promotion\DataModel\PromotionInterface;
-use Zoop\Shard\SoftDelete\SoftDeleter;
-use Zoop\Shard\Serializer\Serializer;
-use Zoop\Shard\Serializer\Unserializer;
 
-class PromotionChain
+class PromotionManager
 {
-    private $promotions = [];
+    private $promotions;
     private $dm;
-    private $softDelete;
-    private $serializer;
-    private $unserializer;
     private $store;
     private $order;
     private $fetched = false;
-
-    /**
-     *
-     * @return SoftDeleter
-     */
-    public function getSoftDelete()
+    
+    public function __construct(DocumentManager $dm, Store $store, Order $order)
     {
-        return $this->softDelete;
-    }
-
-    /**
-     * @return Serializer
-     */
-    public function getSerializer()
-    {
-        return $this->serializer;
-    }
-
-    /**
-     * @return Unserializer
-     */
-    public function getUnserializer()
-    {
-        return $this->unserializer;
-    }
-
-    /**
-     * @param SoftDeleter $softDelete
-     */
-    public function setSoftDelete(SoftDeleter $softDelete)
-    {
-        $this->softDelete = $softDelete;
-    }
-
-    /**
-     *
-     * @param Serializer $serializer
-     */
-    public function setSerializer(Serializer $serializer)
-    {
-        $this->serializer = $serializer;
-    }
-
-    /**
-     *
-     * @param Unserializer $unserializer
-     */
-    public function setUnserializer(Unserializer $unserializer)
-    {
-        $this->unserializer = $unserializer;
+        $this->dm = $dm;
+        $this->store = $store;
+        $this->order = $order;
     }
 
     /**
@@ -129,52 +79,56 @@ class PromotionChain
 
     public function getPromotions()
     {
-        if (empty($this->promotions)) {
-            $this->setPromotions();
+        if (!isset($this->promotions)) {
+            $this->fetch();
         }
         return $this->promotions;
     }
 
-    public function setPromotions($force = false)
+    protected function fetch()
     {
-        if ((empty($this->promotions) && $this->fetched === false) || $force === true) {
+        if (empty($this->promotions) && $this->fetched === false) {
             $this->promotions = [];
+            
             $order = $this->getOrder();
 
             if ($order instanceof Order) {
                 $coupon = $order->getCoupon();
             }
 
-            $qb = $this->getDocumentManager()->createQueryBuilder('Zoop\Promotion\DataModel\AbstractPromotion');
-            $qb->addAnd($qb->expr()->field('stores')->in([$this->getStore()->getSubdomain()]));
+            $qb = $this->getDocumentManager()
+                ->createQueryBuilder('Zoop\Promotion\DataModel\AbstractPromotion');
+
+            $qb->addAnd($qb->expr()->field('stores')->in([$this->getStore()->getId()]));
             $qb->addAnd($qb->expr()->field('active')->equals(true));
             $qb->addAnd($qb->expr()->field('softDeleted')->equals(false));
+
             //start date restriction
             $qb->addAnd(
-                    $qb->expr()->addOr($qb->expr()->field('startDate')->lte(new DateTime))
-                            ->addOr($qb->expr()->field('startDate')->exists(false))
+                $qb->expr()->addOr($qb->expr()->field('startDate')->lte(new DateTime))
+                    ->addOr($qb->expr()->field('startDate')->exists(false))
             );
 
             //end date restriction
             $qb->addAnd(
-                    $qb->expr()->addOr($qb->expr()->field('endDate')->gte(new DateTime))
-                            ->addOr($qb->expr()->field('endDate')->exists(false))
+                $qb->expr()->addOr($qb->expr()->field('endDate')->gte(new DateTime))
+                    ->addOr($qb->expr()->field('endDate')->exists(false))
             );
 
             $qb->addAnd(
-                    $qb->expr()->addOr($qb->expr()->field('numberAvailable')->gt(0))
-                            ->addOr($qb->expr()->field('numberAvailable')->exists(false))
+                $qb->expr()->addOr($qb->expr()->field('numberAvailable')->gt(0))
+                    ->addOr($qb->expr()->field('numberAvailable')->exists(false))
             );
 
             //if we have a coupon and order id
             if (!empty($coupon)) {
                 $qb->addAnd(
-                        $qb->expr()->addOr($qb->expr()->field('couponsMap')->in([$coupon]))
-                                ->addOr($qb->expr()->field('couponsMap.0')->exists(false))
+                    $qb->expr()->addOr($qb->expr()->field('couponsMap')->in([$coupon]))
+                        ->addOr($qb->expr()->field('couponsMap.0')->exists(false))
                 );
             } else {
                 $qb->addAnd(
-                        $qb->expr()->field('couponsMap.0')->exists(false)
+                    $qb->expr()->field('couponsMap.0')->exists(false)
                 );
             }
             $qb->sort('allowCombination', 'asc');
@@ -200,5 +154,4 @@ class PromotionChain
             $this->promotions[$promotion->getId()] = $promotion;
         }
     }
-
 }

@@ -10,7 +10,6 @@ use Zoop\Shard\Annotation\Annotations as Shard;
 
 interface DiscountInterface
 {
-
     public function getConditions();
 
     public function getValue();
