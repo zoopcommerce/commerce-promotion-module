@@ -5,22 +5,21 @@ namespace Zoop\Promotion\Helper;
 use \DateTime;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Zoop\Store\DataModel\Store;
-use Zoop\Order\DataModel\Order;
+use Zoop\Order\DataModel\OrderInterface;
 use Zoop\Promotion\DataModel\PromotionInterface;
+use Zoop\Promotion\Helper\PromotionManagerInterface;
 
-class PromotionManager
+class PromotionManager implements PromotionManagerInterface
 {
-    private $promotions;
+    private $promotions = [];
     private $dm;
     private $store;
-    private $order;
     private $fetched = false;
     
-    public function __construct(DocumentManager $dm, Store $store, Order $order)
+    public function __construct(DocumentManager $dm, Store $store)
     {
-        $this->dm = $dm;
-        $this->store = $store;
-        $this->order = $order;
+        $this->setDocumentManager($dm);
+        $this->setStore($store);
     }
 
     /**
@@ -52,15 +51,6 @@ class PromotionManager
 
     /**
      *
-     * @return Order
-     */
-    public function getOrder()
-    {
-        return $this->order;
-    }
-
-    /**
-     *
      * @param Store $store
      */
     public function setStore(Store $store)
@@ -68,33 +58,14 @@ class PromotionManager
         $this->store = $store;
     }
 
-    /**
-     *
-     * @param Order $order
-     */
-    public function setOrder(Order $order)
+    public function get(OrderInterface $order)
     {
-        $this->order = $order;
-    }
-
-    public function getPromotions()
-    {
-        if (!isset($this->promotions)) {
-            $this->fetch();
-        }
-        return $this->promotions;
-    }
-
-    protected function fetch()
-    {
-        if (empty($this->promotions) && $this->fetched === false) {
-            $this->promotions = [];
+        $cacheId = spl_object_hash($order);
+        
+        if (!isset($this->promotions[$cacheId]) && $this->fetched === false) {
+            $this->promotions[$cacheId] = [];
             
-            $order = $this->getOrder();
-
-            if ($order instanceof Order) {
-                $coupon = $order->getCoupon();
-            }
+            $coupon = $order->getCoupon();
 
             $qb = $this->getDocumentManager()
                 ->createQueryBuilder('Zoop\Promotion\DataModel\AbstractPromotion');
@@ -135,23 +106,31 @@ class PromotionManager
 
             $promotions = $qb->getQuery()->execute();
             foreach ($promotions as $promotion) {
-                $this->addPromotion($promotion);
+                $this->addPromotion($cacheId, $promotion);
             }
 
             //add current order promotions
             $promotions = $order->getPromotions();
             foreach ($promotions as $promotion) {
-                $this->addPromotion($promotion);
+                $this->addPromotion($cacheId, $promotion);
             }
 
             $this->fetched = true;
         }
+        
+        return $this->promotions[$cacheId];
     }
-
-    public function addPromotion(PromotionInterface $promotion)
+    
+    public function addPromotion($cacheId, PromotionInterface $promotion)
     {
-        if (!isset($this->promotions[$promotion->getId()])) {
-            $this->promotions[$promotion->getId()] = $promotion;
+        if (!isset($this->promotions[$cacheId][$promotion->getId()])) {
+            $this->promotions[$cacheId][$promotion->getId()] = $promotion;
         }
+    }
+    
+    public function clear()
+    {
+        $this->fetched = false;
+        $this->promotions = [];
     }
 }

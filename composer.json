@@ -46,6 +46,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/crimsonronin/mongodb-odm"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/crimsonronin/shard"
         }
     ],
     "require": {
@@ -74,6 +78,7 @@
         "zoopcommerce/commerce-payment-module"  : "dev-master",
         "zoopcommerce/commerce-product-module"  : "dev-master",
         "zoopcommerce/commerce-store-module"    : "dev-master",
+        "zoopcommerce/shard"                    : "dev-master#b15cc48040a3d084b837684f6e9ad3981b7f22f8 as 4.0.2",
         "zoopcommerce/shard-module"             : "~3.0"
     },
     "require-dev": {

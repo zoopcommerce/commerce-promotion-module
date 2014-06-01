@@ -8,8 +8,7 @@ use Zoop\Shard\Manifest;
 use Zoop\Shard\Serializer\Unserializer;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Zoop\Promotion\DataModel\PromotionInterface;
-use Zoop\Order\DataModel\Order;
-use Zoop\Order\DataModel\Total;
+use Zoop\Order\DataModel\OrderInterface;
 use Zoop\Store\DataModel\Store;
 use Zoop\Promotion\DataModel\LimitedPromotion;
 use Zoop\Promotion\DataModel\UnlimitedPromotion;
@@ -99,6 +98,10 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
         return self::$unserializer;
     }
 
+    /**
+     * @param string $coupon
+     * @return OrderInterface
+     */
     protected static function createOrder($coupon = null)
     {
         $order = TestData::createOrder(self::getUnserializer());
@@ -109,6 +112,141 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
         self::getDocumentManager()->flush($order);
         
         return $order;
+    }
+
+    /**
+     * 
+     * @param int $limit
+     * @param int $available
+     * @param int $inCart
+     * @param int $used
+     * @param DateTime $startDate
+     * @param DateTime $endDate
+     * @param array $couponCodes
+     * @param boolean $active
+     * 
+     * @return LimitedPromotion
+     */
+    protected static function createLimitedPromotion(
+        $limit = 0,
+        $available = 0,
+        $inCart = 0,
+        $used = 0,
+        DateTime $startDate = null,
+        DateTime $endDate = null,
+        $couponCodes = [],
+        $active = true
+    )
+    {
+        $promotion = TestData::createLimitedPromotion(self::getUnserializer());
+        $promotion->setLimit($limit);
+        $promotion->setNumberAvailable($available);
+        $promotion->setNumberInCart($inCart);
+        $promotion->setNumberUsed($used);
+        $promotion->setActive($active);
+        
+        if(!empty($startDate)) {
+            $promotion->setStartDate($startDate);
+        }
+        if(!empty($endDate)) {
+            $promotion->setEndDate($endDate);
+        }
+        
+        if(!empty($couponCodes)) {
+            foreach($couponCodes as $couponCode) {
+                $promotion->addCouponToMap($couponCode);
+            }
+        }
+
+        self::getDocumentManager()->persist($promotion);
+        self::getDocumentManager()->flush($promotion);
+        
+        //create registry
+        for ($i = 0; $i < (int) $limit; $i++) {
+            if (!empty($couponCodes) && is_array($couponCodes)) {
+                foreach ($couponCodes as $couponCode) {
+                    $register = TestData::createFiniteRegister(self::getUnserializer());
+                    $register->setPromotion($promotion);
+                    
+                    $coupon = new Coupon;
+                    $coupon->setCode($couponCode);
+                    
+                    $register->setCoupon($coupon);
+                    
+                    self::getDocumentManager()->persist($register);
+                    self::getDocumentManager()->flush($register);
+                    self::getDocumentManager()->clear($register);
+                }
+            } else {
+                $register = TestData::createFiniteRegister(self::getUnserializer());
+                $register->setPromotion($promotion);
+                self::getDocumentManager()->persist($register);
+                self::getDocumentManager()->flush($register);
+                self::getDocumentManager()->clear($register);
+            }
+        }
+        
+        self::getDocumentManager()->clear($promotion);
+
+        return $promotion;
+    }
+    
+    /**
+     * 
+     * @param int $used
+     * @param DateTime $startDate
+     * @param DateTime $endDate
+     * @param string $couponCodes
+     * @param boolean $active
+     * 
+     * @return UnlimitedPromotion
+     */
+    protected static function createUnlimitedPromotion(
+        $used = 0,
+        DateTime $startDate = null,
+        DateTime $endDate = null,
+        $couponCodes = [],
+        $active = true
+    )
+    {
+        $promotion = TestData::createUnlimitedPromotion(self::getUnserializer());
+        $promotion->setNumberUsed($used);
+        $promotion->setActive($active);
+        
+        if(!empty($startDate)) {
+            $promotion->setStartDate($startDate);
+        }
+        if(!empty($endDate)) {
+            $promotion->setEndDate($endDate);
+        }
+        
+        if(!empty($couponCodes)) {
+            foreach($couponCodes as $couponCode) {
+                $promotion->addCouponToMap($couponCode);
+            }
+        }
+
+        self::getDocumentManager()->persist($promotion);
+        self::getDocumentManager()->flush($promotion);
+        
+        //create registry
+        $registry = TestData::createInfiniteRegister(self::getUnserializer());
+        $registry->setPromotion($promotion);
+        if (!empty($couponCode) && is_array($couponCode)) {
+            foreach ($couponCode as $code) {
+                $coupon = new Coupon;
+                $coupon->setCode($code);
+                $registry->addCoupon($coupon);
+            }
+        }
+        
+        self::getDocumentManager()->persist($registry);
+        self::getDocumentManager()->flush($registry);
+        self::getDocumentManager()->clear($registry);
+        
+        self::getDocumentManager()->clear($promotion);
+
+        return $promotion;
     }
 
     /**
@@ -125,144 +263,21 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
         }
         return self::$store;
     }
-//
-//    protected function createLimitedPromotion($limits = [], $startDate = null, $endDate = null, $couponCode = null)
-//    {
-//        $limited = new LimitedPromotion;
-//        $limited->addStore($this->getStore());
-//
-//        if (!empty($startDate)) {
-//            $limited->setStartDate(new DateTime($startDate));
-//        }
-//        if (!empty($endDate)) {
-//            $limited->setEndDate(new DateTime($endDate));
-//        }
-//        $limited->setLimit((int) $limits['limit']);
-//        $limited->setNumberAvailable((int) $limits['available']);
-//        $limited->setNumberInCart((int) (isset($limits['in-cart']) ? $limits['in-cart'] : 0));
-//        $limited->setNumberUsed((int) (isset($limits['used']) ? $limits['used'] : 0));
-//
-//        $this->addCouponToCouponMap($limited, $couponCode);
-//
-//        $this->getDocumentManager()->persist($limited);
-//        $this->getDocumentManager()->flush($limited);
-//
-//        $id = $limited->getId();
-//        $this->getDocumentManager()->clear($limited);
-//        unset($limited);
-//
-//        $limited = $this->getPromotion($id);
-//
-//        for ($i = 0; $i < (int) $limits['limit']; $i++) {
-//            if (!empty($couponCode) && is_array($couponCode)) {
-//                foreach ($couponCode as $code) {
-//                    $registry = new Finite;
-//                    $registry->setPromotion($limited);
-//                    $coupon = new Coupon;
-//                    $coupon->setCode($code);
-//                    $registry->setCoupon($coupon);
-//                    $this->getDocumentManager()->persist($registry);
-//                }
-//            } else {
-//                $registry = new Finite;
-//                $registry->setPromotion($limited);
-//                if (!empty($couponCode)) {
-//                    $coupon = new Coupon;
-//                    $coupon->setCode($couponCode);
-//                    $registry->setCoupon($coupon);
-//                }
-//                $this->getDocumentManager()->persist($registry);
-//                $this->getDocumentManager()->flush($registry);
-//                $this->getDocumentManager()->clear($registry);
-//            }
-//        }
-//
-//        // this is crazy. Because adding references to other documents
-//        // triggers an "update" we still get errors on createdOn etc.
-//        $this->getDocumentManager()->clear($limited);
-//        unset($limited);
-//        $limited = $this->getPromotion($id);
-//
-//        return $limited;
-//    }
-//
-//    protected function createUnlimitedPromotion($startDate = null, $endDate = null, $couponCode = null, $used = 0)
-//    {
-//        $unlimited = new UnlimitedPromotion;
-//        $unlimited->addStore($this->getStore());
-//        $unlimited->setNumberUsed((int) $used);
-//
-//        if (!empty($startDate)) {
-//            $unlimited->setStartDate(new DateTime($startDate));
-//        }
-//        if (!empty($endDate)) {
-//            $unlimited->setEndDate(new DateTime($endDate));
-//        }
-//
-//        $this->addCouponToCouponMap($unlimited, $couponCode);
-//
-//        $this->getDocumentManager()->persist($unlimited);
-//        $this->getDocumentManager()->flush($unlimited);
-//        $id = $unlimited->getId();
-//        $this->getDocumentManager()->clear($unlimited);
-//        unset($unlimited);
-//
-//        $unlimited = $this->getPromotion($id);
-//
-//        $registry = new Infinite;
-//        $registry->setPromotion($unlimited);
-//        if (!empty($couponCode) && is_array($couponCode)) {
-//            foreach ($couponCode as $code) {
-//                $coupon = new Coupon;
-//                $coupon->setCode($code);
-//                $registry->addCoupon($coupon);
-//            }
-//        } else {
-//            if (!empty($couponCode)) {
-//                $coupon = new Coupon;
-//                $coupon->setCode($couponCode);
-//                $registry->addCoupon($coupon);
-//            }
-//        }
-//        $this->getDocumentManager()->persist($registry);
-//        $this->getDocumentManager()->flush($registry);
-//
-//        // this is crazy. Because adding references to other documents
-//        // triggers an "update" we still get errors on createdOn etc.
-//        $this->getDocumentManager()->clear($unlimited);
-//        unset($unlimited);
-//        $unlimited = $this->getPromotion($id);
-//
-//        return $unlimited;
-//    }
 
     /**
      *
      * @param string $id
      * @return Zoop\Promotion\DataModel\AbstractPromotion
      */
-    protected function getPromotion($id)
+    protected static function getPromotion($id)
     {
-        $promotion = $this->getDocumentManager()
+        $promotion = self::getDocumentManager()
             ->createQueryBuilder(self::DOCUMENT_ABSTRACT_PROMOTION)
             ->field('id')->equals($id)
             ->getQuery()
             ->getSingleResult();
 
         return $promotion;
-    }
-
-    protected function addCouponToCouponMap(PromotionInterface $promotion, $couponCode = null)
-    {
-        if (!empty($couponCode)) {
-            if (is_array($couponCode)) {
-                foreach ($couponCode as $code) {
-                    $promotion->addCouponToMap($code);
-                }
-            } else {
-                $promotion->addCouponToMap($couponCode);
-            }
-        }
     }
 
     public static function tearDownAfterClass()

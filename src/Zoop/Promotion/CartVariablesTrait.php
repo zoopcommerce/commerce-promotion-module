@@ -120,6 +120,7 @@ trait CartVariablesTrait
     {
         $arguments = [
             $this->getVariableOrder(),
+            $this->getVariableOrderProductPrefix(),
         ];
 
         return implode(', ', $arguments);

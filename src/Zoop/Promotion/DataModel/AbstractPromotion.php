@@ -4,7 +4,7 @@ namespace Zoop\Promotion\DataModel;
 
 use \DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Zoop\Order\DataModel\Order;
+use Zoop\Order\DataModel\OrderInterface;
 use Zoop\Store\DataModel\Store;
 use Zoop\Promotion\DataModel\Discount\DiscountInterface;
 use Zoop\Shard\Stamp\DataModel\CreatedOnTrait;
@@ -465,15 +465,21 @@ abstract class AbstractPromotion
      */
     public function getOrders()
     {
+        if(!isset($this->orders)) {
+            $this->orders = new ArrayCollection;
+        }
         return $this->orders;
     }
 
     /**
      *
-     * @return ArrayCollection
+     * @return ArrayCollection|array
      */
     public function setOrders($orders)
     {
+        if(!$orders instanceof ArrayCollection) {
+            $orders = new ArrayCollection($orders);
+        }
         $this->orders = $orders;
     }
 
@@ -481,10 +487,10 @@ abstract class AbstractPromotion
      *
      * @param Order $order
      */
-    public function addOrder(Order $order)
+    public function addOrder(OrderInterface $order)
     {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
+        if (!$this->getOrders()->contains($order)) {
+            $this->getOrders()->add($order);
         }
     }
 }

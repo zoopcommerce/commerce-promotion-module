@@ -24,6 +24,12 @@ class TestDataCreator
         
         $finite = $this->createFiniteRegister();
         $this->createJson('Limited/FiniteRegister', $finite);
+        
+        $unlimited = $this->createUnlimitedPromotion();
+        $this->createJson('Unlimited/UnlimitedPromotion', $unlimited);
+        
+        $infinite = $this->createInfiniteRegister();
+        $this->createJson('Unlimited/InfiniteRegister', $infinite);
     }
 
     protected function createJson($fileName, $data)
@@ -67,17 +73,54 @@ class TestDataCreator
         return $data;
     }
 
+    public function createUnlimitedPromotion(
+        $used = 0,
+        DateTime $startDate = null,
+        DateTime $endDate = null,
+        $couponCode = null)
+    {
+        $data = [
+            'legacyId' => 2,
+            'stores' => [
+                self::STORE_NAME
+            ],
+            'name' => 'Unlimited Promotion',
+            'startDate' => !is_null($startDate) ? new MongoDate($startDate->getTimestamp()) : null,
+            'endDate' => !is_null($endDate) ? new MongoDate($endDate->getTimestamp()) : null,
+            'productIds' => [],
+            'discounts' => [],
+            'couponsMap' => !empty($couponCode) ? [$couponCode] : [],
+            'cartFunction' => null,
+            'productFunction' => null,
+            'allowCombination' => true,
+            'orders' => [],
+            'active' => true,
+            'limited' => false,
+            'numberUsed' => $used,
+        ];
+        
+        return $data;
+    }
+
     public function createFiniteRegister()
     {
         $data = [
             'stores' => [
                 self::STORE_NAME
             ],
-            'promotions' => [],
-            'order' => null,
-            'coupon' => null,
             'state' => 'available',
-            'stateExpiry' => null,
+        ];
+        
+        return $data;
+    }
+
+    public function createInfiniteRegister()
+    {
+        $data = [
+            'stores' => [
+                self::STORE_NAME
+            ],
+            'state' => 'available',
         ];
         
         return $data;
@@ -148,7 +191,7 @@ class TestDataCreator
                         'type' => 'PhysicalSku',
                         'legacyId' => 2,
                         'suppliers' => [],
-                        'inventory' => [],
+//                        'inventory' => [],
                         'options' => [
                             [
                                 'type' => 'Dropdown',
@@ -171,7 +214,9 @@ class TestDataCreator
             'paymentMethod' => null,
             'state' => 'in-progress',
             'history' => [
-                'in-progress'
+                [
+                    'state' => 'in-progress'
+                ]
             ],
             'commission' => [
                 'amount' => 0,

@@ -4,6 +4,7 @@ namespace Zoop\Promotion\DataModel\Register;
 
 use \DateTime;
 use Zoop\Shard\Stamp\DataModel\CreatedOnTrait;
+use Zoop\Shard\Stamp\DataModel\UpdatedOnTrait;
 use Zoop\Shard\SoftDelete\DataModel\SoftDeleteableTrait;
 use Zoop\Store\DataModel\Store;
 //Annotation imports
@@ -25,6 +26,7 @@ use Zoop\Shard\Annotation\Annotations as Shard;
 abstract class AbstractRegister
 {
     use CreatedOnTrait;
+    use UpdatedOnTrait;
     use SoftDeleteableTrait;
 
     const STATE_AVAILABLE = 'available';
@@ -33,11 +35,6 @@ abstract class AbstractRegister
      * @ODM\Id(strategy="UUID")
      */
     protected $id;
-
-    /**
-     * @ODM\Date
-     */
-    protected $updatedOn;
     
     /**
      * Array. Stores that this product is part of.
@@ -49,22 +46,6 @@ abstract class AbstractRegister
      * @Shard\Validator\Required
      */
     protected $stores = [];
-
-    /**
-     * @return DateTime
-     */
-    public function getUpdatedOn()
-    {
-        return $this->updatedOn;
-    }
-
-    /**
-     * @param DateTime $updatedOn
-     */
-    public function setUpdatedOn(DateTime $updatedOn)
-    {
-        $this->updatedOn = $updatedOn;
-    }
 
     public function getId()
     {
@@ -84,7 +65,9 @@ abstract class AbstractRegister
      */
     public function addStore(Store $store)
     {
-        $this->stores[] = $store->getId();
+        if(!in_array($store->getId(), $this->stores)) {
+            $this->stores[] = $store->getId();
+        }
     }
 
     /**
