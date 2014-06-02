@@ -16,10 +16,15 @@ trait CartVariablesTrait
     protected static $variableCartProducts = '->getItems()';
     protected static $variableCartProductPrefix = '$product';
     protected static $variableCartProductId = '->getLegacyId()';
-    protected static $variableCartProductFullPrice = '->getPrice()->getList()';
-    protected static $variableCartProductWholesalePrice = '->getPrice()->getWholesale()';
+    protected static $variableCartProductTotalListPrice = '->getPrice()->getTotal()->getList()';
+    protected static $variableCartProductTotalProductDiscountPrice = '->getPrice()->getTotal()->getProductDiscount()';
+    protected static $variableCartProductTotalCartDiscountPrice = '->getPrice()->getTotal()->getCartDiscount()';
+    protected static $variableCartProductTotalShippingDiscountPrice = '->getPrice()->getTotal()->getShippingDiscount()';
+    protected static $variableCartProductTotalWholesalePrice = '->getPrice()->getTotal()->getWholesale()';
+    protected static $variableCartProductTotalShippingPrice = '->getPrice()->getTotal()->getShipping()';
+    protected static $variableCartProductTotalSalePrice = '->getPrice()->getTotal()->getSale()';
+    protected static $variableCartProductTotalSubTotalPrice = '->getPrice()->getTotal()->getSubTotal()';
     protected static $variableCartProductQuantity = '->getQuantity()';
-    protected static $variableCartProductShippingPrice = '->getPrice()->getShipping()';
     protected static $variableConditionalProducts = '$conditionalProducts';
 
     public static function getVariableOrder()
@@ -82,24 +87,49 @@ trait CartVariablesTrait
         return self::$variableCartProductPrefix . self::$variableCartProductId;
     }
 
-    public static function getVariableOrderProductFullPrice()
+    public static function getVariableOrderProductTotalListPrice()
     {
-        return self::$variableCartProductPrefix . self::$variableCartProductFullPrice;
+        return self::$variableCartProductPrefix . self::$variableCartProductTotalListPrice;
     }
 
-    public static function getVariableOrderProductWholesalePrice()
+    public static function getVariableOrderProductTotalProductDiscountPrice()
     {
-        return self::$variableCartProductPrefix . self::$variableCartProductWholesalePrice;
+        return self::$variableCartProductPrefix . self::$variableCartProductTotalProductDiscountPrice;
+    }
+
+    public static function getVariableOrderProductTotalCartDiscountPrice()
+    {
+        return self::$variableCartProductPrefix . self::$variableCartProductTotalCartDiscountPrice;
+    }
+
+    public static function getVariableOrderProductTotalShippingDiscountPrice()
+    {
+        return self::$variableCartProductPrefix . self::$variableCartProductTotalShippingDiscountPrice;
+    }
+    
+    public static function getVariableOrderProductTotalWholesalePrice()
+    {
+        return self::$variableCartProductPrefix . self::$variableCartProductTotalWholesalePrice;
+    }
+
+    public static function getVariableOrderProductTotalShippingPrice()
+    {
+        return self::$variableCartProductPrefix . self::$variableCartProductTotalShippingPrice;
+    }
+
+    public static function getVariableOrderProductTotalSalePrice()
+    {
+        return self::$variableCartProductPrefix . self::$variableCartProductTotalSalePrice;
+    }
+
+    public static function getVariableOrderProductTotalSubTotalPrice()
+    {
+        return self::$variableCartProductPrefix . self::$variableCartProductTotalSubTotalPrice;
     }
 
     public static function getVariableOrderProductQuantity()
     {
         return self::$variableCartProductPrefix . self::$variableCartProductQuantity;
-    }
-
-    public static function getVariableOrderProductShippingPrice()
-    {
-        return self::$variableCartProductPrefix . self::$variableCartProductShippingPrice;
     }
 
     public static function getVariableConditionalProducts()

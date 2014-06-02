@@ -26,27 +26,29 @@ class CartRuleTest extends AbstractTest
         $this->assertEquals(10, $discount);
     }
 
-//    public function testOrderPercentageAmountOff()
-//    {
-//        $rule = new Cart\OrderPercentageAmountOff;
-//        $rule->setValue(self::RULE_PERCENTAGE_VALUE);
-//        $function = $this->createCartFunction((string) $rule);
-//
-//        $discount = $this->getDiscount($function);
-//
-//        $this->assertEquals(12, $discount);
-//    }
-//
-//    public function testProductFixedAmountOff()
-//    {
-//        $rule = new Cart\ProductFixedAmountOff;
-//        $rule->setValue(self::RULE_FIXED_VALUE);
-//        $function = $this->createCartFunction((string) $rule);
-//
-//        $discount = $this->getDiscount($function);
-//
-//        $this->assertEquals(20, $discount);
-//    }
+    public function testOrderPercentageAmountOff()
+    {
+        $rule = new Cart\OrderPercentageAmountOff;
+        $rule->setValue(self::RULE_PERCENTAGE_VALUE);
+        $function = $this->createCartFunction((string) $rule);
+
+        $order = self::createOrder();
+        $discount = $this->getDiscount($order, $function);
+
+        $this->assertEquals(10, $discount);
+    }
+
+    public function testProductFixedAmountOff()
+    {
+        $rule = new Cart\ProductFixedAmountOff;
+        $rule->setValue(self::RULE_FIXED_VALUE);
+        $function = $this->createCartFunction((string) $rule);
+
+        $order = self::createOrder();
+        $discount = $this->getDiscount($order, $function);
+
+        $this->assertEquals(80, $discount);
+    }
 //
 //    public function testProductPercentageAmountOff()
 //    {
@@ -54,7 +56,7 @@ class CartRuleTest extends AbstractTest
 //        $rule->setValue(self::RULE_PERCENTAGE_VALUE);
 //        $function = $this->createCartFunction((string) $rule);
 //
-//        $discount = $this->getDiscount($function);
+//        $discount = $this->getDiscount($order, $function);
 //
 //        $this->assertEquals(10, $discount);
 //    }
@@ -65,7 +67,7 @@ class CartRuleTest extends AbstractTest
 //        $rule->setValue(self::RULE_SET_PRICE);
 //        $function = $this->createCartFunction((string) $rule);
 //
-//        $discount = $this->getDiscount($function);
+//        $discount = $this->getDiscount($order, $function);
 //
 //        $this->assertEquals(80, $discount);
 //    }
@@ -75,7 +77,7 @@ class CartRuleTest extends AbstractTest
 //        $rule = new Cart\ProductWholesalePrice;
 //        $function = $this->createCartFunction((string) $rule);
 //
-//        $discount = $this->getDiscount($function);
+//        $discount = $this->getDiscount($order, $function);
 //
 //        $this->assertEquals(50, $discount);
 //    }
@@ -86,7 +88,7 @@ class CartRuleTest extends AbstractTest
 //        $rule->setValue(self::RULE_SET_PRICE);
 //        $function = $this->createCartFunction((string) $rule);
 //
-//        $discount = $this->getDiscount($function);
+//        $discount = $this->getDiscount($order, $function);
 //
 //        $this->assertEquals(10, $discount);
 //    }
