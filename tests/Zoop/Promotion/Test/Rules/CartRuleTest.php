@@ -31,7 +31,7 @@ class CartRuleTest extends AbstractTest
         $this->assertEquals(10, $discountChain->getTotalCartDiscount());
         $this->assertEquals(0, $discountChain->getTotalItemDiscount());
         $this->assertEquals(0, $discountChain->getTotalShippingDiscount());
-        
+
         $this->assertEquals(4.7641509433962, $discounts[0]->getTotalDiscount());
         $this->assertEquals(5.2358490566038, $discounts[1]->getTotalDiscount());
     }
@@ -52,7 +52,7 @@ class CartRuleTest extends AbstractTest
         $this->assertEquals(212, $discountChain->getTotalCartDiscount());
         $this->assertEquals(0, $discountChain->getTotalItemDiscount());
         $this->assertEquals(0, $discountChain->getTotalShippingDiscount());
-        
+
         $this->assertEquals(101, $discounts[0]->getTotalDiscount());
         $this->assertEquals(111, $discounts[1]->getTotalDiscount());
     }
@@ -73,7 +73,7 @@ class CartRuleTest extends AbstractTest
         $this->assertEquals(0, $discountChain->getTotalCartDiscount());
         $this->assertEquals(30, $discountChain->getTotalItemDiscount());
         $this->assertEquals(0, $discountChain->getTotalShippingDiscount());
-        
+
         $this->assertEquals(10, $discounts[0]->getTotalDiscount());
         $this->assertEquals(20, $discounts[1]->getTotalDiscount());
     }
@@ -83,7 +83,7 @@ class CartRuleTest extends AbstractTest
         $rule = new Cart\ProductPercentageAmountOff;
         $rule->setValue(10);
         $function = $this->createCartFunction((string) $rule);
-        
+
         $order = self::createOrder();
         $discountChain = $this->getDiscount($order, $function);
 
@@ -94,7 +94,7 @@ class CartRuleTest extends AbstractTest
         $this->assertEquals(0, $discountChain->getTotalCartDiscount());
         $this->assertEquals(210, $discountChain->getTotalItemDiscount());
         $this->assertEquals(0, $discountChain->getTotalShippingDiscount());
-        
+
         $this->assertEquals(100, $discounts[0]->getTotalDiscount());
         $this->assertEquals(110, $discounts[1]->getTotalDiscount());
     }
@@ -104,7 +104,7 @@ class CartRuleTest extends AbstractTest
         $rule = new Cart\ProductSetPrice;
         $rule->setValue(500);
         $function = $this->createCartFunction((string) $rule);
-        
+
         $order = self::createOrder();
         $discountChain = $this->getDiscount($order, $function);
 
@@ -115,7 +115,7 @@ class CartRuleTest extends AbstractTest
         $this->assertEquals(0, $discountChain->getTotalCartDiscount());
         $this->assertEquals(1100, $discountChain->getTotalItemDiscount());
         $this->assertEquals(0, $discountChain->getTotalShippingDiscount());
-        
+
         $this->assertEquals(500, $discounts[0]->getTotalDiscount());
         $this->assertEquals(600, $discounts[1]->getTotalDiscount());
     }
@@ -135,7 +135,7 @@ class CartRuleTest extends AbstractTest
         $this->assertEquals(0, $discountChain->getTotalCartDiscount());
         $this->assertEquals(800, $discountChain->getTotalItemDiscount());
         $this->assertEquals(0, $discountChain->getTotalShippingDiscount());
-        
+
         $this->assertEquals(500, $discounts[0]->getTotalDiscount());
         $this->assertEquals(300, $discounts[1]->getTotalDiscount());
     }
@@ -156,7 +156,7 @@ class CartRuleTest extends AbstractTest
         $this->assertEquals(0, $discountChain->getTotalCartDiscount());
         $this->assertEquals(0, $discountChain->getTotalItemDiscount());
         $this->assertEquals(12, $discountChain->getTotalShippingDiscount());
-        
+
         $this->assertEquals(6, $discounts[0]->getTotalDiscount());
         $this->assertEquals(6, $discounts[1]->getTotalDiscount());
     }
@@ -177,7 +177,7 @@ class CartRuleTest extends AbstractTest
         $this->assertEquals(0, $discountChain->getTotalCartDiscount());
         $this->assertEquals(0, $discountChain->getTotalItemDiscount());
         $this->assertEquals(10, $discountChain->getTotalShippingDiscount());
-        
+
         $this->assertEquals(5, $discounts[0]->getTotalDiscount());
         $this->assertEquals(5, $discounts[1]->getTotalDiscount());
     }

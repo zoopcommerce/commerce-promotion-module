@@ -12,16 +12,16 @@ use Zoop\Promotion\DataModel\UnlimitedPromotion;
 class PromotionHelperTest extends AbstractTest
 {
     protected static $promotionHelper;
-    
+
     public function testApplyCartDiscount()
     {
         $ph = $this->getPromotionHelper();
-        
+
         $order = self::createOrder();
-        
+
         $ph->applyCartDiscount($order);
     }
-    
+
     /**
      * @return PromotionHelper
      */
@@ -32,10 +32,10 @@ class PromotionHelperTest extends AbstractTest
                 self::getDocumentManager(),
                 self::getStore()
             );
-            
+
             self::$promotionHelper = new PromotionHelper($promotionManager);
         }
-        
+
         return self::$promotionHelper;
     }
 }

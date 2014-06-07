@@ -35,7 +35,7 @@ abstract class AbstractRegister
      * @ODM\Id(strategy="UUID")
      */
     protected $id;
-    
+
     /**
      * Array. Stores that this product is part of.
      * The Zones annotation means this field is used by the Zones filter so

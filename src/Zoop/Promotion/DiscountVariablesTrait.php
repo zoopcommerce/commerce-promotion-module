@@ -29,7 +29,7 @@ trait DiscountVariablesTrait
     {
         return self::$variableDiscountChainClass;
     }
-    
+
     /**
      * @return string
      */
@@ -37,7 +37,7 @@ trait DiscountVariablesTrait
     {
         return '$' . $discountChainVarName . ' = new ' . self::getVariableDiscountChainClass() . '();';
     }
-    
+
     /**
      * @return string
      */
@@ -45,7 +45,7 @@ trait DiscountVariablesTrait
     {
         return '$' . $discountChainVarName . '->' . self::$variableDiscountChainClassAddDiscountFunction . '($' . $discountVarName . ');';
     }
-    
+
     /**
      * @return string
      */
@@ -60,7 +60,7 @@ trait DiscountVariablesTrait
     {
         return '$' . $discountVarName . '->' . self::$variableDiscountClassSetItemsFunction . '($' . $itemsVarName . ');';
     }
-    
+
     /**
      * @return string
      */
@@ -68,7 +68,7 @@ trait DiscountVariablesTrait
     {
         return '$' . $discountVarName . '->' . self::$variableDiscountClassAddItemFunction . '($' . $itemVarName . ');';
     }
-    
+
     /**
      * @return string
      */
@@ -76,7 +76,7 @@ trait DiscountVariablesTrait
     {
         return '$' . $discountVarName . '->' . self::$variableDiscountClassSetShippingDiscountFunction . '($' . $discountAmountVarName . ');';
     }
-    
+
     /**
      * @return string
      */
@@ -84,7 +84,7 @@ trait DiscountVariablesTrait
     {
         return '$' . $discountVarName . '->' . self::$variableDiscountClassSetCartDiscountFunction . '($' . $discountAmountVarName . ');';
     }
-    
+
     /**
      * @return string
      */
@@ -92,7 +92,7 @@ trait DiscountVariablesTrait
     {
         return '$' . $discountVarName . '->' . self::$variableDiscountClassSetItemDiscountFunction . '($' . $discountAmountVarName . ');';
     }
-    
+
     /**
      * @return string
      */

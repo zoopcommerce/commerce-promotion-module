@@ -15,7 +15,7 @@ class PromotionManager implements PromotionManagerInterface
     private $dm;
     private $store;
     private $fetched = false;
-    
+
     public function __construct(DocumentManager $dm, Store $store)
     {
         $this->setDocumentManager($dm);
@@ -61,10 +61,10 @@ class PromotionManager implements PromotionManagerInterface
     public function get(OrderInterface $order)
     {
         $cacheId = spl_object_hash($order);
-        
+
         if (!isset($this->promotions[$cacheId]) && $this->fetched === false) {
             $this->promotions[$cacheId] = [];
-            
+
             $coupon = $order->getCoupon();
 
             $qb = $this->getDocumentManager()
@@ -117,17 +117,17 @@ class PromotionManager implements PromotionManagerInterface
 
             $this->fetched = true;
         }
-        
+
         return $this->promotions[$cacheId];
     }
-    
+
     public function addPromotion($cacheId, PromotionInterface $promotion)
     {
         if (!isset($this->promotions[$cacheId][$promotion->getId()])) {
             $this->promotions[$cacheId][$promotion->getId()] = $promotion;
         }
     }
-    
+
     public function clear()
     {
         $this->fetched = false;

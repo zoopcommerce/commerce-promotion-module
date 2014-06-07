@@ -38,7 +38,7 @@ class PromotionController extends AbstractController
             ->getSingleResult();
 
         $results = $this->getSerializer()->toArray($promotion);
-        
+
         return new JsonModel($results);
     }
 

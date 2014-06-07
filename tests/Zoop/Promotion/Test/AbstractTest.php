@@ -105,17 +105,17 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
     protected static function createOrder($coupon = null)
     {
         $order = TestData::createOrder(self::getUnserializer());
-        
+
         $order->setCoupon($coupon);
-        
+
         self::getDocumentManager()->persist($order);
         self::getDocumentManager()->flush($order);
-        
+
         return $order;
     }
 
     /**
-     * 
+     *
      * @param int $limit
      * @param int $available
      * @param int $inCart
@@ -124,7 +124,7 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
      * @param DateTime $endDate
      * @param array $couponCodes
      * @param boolean $active
-     * 
+     *
      * @return LimitedPromotion
      */
     protected static function createLimitedPromotion(
@@ -144,14 +144,14 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
         $promotion->setNumberInCart($inCart);
         $promotion->setNumberUsed($used);
         $promotion->setActive($active);
-        
+
         if(!empty($startDate)) {
             $promotion->setStartDate($startDate);
         }
         if(!empty($endDate)) {
             $promotion->setEndDate($endDate);
         }
-        
+
         if(!empty($couponCodes)) {
             foreach($couponCodes as $couponCode) {
                 $promotion->addCouponToMap($couponCode);
@@ -160,19 +160,19 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
 
         self::getDocumentManager()->persist($promotion);
         self::getDocumentManager()->flush($promotion);
-        
+
         //create registry
         for ($i = 0; $i < (int) $limit; $i++) {
             if (!empty($couponCodes) && is_array($couponCodes)) {
                 foreach ($couponCodes as $couponCode) {
                     $register = TestData::createFiniteRegister(self::getUnserializer());
                     $register->setPromotion($promotion);
-                    
+
                     $coupon = new Coupon;
                     $coupon->setCode($couponCode);
-                    
+
                     $register->setCoupon($coupon);
-                    
+
                     self::getDocumentManager()->persist($register);
                     self::getDocumentManager()->flush($register);
                     self::getDocumentManager()->clear($register);
@@ -185,20 +185,20 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
                 self::getDocumentManager()->clear($register);
             }
         }
-        
+
         self::getDocumentManager()->clear($promotion);
 
         return $promotion;
     }
-    
+
     /**
-     * 
+     *
      * @param int $used
      * @param DateTime $startDate
      * @param DateTime $endDate
      * @param string $couponCodes
      * @param boolean $active
-     * 
+     *
      * @return UnlimitedPromotion
      */
     protected static function createUnlimitedPromotion(
@@ -212,14 +212,14 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
         $promotion = TestData::createUnlimitedPromotion(self::getUnserializer());
         $promotion->setNumberUsed($used);
         $promotion->setActive($active);
-        
+
         if(!empty($startDate)) {
             $promotion->setStartDate($startDate);
         }
         if(!empty($endDate)) {
             $promotion->setEndDate($endDate);
         }
-        
+
         if(!empty($couponCodes)) {
             foreach($couponCodes as $couponCode) {
                 $promotion->addCouponToMap($couponCode);
@@ -228,7 +228,7 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
 
         self::getDocumentManager()->persist($promotion);
         self::getDocumentManager()->flush($promotion);
-        
+
         //create registry
         $registry = TestData::createInfiniteRegister(self::getUnserializer());
         $registry->setPromotion($promotion);
@@ -239,11 +239,11 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
                 $registry->addCoupon($coupon);
             }
         }
-        
+
         self::getDocumentManager()->persist($registry);
         self::getDocumentManager()->flush($registry);
         self::getDocumentManager()->clear($registry);
-        
+
         self::getDocumentManager()->clear($promotion);
 
         return $promotion;

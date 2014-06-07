@@ -13,26 +13,26 @@ interface PromotionHelperInterface
      * @param PromotionManagerInterface $promotionManager
      */
     public function setPromotionManager(PromotionManagerInterface $promotionManager);
-    
+
     /**
      * @return PromotionManagerInterface
      */
     public function getPromotionManager();
-    
+
     /**
      * Applies product level discount to the product
-     * 
+     *
      * @param ProductInterface $product
      */
     public function applyProductDiscount(ProductInterface $product);
-    
+
     /**
      * Applies all cart level discounts to the order
-     * 
+     *
      * @param Order $order
      */
     public function applyCartDiscount(OrderInterface $order);
-    
+
     /**
      * When a payment is canceled reset the expiry to 20mins
      *

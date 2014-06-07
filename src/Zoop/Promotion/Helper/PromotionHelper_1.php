@@ -12,7 +12,7 @@ use Zoop\Promotion\DataModel\UnlimitedPromotion;
 use Zoop\Promotion\DataModel\LimitedPromotion;
 use Zoop\Promotion\DataModel\Register\Finite;
 
-class PromotionHelper implements PromotionHelperInterface
+class PromotionHelper_1 implements PromotionHelperInterface
 {
     const DOCUMENT_FINITE_REGISTER = 'Zoop\Promotion\DataModel\Register\Finite';
     const DOCUMENT_INFINITE_REGISTER = 'Zoop\Promotion\DataModel\Register\Infinite';

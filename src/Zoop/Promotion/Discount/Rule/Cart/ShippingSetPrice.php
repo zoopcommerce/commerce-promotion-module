@@ -18,16 +18,16 @@ class ShippingSetPrice extends AbstractCartRule implements RuleInterface
             ') * ' .
             self::RULE_VALUE_VARIABLE .
             '));
-                
+
             if ($discountAmount < 0) {
                 return (float) ' . $this->getVariableOrderItemTotalShippingPrice() . ';
             }
-            
+
             ' . $this->getVariableDiscountClassInstantiation() . '
             ' . $this->getVariableDiscountClassAddItem() . '
             ' . $this->getVariableDiscountClassSetShippingDiscount() . '
             ' . $this->getVariableDiscountClassSetIsApplied() . '
-                
+
             return $discount;
         }';
     }

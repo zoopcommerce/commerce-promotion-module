@@ -17,7 +17,7 @@ class TestData
     const DOCUMENT_LIMITED_PROMOTION = 'Zoop\Promotion\DataModel\LimitedPromotion';
     const DOCUMENT_FINITE_REGISTER = 'Zoop\Promotion\DataModel\Register\Finite';
     const DOCUMENT_INFINITE_REGISTER = 'Zoop\Promotion\DataModel\Register\Infinite';
-    
+
     /**
      * @param Unserializer $unserializer
      * @return LimitedPromotion
@@ -25,7 +25,7 @@ class TestData
     public static function createLimitedPromotion(Unserializer $unserializer)
     {
         $data = self::getJson('Limited/LimitedPromotion');
-        
+
         return $unserializer->fromJson($data, self::DOCUMENT_LIMITED_PROMOTION);
     }
     /**
@@ -35,7 +35,7 @@ class TestData
     public static function createFiniteRegister(Unserializer $unserializer)
     {
         $data = self::getJson('Limited/FiniteRegister');
-        
+
         return $unserializer->fromJson($data, self::DOCUMENT_FINITE_REGISTER);
     }
     /**
@@ -45,7 +45,7 @@ class TestData
     public static function createUnlimitedPromotion(Unserializer $unserializer)
     {
         $data = self::getJson('Unlimited/UnlimitedPromotion');
-        
+
         return $unserializer->fromJson($data, self::DOCUMENT_UNLIMITED_PROMOTION);
     }
     /**
@@ -55,10 +55,10 @@ class TestData
     public static function createInfiniteRegister(Unserializer $unserializer)
     {
         $data = self::getJson('Unlimited/InfiniteRegister');
-        
+
         return $unserializer->fromJson($data, self::DOCUMENT_INFINITE_REGISTER);
     }
-    
+
     /**
      * @param Unserializer $unserializer
      * @return Store
@@ -66,10 +66,10 @@ class TestData
     public static function createStore(Unserializer $unserializer)
     {
         $data = self::getJson('Store');
-        
+
         return $unserializer->fromJson($data, self::DOCUMENT_STORE);
     }
-    
+
     /**
      * @param Unserializer $unserializer
      * @return Order
@@ -77,7 +77,7 @@ class TestData
     public static function createOrder(Unserializer $unserializer)
     {
         $data = self::getJson('Order');
-        
+
         return $unserializer->fromJson($data, self::DOCUMENT_ORDER);
     }
 

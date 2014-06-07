@@ -10,7 +10,7 @@ class ProductWholesalePrice extends AbstractCartRule implements RuleInterface
     {
         return 'if (' . $this->getVariableOrderTotalPrice() . ' && ' . $this->getVariableOrderItemTotalWholesalePrice() . ') {
             $discountAmount = (float) (' . $this->getVariableOrderItemTotalSubTotalPrice() . ' - ' . $this->getVariableOrderItemTotalWholesalePrice() . ');
-                
+
             if ($discountAmount < 0) {
                 $discountAmount = (float) ' . $this->getVariableOrderItemTotalSubTotalPrice() . ';
             }
@@ -19,7 +19,7 @@ class ProductWholesalePrice extends AbstractCartRule implements RuleInterface
             ' . $this->getVariableDiscountClassAddItem() . '
             ' . $this->getVariableDiscountClassSetItemDiscount() . '
             ' . $this->getVariableDiscountClassSetIsApplied() . '
-                
+
             return $discount;
         }';
     }

@@ -11,11 +11,11 @@ class ProductFixedAmountOff extends AbstractCartRule implements RuleInterface
         return 'if (' . $this->getVariableOrderTotalPrice() . ') {
                 $discountAmount = (float) (' . self::RULE_VALUE_VARIABLE . ' * ' . $this->getVariableOrderItemQuantity() . ');
                 $discounted = ' . $this->getVariableOrderItemTotalSubTotalPrice() . ' - $discountAmount;' .
-                
-                'if($discounted < 0) {' . 
+
+                'if($discounted < 0) {' .
                     '$discountAmount = (float) ' . $this->getVariableOrderItemTotalSubTotalPrice() . ';' .
                 '}
-                
+
                 ' . $this->getVariableDiscountClassInstantiation() . '
                 ' . $this->getVariableDiscountClassAddItem() . '
                 ' . $this->getVariableDiscountClassSetItemDiscount() . '

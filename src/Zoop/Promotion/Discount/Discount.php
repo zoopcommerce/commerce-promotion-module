@@ -13,7 +13,7 @@ class Discount
     protected $items = [];
 
     /**
-     * 
+     *
      * @return boolean
      */
     public function isApplied()
@@ -38,7 +38,7 @@ class Discount
     {
         return $this->cartDiscount;
     }
-    
+
     /**
      * @return float
      */
@@ -64,7 +64,7 @@ class Discount
     }
 
     /**
-     * 
+     *
      * @param boolean $isApplied
      */
     public function setIsApplied($isApplied)
@@ -73,7 +73,7 @@ class Discount
     }
 
     /**
-     * 
+     *
      * @param float $cartDiscount
      */
     public function setCartDiscount($cartDiscount)
@@ -82,7 +82,7 @@ class Discount
     }
 
     /**
-     * 
+     *
      * @param float $shippingDiscount
      */
     public function setShippingDiscount($shippingDiscount)
@@ -91,7 +91,7 @@ class Discount
     }
 
     /**
-     * 
+     *
      * @param float $itemDiscount
      */
     public function setItemDiscount($itemDiscount)
@@ -100,7 +100,7 @@ class Discount
     }
 
     /**
-     * 
+     *
      * @param array $items
      */
     public function setItems(array $items = [])
@@ -109,7 +109,7 @@ class Discount
     }
 
     /**
-     * 
+     *
      * @param ItemInterface $item
      */
     public function addItem(ItemInterface $item)

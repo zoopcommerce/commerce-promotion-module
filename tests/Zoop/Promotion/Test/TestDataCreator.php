@@ -15,19 +15,19 @@ class TestDataCreator
     {
         $store = $this->createStore();
         $this->createJson('Store', $store);
-        
+
         $order = $this->createOrder();
         $this->createJson('Order', $order);
-        
+
         $limited = $this->createLimitedPromotion();
         $this->createJson('Limited/LimitedPromotion', $limited);
-        
+
         $finite = $this->createFiniteRegister();
         $this->createJson('Limited/FiniteRegister', $finite);
-        
+
         $unlimited = $this->createUnlimitedPromotion();
         $this->createJson('Unlimited/UnlimitedPromotion', $unlimited);
-        
+
         $infinite = $this->createInfiniteRegister();
         $this->createJson('Unlimited/InfiniteRegister', $infinite);
     }
@@ -69,7 +69,7 @@ class TestDataCreator
             'numberUsed' => $used,
             'limit' => $limit,
         ];
-        
+
         return $data;
     }
 
@@ -98,7 +98,7 @@ class TestDataCreator
             'limited' => false,
             'numberUsed' => $used,
         ];
-        
+
         return $data;
     }
 
@@ -110,7 +110,7 @@ class TestDataCreator
             ],
             'state' => 'available',
         ];
-        
+
         return $data;
     }
 
@@ -122,7 +122,7 @@ class TestDataCreator
             ],
             'state' => 'available',
         ];
-        
+
         return $data;
     }
 

@@ -120,7 +120,7 @@ trait CartVariablesTrait
     {
         return self::getVariableOrderItem() . self::$variableOrderItemTotalShippingDiscountPrice;
     }
-    
+
     public static function getVariableOrderItemTotalWholesalePrice()
     {
         return self::getVariableOrderItem() . self::$variableOrderItemTotalWholesalePrice;
@@ -140,7 +140,7 @@ trait CartVariablesTrait
     {
         return self::getVariableOrderItem() . self::$variableOrderItemTotalSubTotalPrice;
     }
-    
+
     public static function getVariableOrderItemUnitListPrice()
     {
         return self::getVariableOrderItem() . self::$variableOrderItemUnitListPrice;
@@ -160,7 +160,7 @@ trait CartVariablesTrait
     {
         return self::getVariableOrderItem() . self::$variableOrderItemUnitShippingDiscountPrice;
     }
-    
+
     public static function getVariableOrderItemUnitWholesalePrice()
     {
         return self::getVariableOrderItem() . self::$variableOrderItemUnitWholesalePrice;
@@ -180,7 +180,7 @@ trait CartVariablesTrait
     {
         return self::getVariableOrderItem() . self::$variableOrderItemUnitSubTotalPrice;
     }
-    
+
     public static function getVariableOrderItemQuantity()
     {
         return self::getVariableOrderItem() . self::$variableOrderItemQuantity;

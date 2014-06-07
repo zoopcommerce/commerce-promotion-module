@@ -17,7 +17,7 @@ use Zoop\Promotion\DataModel\Register\Finite;
 class PromotionHelper implements PromotionHelperInterface
 {
     protected $promotionManager;
-    
+
     public function __construct($promotionManager)
     {
         $this->setPromotionManager($promotionManager);
@@ -41,17 +41,17 @@ class PromotionHelper implements PromotionHelperInterface
 
     /**
      * Applies product level discount to the product
-     * 
+     *
      * @param ProductInterface $product
      */
     public function applyProductDiscount(ProductInterface $product)
     {
-        
+
     }
 
     /**
      * Applies all cart level discounts to the order
-     * 
+     *
      * @param Order $order
      */
     public function applyCartDiscount(OrderInterface $order)
@@ -91,7 +91,7 @@ class PromotionHelper implements PromotionHelperInterface
      */
     public function setPaymentCanceled(Order $order, $expiry = '+20 Minutes')
     {
-        
+
     }
 
     /**
@@ -103,7 +103,7 @@ class PromotionHelper implements PromotionHelperInterface
      */
     public function setCheckoutInProgress(Order $order, $expiry = '+40 Minutes')
     {
-        
+
     }
 
     /**
@@ -115,7 +115,7 @@ class PromotionHelper implements PromotionHelperInterface
      */
     public function setPaymentInProgress(Order $order, $expiry = '+3 Hours')
     {
-        
+
     }
 
     /**
@@ -127,7 +127,7 @@ class PromotionHelper implements PromotionHelperInterface
      */
     public function setAddToCart(Order $order, $expiry = '+20 Minutes')
     {
-        
+
     }
 
     /**
@@ -140,7 +140,7 @@ class PromotionHelper implements PromotionHelperInterface
      */
     public function setUsed(Order $order, PromotionInterface $promotion)
     {
-        
+
     }
 
     /**
@@ -148,7 +148,7 @@ class PromotionHelper implements PromotionHelperInterface
      */
     public function garbageCollection()
     {
-        
+
     }
 
 }
