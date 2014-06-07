@@ -6,10 +6,8 @@ use Zoop\Promotion\Condition\Rule\RuleInterface;
 
 class ProductQuantity extends AbstractCartRule implements RuleInterface
 {
-
     public function getVariable()
     {
-        return $this->getVariableOrderProductQuantity();
+        return $this->getVariableOrderItemQuantity();
     }
-
 }

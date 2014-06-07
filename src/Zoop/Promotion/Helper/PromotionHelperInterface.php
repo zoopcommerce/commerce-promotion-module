@@ -6,7 +6,6 @@ use Zoop\Promotion\Helper\PromotionManagerInterface;
 use Zoop\Promotion\DataModel\PromotionInterface;
 use Zoop\Order\DataModel\OrderInterface;
 use Zoop\Product\DataModel\ProductInterface;
-use ProductInterface;
 
 interface PromotionHelperInterface
 {

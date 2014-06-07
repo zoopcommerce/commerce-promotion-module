@@ -12,7 +12,7 @@ use Zoop\Shard\Annotation\Annotations as Shard;
  *     @Shard\Permission\Basic(roles="*", allow="*")
  * })
  */
-class ProductFullPrice extends AbstractFloatCondition implements ConditionInterface
+class ProductPrice extends AbstractFloatCondition implements ConditionInterface
 {
 
 }

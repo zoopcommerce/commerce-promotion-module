@@ -36,7 +36,7 @@ class ConditionTest extends AbstractTest
         $discount->setValue(15);
         $discount->setVariable(new Variable\Product);
 
-        $condition = new Condition\ProductFullPrice;
+        $condition = new Condition\ProductPrice;
         $condition->setConditionalOperator(new Conditional\GreaterThan);
         $condition->setValue(100);
         $discount->addCondition($condition);
@@ -44,7 +44,7 @@ class ConditionTest extends AbstractTest
         $compiler->setDiscount($discount);
         $compiled = str_replace("\n", "", $compiler->compile());
 
-        $expected = 'if($productFullPrice > 100) {%s}';
+        $expected = 'if($product->getPrice()->getFull() > 100) {%s}';
 
         $this->assertEquals($expected, $compiled);
     }
@@ -59,13 +59,13 @@ class ConditionTest extends AbstractTest
         $discount->setValue(15);
         $discount->setVariable(new Variable\Product);
 
-        $condition = new Condition\ProductFullPrice;
+        $condition = new Condition\ProductPrice;
         $condition->setConditionalOperator(new Conditional\GreaterThan);
         $condition->setLogicalOperator(new Logical\AndOperator);
         $condition->setValue(100);
         $discount->addCondition($condition);
 
-        $condition = new Condition\ProductFullPrice;
+        $condition = new Condition\ProductPrice;
         $condition->setConditionalOperator(new Conditional\LessThan);
         $condition->setLogicalOperator(new Logical\AndOperator);
         $condition->setValue(200);
@@ -74,7 +74,7 @@ class ConditionTest extends AbstractTest
         $compiler->setDiscount($discount);
         $compiled = str_replace("\n", "", $compiler->compile());
 
-        $expected = 'if($productFullPrice > 100 && $productFullPrice < 200) {%s}';
+        $expected = 'if($product->getPrice()->getFull() > 100 && $product->getPrice()->getFull() < 200) {%s}';
 
         $this->assertEquals($expected, $compiled);
     }

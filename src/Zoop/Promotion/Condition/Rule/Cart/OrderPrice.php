@@ -6,10 +6,8 @@ use Zoop\Promotion\Condition\Rule\RuleInterface;
 
 class OrderPrice extends AbstractCartRule implements RuleInterface
 {
-
     public function getVariable()
     {
         return $this->getVariableOrderTotalPrice();
     }
-
 }

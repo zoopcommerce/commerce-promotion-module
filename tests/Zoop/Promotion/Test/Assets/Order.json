@@ -1,1 +1,161 @@
-{"legacyId":1,"store":"teststore","email":"testorder@order.com","firstName":"Oscar","lastName":"Le` Grouch","address":{"line1":"1 Sesame Street","line2":null,"city":"Cartoon","state":"VIC","postcode":"3000","country":"AU"},"phone":null,"promotions":[],"promotionRegistry":[],"total":{"shippingPrice":10,"productWholesalePrice":40,"productListPrice":100,"productQuantity":2,"discountPrice":10,"taxIncluded":9.09,"orderPrice":100,"currency":{"code":"AUD","name":"Australian Dollar","symbol":"$"}},"items":[{"type":"SingleItem","legacyId":1,"brand":"Garbarge","name":"Lid","imageSets":[],"price":{"unit":{"wholesale":20,"list":50,"sale":45,"subTotal":45,"productDiscount":5,"cartDiscount":0,"shippingDiscount":0,"shipping":5,"taxIncluded":4.09},"total":{"wholesale":40,"list":100,"sale":90,"subTotal":90,"productDiscount":10,"cartDiscount":0,"shippingDiscount":0,"shipping":10,"taxIncluded":8.18}},"sku":{"type":"PhysicalSku","legacyId":2,"suppliers":[],"options":[{"type":"Dropdown","label":"Size \/ Option","value":"Small"}],"dimensions":{"weight":10,"width":10,"height":10,"depth":1}},"state":"active","quantity":2}],"shippingMethod":null,"paymentMethod":null,"state":"in-progress","history":[{"state":"in-progress"}],"commission":{"amount":0,"charged":0},"coupon":null,"invoiceSent":false,"isWaitingForPayment":false,"isComplete":false,"dateCompleted":null,"hasProducts":false}
+{
+    "legacyId": 1,
+    "store": "apple",
+    "email": "steve@apple.com",
+    "firstName": "Steve",
+    "lastName": "Jobs",
+    "address": {
+        "line1": "1 Infinite Loop",
+        "line2": null,
+        "city": "Cupertino",
+        "state": "CA",
+        "postcode": "95014",
+        "country": "US"
+    },
+    "phone": null,
+    "promotions": [],
+    "promotionRegistry": [],
+    "total": {
+        "shippingPrice": 20,
+        "productWholesalePrice": 1300,
+        "productListPrice": 2295,
+        "productSubTotalPrice": 2100,
+        "productQuantity": 3,
+        "discountPrice": 195,
+        "taxIncluded": 190.09,
+        "orderPrice": 2120,
+        "currency": {
+            "code": "AUD",
+            "name": "Australian Dollar",
+            "symbol": "$"
+        }
+    },
+    "items": [
+        {
+            "type": "SingleItem",
+            "legacyId": 1,
+            "brand": "Apple",
+            "name": "11-inch MacBook Air",
+            "imageSets": [],
+            "price": {
+                "unit": {
+                    "wholesale": 500,
+                    "list": 1099,
+                    "sale": 1000,
+                    "subTotal": 1000,
+                    "productDiscount": 99,
+                    "cartDiscount": 0,
+                    "shippingDiscount": 0,
+                    "shipping": 10,
+                    "taxIncluded": 90.09
+                },
+                "total": {
+                    "wholesale": 500,
+                    "list": 1099,
+                    "sale": 1000,
+                    "subTotal": 1000,
+                    "productDiscount": 99,
+                    "cartDiscount": 0,
+                    "shippingDiscount": 0,
+                    "shipping": 10,
+                    "taxIncluded": 90.09
+                }
+            },
+            "sku": {
+                "type": "PhysicalSku",
+                "legacyId": 2,
+                "suppliers": [],
+                "options": [{
+                        "type": "Dropdown",
+                        "label": "Storage",
+                        "value": "128GB"
+                    }],
+                "dimensions": {
+                    "weight": 5,
+                    "width": 25,
+                    "height": 25,
+                    "depth": 10
+                }
+            },
+            "state": "active",
+            "quantity": 1
+        },
+        {
+            "type": "SingleItem",
+            "legacyId": 1,
+            "brand": "Apple",
+            "name": "iPad Air",
+            "imageSets": [],
+            "price": {
+                "unit": {
+                    "wholesale": 400,
+                    "list": 598,
+                    "sale": 550,
+                    "subTotal": 550,
+                    "productDiscount": 48,
+                    "cartDiscount": 0,
+                    "shippingDiscount": 0,
+                    "shipping": 5,
+                    "taxIncluded": 50
+                },
+                "total": {
+                    "wholesale": 800,
+                    "list": 1196,
+                    "sale": 1100,
+                    "subTotal": 1100,
+                    "productDiscount": 96,
+                    "cartDiscount": 0,
+                    "shippingDiscount": 0,
+                    "shipping": 10,
+                    "taxIncluded": 100
+                }
+            },
+            "sku": {
+                "type": "PhysicalSku",
+                "legacyId": 3,
+                "suppliers": [],
+                "options": [
+                    {
+                        "type": "Dropdown",
+                        "label": "Color",
+                        "value": "Space Grey"
+                    },
+                    {
+                        "type": "Dropdown",
+                        "label": "Model",
+                        "value": "WiFi"
+                    },
+                    {
+                        "type": "Dropdown",
+                        "label": "Storage",
+                        "value": "16GB"
+                    }
+                ],
+                "dimensions": {
+                    "weight": 2,
+                    "width": 10,
+                    "height": 10,
+                    "depth": 5
+                }
+            },
+            "state": "active",
+            "quantity": 2
+        }
+    ],
+    "shippingMethod": null,
+    "paymentMethod": null,
+    "state": "in-progress",
+    "history": [{
+            "state": "in-progress"
+        }],
+    "commission": {
+        "amount": 0,
+        "charged": 0
+    },
+    "coupon": null,
+    "invoiceSent": false,
+    "isWaitingForPayment": false,
+    "isComplete": false,
+    "dateCompleted": null,
+    "hasProducts": false
+}

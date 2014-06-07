@@ -5,9 +5,10 @@ namespace Zoop\Promotion;
 trait ProductVariablesTrait
 {
     protected static $variableProductPrefix = '$product';
-    protected static $variableProductId = 'Id';
-    protected static $variableProductWholesalePrice = 'WholesalePrice';
-    protected static $variableProductFullPrice = 'FullPrice';
+    protected static $variableProductId = '->getLegacyId()';
+    protected static $variableProductFullPrice = '->getPrice()->getFull()';
+    protected static $variableProductSalePrice = '->getPrice()->getSale()';
+    protected static $variableProductWholesalePrice = '->getPrice()->getWholesale()';
 
     public static function getVariableProductPrefix()
     {

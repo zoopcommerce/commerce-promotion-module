@@ -7,7 +7,5 @@ use Zoop\Promotion\CartVariablesTrait;
 
 abstract class AbstractCartRule extends AbstractRule
 {
-
     use CartVariablesTrait;
-
 }

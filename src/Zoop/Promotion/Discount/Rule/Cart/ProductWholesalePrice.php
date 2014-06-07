@@ -6,17 +6,21 @@ use Zoop\Promotion\Discount\Rule\RuleInterface;
 
 class ProductWholesalePrice extends AbstractCartRule implements RuleInterface
 {
-
     public function getFunction()
     {
-        return 'if (' . $this->getVariableOrderProductFullPrice() . ' && ' . $this->getVariableOrderProductWholesalePrice() . ') {
-                    $discount = ' . $this->getVariableOrderProductFullPrice() . ' - ' . $this->getVariableOrderProductWholesalePrice() . ';
-                    if ($discount < 0) {
-                        return (float) ' . $this->getVariableOrderProductFullPrice() . ';
-                    } else {
-                        return (float) $discount;
-                    }
-                }';
-    }
+        return 'if (' . $this->getVariableOrderTotalPrice() . ' && ' . $this->getVariableOrderItemTotalWholesalePrice() . ') {
+            $discountAmount = (float) (' . $this->getVariableOrderItemTotalSubTotalPrice() . ' - ' . $this->getVariableOrderItemTotalWholesalePrice() . ');
+                
+            if ($discountAmount < 0) {
+                $discountAmount = (float) ' . $this->getVariableOrderItemTotalSubTotalPrice() . ';
+            }
 
+            ' . $this->getVariableDiscountClassInstantiation() . '
+            ' . $this->getVariableDiscountClassAddItem() . '
+            ' . $this->getVariableDiscountClassSetItemDiscount() . '
+            ' . $this->getVariableDiscountClassSetIsApplied() . '
+                
+            return $discount;
+        }';
+    }
 }

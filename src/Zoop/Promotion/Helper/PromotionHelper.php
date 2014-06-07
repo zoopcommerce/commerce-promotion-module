@@ -9,6 +9,7 @@ use Zoop\Promotion\Helper\PromotionHelperChain;
 use Zoop\Promotion\Discount\Compiler;
 use Zoop\Promotion\Helper\PromotionManagerInterface;
 use Zoop\Promotion\DataModel\PromotionInterface;
+use Zoop\Product\DataModel\ProductInterface;
 use Zoop\Promotion\DataModel\UnlimitedPromotion;
 use Zoop\Promotion\DataModel\LimitedPromotion;
 use Zoop\Promotion\DataModel\Register\Finite;
@@ -61,10 +62,10 @@ class PromotionHelper implements PromotionHelperInterface
             $break = ($promotion->getAllowCombination() === false);
 
             if (!empty($discountFunction)) {
-                $function = create_function($this->getCartFunctionArguments() . ', &' . Compiler::VARIABLE_DISCOUNT_APPLIED, $discountFunction);
+                $function = create_function($this->getCartFunctionArguments(), $discountFunction);
 
                 if (!empty($function)) {
-                    $discount = $function($order, $discountApplied);
+                    $discount = $function($order);
 
                     if ($discountApplied === true) {
                         if ($this->reservePromotion($promotion)) {

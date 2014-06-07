@@ -4,7 +4,6 @@ namespace Zoop\Promotion\Condition\Rule;
 
 interface RuleInterface
 {
-
     public function getVariable();
 
     public function getType();

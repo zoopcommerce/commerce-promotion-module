@@ -10,10 +10,23 @@ class ShippingFixedAmountOff extends AbstractCartRule implements RuleInterface
     public function getFunction()
     {
         return 'if (' . $this->getVariableOrderTotalShippingPrice() . ') {
-            $discount = (float) (' . $this->getVariableOrderProductShippingPrice() . ' / ' . $this->getVariableOrderTotalShippingPrice() . ') * ' . self::RULE_VALUE_VARIABLE . ';
-            if($discount > ' . $this->getVariableOrderTotalShippingPrice() . ') {
-                return ' . $this->getVariableOrderTotalShippingPrice() . ';
+            $discountAmount = (float) ((' .
+            $this->getVariableOrderItemTotalShippingPrice() .
+            ' / ' .
+            $this->getVariableOrderTotalShippingPrice() .
+            ') * ' .
+            self::RULE_VALUE_VARIABLE .
+            ');
+
+            if($discountAmount > ' . $this->getVariableOrderTotalShippingPrice() . ') {
+                $discountAmount = (float) ' . $this->getVariableOrderTotalShippingPrice() . ';
             }
+
+            ' . $this->getVariableDiscountClassInstantiation() . '
+            ' . $this->getVariableDiscountClassAddItem() . '
+            ' . $this->getVariableDiscountClassSetShippingDiscount() . '
+            ' . $this->getVariableDiscountClassSetIsApplied() . '
+
             return $discount;
         }';
     }

@@ -4,6 +4,7 @@ namespace Zoop\Promotion\Discount;
 
 use \Exception;
 use \ReflectionClass;
+use Zoop\Promotion\DiscountVariablesTrait;
 use Zoop\Promotion\CartVariablesTrait;
 use Zoop\Promotion\ProductVariablesTrait;
 use Zoop\Promotion\DataModel\Condition\ConditionInterface;
@@ -15,8 +16,8 @@ use Zoop\Promotion\DataModel\Condition;
 
 class Compiler
 {
-
     use CartVariablesTrait;
+    use DiscountVariablesTrait;
     use ProductVariablesTrait;
 
     const DISCOUNT_LEVEL_CART = 'Cart';
@@ -73,9 +74,9 @@ class Compiler
     private function getDiscountHeader()
     {
         if ($this->getDiscount()->getLevel() === self::DISCOUNT_LEVEL_CART) {
-            $header[] = 'function() use (' . $this->getCartDiscountRuleFunctionArguments() . ', &' . self::VARIABLE_DISCOUNT_APPLIED . ') {';
+            $header[] = 'function() use (' . $this->getCartDiscountRuleFunctionArguments() . ') {';
         } elseif ($this->getDiscount()->getLevel() === self::DISCOUNT_LEVEL_PRODUCT) {
-            $header[] = 'function() use (' . $this->getProductDiscountRuleFunctionArguments() . ', &' . self::VARIABLE_DISCOUNT_APPLIED . ') {';
+            $header[] = 'function() use (' . $this->getProductDiscountRuleFunctionArguments() . ') {';
         }
 
         return implode("\n", $header);
@@ -83,7 +84,7 @@ class Compiler
 
     private function getDiscountFooter()
     {
-        $footer[] = 'return 0;';
+        $footer[] = 'return new ' . $this->getVariableDiscountClass() . ';';
         $footer[] = '};';
 
         return implode("\n", $footer);
@@ -109,7 +110,7 @@ class Compiler
             if (!empty($conditions)) {
                 /* @var $condtion ConditionInterface */
                 foreach ($conditions as $condition) {
-                    if (!$condition instanceof Condition\ProductFullPrice) {
+                    if (!$condition instanceof Condition\ProductPrice) {
                         $level = self::DISCOUNT_LEVEL_CART;
                     }
                 }
@@ -163,5 +164,4 @@ class Compiler
             die('Could not instantiate discount: ' . $ex->getMessage());
         }
     }
-
 }

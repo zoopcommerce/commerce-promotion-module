@@ -15,7 +15,7 @@ class Compiler
     const DISCOUNT_LEVEL_PRODUCT = 'Product';
     const RULE_CLASSNAME = 'Zoop\Promotion\Condition\Rule\%s\%s';
 
-    private $discount;
+    protected $discount;
 
     /**
      *
@@ -88,7 +88,7 @@ class Compiler
         return false;
     }
 
-    private function getConditionValue(ConditionInterface $condition)
+    protected function getConditionValue(ConditionInterface $condition)
     {
         $value = $condition->getValue();
         if (!is_numeric($value)) {
@@ -102,9 +102,8 @@ class Compiler
      * @param ConditionInterface $condition
      * @return RuleInterface
      */
-    private function getConditionVariable(ConditionInterface $condition)
+    protected function getConditionVariable(ConditionInterface $condition)
     {
-
         if (!empty($condition)) {
             $className = $this->getClassName($condition);
 
@@ -121,7 +120,7 @@ class Compiler
         }
     }
 
-    private function getClassName($className)
+    protected function getClassName($className)
     {
         $className = explode('\\', get_class($className));
         return $className[count($className) - 1];
@@ -132,7 +131,7 @@ class Compiler
      * @param string $class
      * @return RuleInterface
      */
-    private function instantiateRuleClass($class)
+    protected function instantiateRuleClass($class)
     {
         try {
             $ref = new ReflectionClass($class);
@@ -141,5 +140,4 @@ class Compiler
             die('Could not instantiate condition: ' . $ex->getMessage());
         }
     }
-
 }

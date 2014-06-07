@@ -7,7 +7,5 @@ use Zoop\Promotion\ProductVariablesTrait;
 
 abstract class AbstractProductRule extends AbstractRule
 {
-
     use ProductVariablesTrait;
-
 }

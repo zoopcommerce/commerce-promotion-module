@@ -9,13 +9,19 @@ class OrderPercentageAmountOff extends AbstractCartRule implements RuleInterface
     public function getFunction()
     {
         return 'if (' . $this->getVariableOrderTotalPrice() . ') {
-            return (float) ((' .
-            $this->getVariableOrderProductTotalSubTotalPrice() .
-            ' + ' .
-            $this->getVariableOrderProductTotalShippingPrice() .
-            ') * (' .
-            self::RULE_VALUE_VARIABLE .
-            '/100));' . 
-            '}';
+                $discountAmount = (float) ((' .
+                $this->getVariableOrderItemTotalSubTotalPrice() .
+                ' + ' .
+                $this->getVariableOrderItemTotalShippingPrice() .
+                ') * (' .
+                self::RULE_VALUE_VARIABLE .
+                '/100));
+
+                ' . $this->getVariableDiscountClassInstantiation() . '
+                ' . $this->getVariableDiscountClassAddItem() . '
+                ' . $this->getVariableDiscountClassSetCartDiscount() . '
+                ' . $this->getVariableDiscountClassSetIsApplied() . '
+                return $discount;
+            }';
     }
 }

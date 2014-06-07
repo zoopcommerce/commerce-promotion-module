@@ -4,7 +4,6 @@ namespace Zoop\Promotion\Condition\Rule;
 
 abstract class AbstractRule
 {
-
     const TYPE_VARIABLE = 'variable';
     const TYPE_FUNCTION = 'function';
 
@@ -25,5 +24,4 @@ abstract class AbstractRule
     {
         return $this->getVariable();
     }
-
 }

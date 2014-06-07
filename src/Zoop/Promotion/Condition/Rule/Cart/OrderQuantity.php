@@ -6,7 +6,6 @@ use Zoop\Promotion\Condition\Rule\RuleInterface;
 
 class OrderQuantity extends AbstractCartRule implements RuleInterface
 {
-
     public function __construct()
     {
         $this->setType(self::TYPE_FUNCTION);
@@ -24,5 +23,4 @@ class OrderQuantity extends AbstractCartRule implements RuleInterface
                     return $quantity;
                 }';
     }
-
 }
