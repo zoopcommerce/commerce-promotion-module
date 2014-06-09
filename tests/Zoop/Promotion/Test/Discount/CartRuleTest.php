@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoop\Promotion\Test\Rules;
+namespace Zoop\Promotion\Test\Discount;
 
 use Zoop\Promotion\Test\AbstractTest;
 use Zoop\Promotion\Discount\Rule\Cart;

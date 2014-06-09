@@ -12,6 +12,7 @@ use Zoop\Promotion\DataModel\Register\Finite;
 class TestData
 {
     const DOCUMENT_ORDER = 'Zoop\Order\DataModel\Order';
+    const DOCUMENT_PRODUCT = 'Zoop\Product\DataModel\AbstractProduct';
     const DOCUMENT_STORE = 'Zoop\Store\DataModel\Store';
     const DOCUMENT_UNLIMITED_PROMOTION = 'Zoop\Promotion\DataModel\UnlimitedPromotion';
     const DOCUMENT_LIMITED_PROMOTION = 'Zoop\Promotion\DataModel\LimitedPromotion';
@@ -79,6 +80,17 @@ class TestData
         $data = self::getJson('Order');
 
         return $unserializer->fromJson($data, self::DOCUMENT_ORDER);
+    }
+
+    /**
+     * @param Unserializer $unserializer
+     * @return SingleProduct
+     */
+    public static function createSingleProduct(Unserializer $unserializer)
+    {
+        $data = self::getJson('SingleProduct');
+
+        return $unserializer->fromJson($data, self::DOCUMENT_PRODUCT);
     }
 
     protected static function getJson($fileName)

@@ -7,16 +7,14 @@ use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use Zoop\Shard\Manifest;
 use Zoop\Shard\Serializer\Unserializer;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Zoop\Promotion\DataModel\PromotionInterface;
 use Zoop\Order\DataModel\OrderInterface;
 use Zoop\Store\DataModel\Store;
 use Zoop\Promotion\DataModel\LimitedPromotion;
 use Zoop\Promotion\DataModel\UnlimitedPromotion;
-use Zoop\Promotion\DataModel\Register\Infinite;
-use Zoop\Promotion\DataModel\Register\Finite;
 use Zoop\Promotion\DataModel\Register\Coupon;
 use Zoop\Promotion\Test\Assets\TestData;
 use Zoop\Shard\Core\Events;
+use Zoop\Product\DataModel\ProductInterface;
 
 abstract class AbstractTest extends AbstractHttpControllerTestCase
 {
@@ -112,6 +110,20 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
         self::getDocumentManager()->flush($order);
 
         return $order;
+    }
+
+    /**
+     * @param string $coupon
+     * @return ProductInterface
+     */
+    protected static function createSingleProduct()
+    {
+        $product = TestData::createSingleProduct(self::getUnserializer());
+
+        self::getDocumentManager()->persist($product);
+        self::getDocumentManager()->flush($product);
+
+        return $product;
     }
 
     /**
