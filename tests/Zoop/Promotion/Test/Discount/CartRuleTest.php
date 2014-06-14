@@ -4,7 +4,6 @@ namespace Zoop\Promotion\Test\Discount;
 
 use Zoop\Promotion\Test\AbstractTest;
 use Zoop\Promotion\Discount\Rule\Cart;
-use Zoop\Promotion\Discount\Discount;
 use Zoop\Promotion\Discount\DiscountChain;
 use Zoop\Promotion\CartVariablesTrait;
 use Zoop\Promotion\DiscountVariablesTrait;
@@ -25,6 +24,7 @@ class CartRuleTest extends AbstractTest
         $discountChain = $this->getDiscount($order, $function);
 
         $this->assertTrue($discountChain instanceof DiscountChain);
+        $this->assertTrue($discountChain->hasAppliedDiscounts());
         $discounts = $discountChain->getDiscounts();
         $this->assertCount(2, $discounts);
         $this->assertEquals(10, $discountChain->getTotalDiscount());
@@ -46,6 +46,7 @@ class CartRuleTest extends AbstractTest
         $discountChain = $this->getDiscount($order, $function);
 
         $this->assertTrue($discountChain instanceof DiscountChain);
+        $this->assertTrue($discountChain->hasAppliedDiscounts());
         $discounts = $discountChain->getDiscounts();
         $this->assertCount(2, $discounts);
         $this->assertEquals(212, $discountChain->getTotalDiscount());
@@ -67,6 +68,7 @@ class CartRuleTest extends AbstractTest
         $discountChain = $this->getDiscount($order, $function);
 
         $this->assertTrue($discountChain instanceof DiscountChain);
+        $this->assertTrue($discountChain->hasAppliedDiscounts());
         $discounts = $discountChain->getDiscounts();
         $this->assertCount(2, $discounts);
         $this->assertEquals(30, $discountChain->getTotalDiscount());
@@ -88,6 +90,7 @@ class CartRuleTest extends AbstractTest
         $discountChain = $this->getDiscount($order, $function);
 
         $this->assertTrue($discountChain instanceof DiscountChain);
+        $this->assertTrue($discountChain->hasAppliedDiscounts());
         $discounts = $discountChain->getDiscounts();
         $this->assertCount(2, $discounts);
         $this->assertEquals(210, $discountChain->getTotalDiscount());
@@ -109,6 +112,7 @@ class CartRuleTest extends AbstractTest
         $discountChain = $this->getDiscount($order, $function);
 
         $this->assertTrue($discountChain instanceof DiscountChain);
+        $this->assertTrue($discountChain->hasAppliedDiscounts());
         $discounts = $discountChain->getDiscounts();
         $this->assertCount(2, $discounts);
         $this->assertEquals(1100, $discountChain->getTotalDiscount());
@@ -129,6 +133,7 @@ class CartRuleTest extends AbstractTest
         $discountChain = $this->getDiscount($order, $function);
 
         $this->assertTrue($discountChain instanceof DiscountChain);
+        $this->assertTrue($discountChain->hasAppliedDiscounts());
         $discounts = $discountChain->getDiscounts();
         $this->assertCount(2, $discounts);
         $this->assertEquals(800, $discountChain->getTotalDiscount());
@@ -150,6 +155,7 @@ class CartRuleTest extends AbstractTest
         $discountChain = $this->getDiscount($order, $function);
 
         $this->assertTrue($discountChain instanceof DiscountChain);
+        $this->assertTrue($discountChain->hasAppliedDiscounts());
         $discounts = $discountChain->getDiscounts();
         $this->assertCount(2, $discounts);
         $this->assertEquals(12, $discountChain->getTotalDiscount());
@@ -171,6 +177,7 @@ class CartRuleTest extends AbstractTest
         $discountChain = $this->getDiscount($order, $function);
 
         $this->assertTrue($discountChain instanceof DiscountChain);
+        $this->assertTrue($discountChain->hasAppliedDiscounts());
         $discounts = $discountChain->getDiscounts();
         $this->assertCount(2, $discounts);
         $this->assertEquals(10, $discountChain->getTotalDiscount());

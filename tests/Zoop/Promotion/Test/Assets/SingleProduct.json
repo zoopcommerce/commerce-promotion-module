@@ -25,17 +25,17 @@
         "wholesale": 500,
         "saleActive": true
     },
-    "hidden": true,
-    "options": {
-        "storage": {
+    "options": [
+        {
+            "id": "storage",
             "type": "Dropdown",
-            "label": "Storage",
+            "name": "Storage",
             "values": [
                 "128GB",
                 "256GB"
             ]
         }
-    },
+    ],
     "attributes": [
         {
             "type": "Text",
@@ -44,8 +44,9 @@
         }
     ],
     "notForIndividualSale": false,
-    "skuDefinitions": {
-        "123": {
+    "skuDefinitions": [
+        {
+            "id": "123",
             "type": "Physical",
             "legacyId": 2,
             "optionMap": [{
@@ -63,13 +64,13 @@
                 "depth": 10
             }
         },
-        "456": {
+        {
+            "id": "456",
             "type": "Physical",
             "legacyId": 3,
             "optionMap": [{
-                "Storage": "256GB"
+                "storage": "256GB"
             }],
-            "priceAdjustment": {},
             "shippingRates": [],
             "suppliers": [{
                "name": "Apple",
@@ -82,5 +83,5 @@
                 "depth": 10
             }
         }
-    }
+    ]
 }

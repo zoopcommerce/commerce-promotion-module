@@ -17,8 +17,8 @@ class OrderPercentageAmountOff extends AbstractCartRule implements RuleInterface
                 self::RULE_VALUE_VARIABLE .
                 '/100));
 
-                ' . $this->getVariableDiscountClassInstantiation() . '
-                ' . $this->getVariableDiscountClassAddItem() . '
+                ' . $this->getVariableCartDiscountClassInstantiation() . '
+                ' . $this->getVariableDiscountClassSetItem() . '
                 ' . $this->getVariableDiscountClassSetCartDiscount() . '
                 ' . $this->getVariableDiscountClassSetIsApplied() . '
                 return $discount;

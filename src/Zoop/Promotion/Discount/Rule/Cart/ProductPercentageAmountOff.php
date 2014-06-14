@@ -11,8 +11,8 @@ class ProductPercentageAmountOff extends AbstractCartRule implements RuleInterfa
         return 'if (' . $this->getVariableOrderTotalPrice() . ') {
             $discountAmount = (float) (' . $this->getVariableOrderItemTotalSubTotalPrice() . ' * (' . self::RULE_VALUE_VARIABLE . '/100));
 
-            ' . $this->getVariableDiscountClassInstantiation() . '
-            ' . $this->getVariableDiscountClassAddItem() . '
+            ' . $this->getVariableCartDiscountClassInstantiation() . '
+            ' . $this->getVariableDiscountClassSetItem() . '
             ' . $this->getVariableDiscountClassSetItemDiscount() . '
             ' . $this->getVariableDiscountClassSetIsApplied() . '
 

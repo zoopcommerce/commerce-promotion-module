@@ -3,6 +3,7 @@
 namespace Zoop\Promotion\Test\Discount;
 
 use Zoop\Promotion\Test\AbstractTest;
+use Zoop\Promotion\Discount\ProductDiscount;
 use Zoop\Promotion\Discount\Rule\Product;
 use Zoop\Promotion\ProductVariablesTrait;
 use Zoop\Product\DataModel\ProductInterface;
@@ -20,50 +21,63 @@ class ProductRuleTest extends AbstractTest
 
         $function = $this->createProductFunction((string) $rule);
 
-        $discountChain = $this->getDiscount($product, $function);
+        $discount = $this->getDiscount($product, $function);
 
-        $this->assertTrue($discountChain instanceof DiscountChain);
-        $discounts = $discountChain->getDiscounts();
-        $this->assertCount(2, $discounts);
-        $this->assertEquals(10, $discountChain->getTotalDiscount());
+        $this->assertTrue($discount instanceof ProductDiscount);
+        $this->assertTrue($discount->isApplied());
+        $this->assertEquals(10, $discount->getItemDiscount());
+        $this->assertEquals(10, $discount->getTotalDiscount());
     }
-//
-//    public function testProductPercentageAmountOff()
-//    {
-//
-//        $rule = new Product\ProductPercentageAmountOff;
-//        $rule->setValue(self::RULE_PERCENTAGE_VALUE);
-//
-//        $function = $this->createProductFunction((string) $rule);
-//
-//        $discount = $this->getDiscount($product, $function);
-//
-//        $this->assertEquals(8, $discount);
-//    }
-//
-//    public function testProductSetPrice()
-//    {
-//
-//        $rule = new Product\ProductSetPrice;
-//        $rule->setValue(self::RULE_SET_PRICE);
-//
-//        $function = $this->createProductFunction((string) $rule);
-//
-//        $discount = $this->getDiscount($product, $function);
-//
-//        $this->assertEquals(70, $discount);
-//    }
-//
-//    public function testProductWholesalePrice()
-//    {
-//
-//        $rule = new Product\ProductWholesalePrice;
-//        $function = $this->createProductFunction((string) $rule);
-//
-//        $discount = $this->getDiscount($product, $function);
-//
-//        $this->assertEquals(30, $discount);
-//    }
+
+    public function testProductPercentageAmountOff()
+    {
+        $product = self::createSingleProduct();
+        
+        $rule = new Product\ProductPercentageAmountOff;
+        $rule->setValue(10);
+
+        $function = $this->createProductFunction((string) $rule);
+
+        $discount = $this->getDiscount($product, $function);
+
+        $this->assertTrue($discount instanceof ProductDiscount);
+        $this->assertTrue($discount->isApplied());
+        $this->assertEquals(109.9, $discount->getItemDiscount());
+        $this->assertEquals(109.9, $discount->getTotalDiscount());
+    }
+
+    public function testProductSetPrice()
+    {
+        $product = self::createSingleProduct();
+        
+        $rule = new Product\ProductSetPrice;
+        $rule->setValue(1000);
+
+        $function = $this->createProductFunction((string) $rule);
+
+        $discount = $this->getDiscount($product, $function);
+
+        $this->assertTrue($discount instanceof ProductDiscount);
+        $this->assertTrue($discount->isApplied());
+        $this->assertEquals(99, $discount->getItemDiscount());
+        $this->assertEquals(99, $discount->getTotalDiscount());
+    }
+
+    public function testProductWholesalePrice()
+    {
+        $product = self::createSingleProduct();
+        
+        $rule = new Product\ProductWholesalePrice;
+
+        $function = $this->createProductFunction((string) $rule);
+
+        $discount = $this->getDiscount($product, $function);
+
+        $this->assertTrue($discount instanceof ProductDiscount);
+        $this->assertTrue($discount->isApplied());
+        $this->assertEquals(599, $discount->getItemDiscount());
+        $this->assertEquals(599, $discount->getTotalDiscount());
+    }
 
     protected function getDiscount(ProductInterface $product, $function)
     {

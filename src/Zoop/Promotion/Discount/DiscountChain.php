@@ -3,22 +3,21 @@
 namespace Zoop\Promotion\Discount;
 
 use Zoop\Promotion\Discount\Discount;
+use Zoop\Promotion\Discount\DiscountInterface;
 
 class DiscountChain
 {
     protected $discounts = [];
 
     /**
-     *
-     * @param Discount $discount
+     * @param DiscountInterface $discount
      */
-    public function addDiscount(Discount $discount)
+    public function addDiscount(DiscountInterface $discount)
     {
         $this->discounts[] = $discount;
     }
 
     /**
-     *
      * @return array
      */
     public function getDiscounts()
@@ -27,7 +26,6 @@ class DiscountChain
     }
 
     /**
-     *
      * @param array $discounts
      */
     public function setDiscounts(array $discounts)
@@ -35,11 +33,31 @@ class DiscountChain
         $this->discounts = $discounts;
     }
 
+    /**
+     * @return boolean
+     */
+    public function hasAppliedDiscounts()
+    {
+        $appliedDiscount = false;
+
+        /* @var $discount Discount */
+        foreach($this->getDiscounts() as $discount) {
+            if($discount->isApplied()) {
+                $appliedDiscount = true;
+            }
+        }
+
+        return $appliedDiscount;
+    }
+
+    /**
+     * @return float
+     */
     public function getTotalDiscount()
     {
         $total = 0;
 
-        /* @var $discount Discount */
+        /* @var $discount DiscountInterface */
         foreach($this->getDiscounts() as $discount) {
             $total += $discount->getTotalDiscount();
         }
@@ -47,11 +65,14 @@ class DiscountChain
         return $total;
     }
 
+    /**
+     * @return float
+     */
     public function getTotalCartDiscount()
     {
         $total = 0;
 
-        /* @var $discount Discount */
+        /* @var $discount DiscountInterface */
         foreach($this->getDiscounts() as $discount) {
             $total += $discount->getCartDiscount();
         }
@@ -59,11 +80,14 @@ class DiscountChain
         return $total;
     }
 
+    /**
+     * @return float
+     */
     public function getTotalItemDiscount()
     {
         $total = 0;
 
-        /* @var $discount Discount */
+        /* @var $discount DiscountInterface */
         foreach($this->getDiscounts() as $discount) {
             $total += $discount->getItemDiscount();
         }
@@ -71,11 +95,14 @@ class DiscountChain
         return $total;
     }
 
+    /**
+     * @return float
+     */
     public function getTotalShippingDiscount()
     {
         $total = 0;
 
-        /* @var $discount Discount */
+        /* @var $discount DiscountInterface */
         foreach($this->getDiscounts() as $discount) {
             $total += $discount->getShippingDiscount();
         }

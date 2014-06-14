@@ -15,8 +15,8 @@ class ProductSetPrice extends AbstractCartRule implements RuleInterface
                 return (float) ' . $this->getVariableOrderItemTotalSubTotalPrice() . ';
             }
 
-            ' . $this->getVariableDiscountClassInstantiation() . '
-            ' . $this->getVariableDiscountClassAddItem() . '
+            ' . $this->getVariableCartDiscountClassInstantiation() . '
+            ' . $this->getVariableDiscountClassSetItem() . '
             ' . $this->getVariableDiscountClassSetItemDiscount() . '
             ' . $this->getVariableDiscountClassSetIsApplied() . '
 

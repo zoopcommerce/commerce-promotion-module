@@ -15,8 +15,8 @@ class ProductWholesalePrice extends AbstractCartRule implements RuleInterface
                 $discountAmount = (float) ' . $this->getVariableOrderItemTotalSubTotalPrice() . ';
             }
 
-            ' . $this->getVariableDiscountClassInstantiation() . '
-            ' . $this->getVariableDiscountClassAddItem() . '
+            ' . $this->getVariableCartDiscountClassInstantiation() . '
+            ' . $this->getVariableDiscountClassSetItem() . '
             ' . $this->getVariableDiscountClassSetItemDiscount() . '
             ' . $this->getVariableDiscountClassSetIsApplied() . '
 

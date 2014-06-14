@@ -23,7 +23,6 @@ class Compiler
     const DISCOUNT_LEVEL_CART = 'Cart';
     const DISCOUNT_LEVEL_PRODUCT = 'Product';
     const RULE_CLASSNAME = 'Zoop\Promotion\Discount\Rule\%s\%s';
-    const VARIABLE_DISCOUNT_APPLIED = '$discountApplied';
 
     private $discount;
 
@@ -58,11 +57,9 @@ class Compiler
 
         //add the conditional functions
         if (!empty($condition)) {
-            $discountRule = self::VARIABLE_DISCOUNT_APPLIED . ' = true;';
-            $discountRule .= $this->getDiscountRule($discount);
+            $discountRule = $this->getDiscountRule($discount);
             $tempCompiledDiscount[] = sprintf($condition, $discountRule);
         } else {
-            $tempCompiledDiscount[] = self::VARIABLE_DISCOUNT_APPLIED . ' = true;';
             $tempCompiledDiscount[] = $this->getDiscountRule($discount);
         }
 
@@ -84,7 +81,11 @@ class Compiler
 
     private function getDiscountFooter()
     {
-        $footer[] = 'return new ' . $this->getVariableDiscountClass() . ';';
+        if ($this->getDiscount()->getLevel() === self::DISCOUNT_LEVEL_CART) {
+            $header[] = 'return new ' . $this->getVariableCartDiscountClass() . ';';
+        } elseif ($this->getDiscount()->getLevel() === self::DISCOUNT_LEVEL_PRODUCT) {
+            $header[] = 'return new ' . $this->getVariableProductDiscountClass() . ';';
+        }
         $footer[] = '};';
 
         return implode("\n", $footer);

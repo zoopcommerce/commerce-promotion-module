@@ -9,7 +9,10 @@ use Zoop\Shard\Serializer\Unserializer;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Zoop\Order\DataModel\OrderInterface;
 use Zoop\Store\DataModel\Store;
+use Zoop\Promotion\Compiler;
 use Zoop\Promotion\DataModel\LimitedPromotion;
+use Zoop\Promotion\DataModel\PromotionInterface;
+use Zoop\Promotion\DataModel\Discount\DiscountInterface;
 use Zoop\Promotion\DataModel\UnlimitedPromotion;
 use Zoop\Promotion\DataModel\Register\Coupon;
 use Zoop\Promotion\Test\Assets\TestData;
@@ -147,7 +150,8 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
         DateTime $startDate = null,
         DateTime $endDate = null,
         $couponCodes = [],
-        $active = true
+        $active = true,
+        DiscountInterface $discount = null
     )
     {
         $promotion = TestData::createLimitedPromotion(self::getUnserializer());
@@ -156,6 +160,9 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
         $promotion->setNumberInCart($inCart);
         $promotion->setNumberUsed($used);
         $promotion->setActive($active);
+        
+        //allows all products
+        $promotion->addProductId(0);
 
         if(!empty($startDate)) {
             $promotion->setStartDate($startDate);
@@ -169,6 +176,13 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
                 $promotion->addCouponToMap($couponCode);
             }
         }
+        
+        if(!empty($discount)) {
+            $promotion->addDiscount($discount);
+        }
+        
+        //compile
+        self::compilePromotion($promotion);
 
         self::getDocumentManager()->persist($promotion);
         self::getDocumentManager()->flush($promotion);
@@ -218,7 +232,8 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
         DateTime $startDate = null,
         DateTime $endDate = null,
         $couponCodes = [],
-        $active = true
+        $active = true,
+        DiscountInterface $discount = null
     )
     {
         $promotion = TestData::createUnlimitedPromotion(self::getUnserializer());
@@ -237,6 +252,13 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
                 $promotion->addCouponToMap($couponCode);
             }
         }
+        
+        if(!empty($discount)) {
+            $promotion->addDiscount($discount);
+        }
+        
+        //compile
+        self::compilePromotion($promotion);
 
         self::getDocumentManager()->persist($promotion);
         self::getDocumentManager()->flush($promotion);
@@ -259,6 +281,21 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
         self::getDocumentManager()->clear($promotion);
 
         return $promotion;
+    }
+
+    /**
+     *
+     * @param PromotionInterface $promotion
+     */
+    protected static function compilePromotion(PromotionInterface $promotion)
+    {
+        //compile the promo discounts into a function we can use later
+        $compiler = new Compiler();
+        $compiler->setPromotion($promotion);
+        $compiler->compile();
+
+        $promotion->setCartFunction($compiler->getCompiledCartFunction());
+        $promotion->setProductFunction($compiler->getCompiledProductFunction());
     }
 
     /**

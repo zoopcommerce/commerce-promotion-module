@@ -10,9 +10,11 @@ use Zoop\Promotion\Discount\Compiler as DiscountCompiler;
 class Compiler
 {
     use CartVariablesTrait;
+    use DiscountVariablesTrait;
     use ProductVariablesTrait;
 
     const VARIABLE_DISCOUNT = '$discount';
+    const VARIABLE_DISCOUNT_CHAIN = '$discountChain';
     const VARIABLE_FUNCTIONS = '$functions';
     const VARIABLE_FUNCTION = '$function';
 
@@ -68,9 +70,9 @@ class Compiler
 
         if (!empty($compiledFunctions)) {
             $function[] = $this->getFunctionHeader();
-            $function[] = 'if(is_array(' . $this->getVariableOrderProducts() . ')) {';
-            $function[] = 'foreach(' . $this->getVariableOrderProducts() . ' as ' . $this->getVariableOrderProductPrefix() . ') {';
-            $function[] = 'if(in_array(' . $this->getVariableOrderProductId() . ', ' . $this->getVariableConditionalProducts() . ') || in_array(0, ' . $this->getVariableConditionalProducts() . ')) {';
+            $function[] = 'if(is_array(' . $this->getVariableOrderItems() . ')) {';
+            $function[] = 'foreach(' . $this->getVariableOrderItems() . ' as ' . $this->getVariableOrderItem() . ') {';
+            $function[] = 'if(in_array(' . $this->getVariableOrderItemId() . ', ' . $this->getVariableConditionalProducts() . ') || in_array(0, ' . $this->getVariableConditionalProducts() . ')) {';
             $function[] = self::VARIABLE_FUNCTIONS . '[] = ' . $compiledFunctions;
             $function[] = '}';
             $function[] = '}';
@@ -112,7 +114,7 @@ class Compiler
     private function getFunctionHeader()
     {
         $header[] = $this->getConditionalProducts();
-        $header[] = self::VARIABLE_DISCOUNT . ' = 0;';
+        $header[] = $this->getVariableDiscountChainClassInstantiation();
         $header[] = self::VARIABLE_FUNCTIONS . ' = [];';
 
         return implode("\n", $header);
@@ -121,9 +123,10 @@ class Compiler
     private function getFunctionFooter()
     {
         $footer[] = 'foreach(' . self::VARIABLE_FUNCTIONS . ' as ' . self::VARIABLE_FUNCTION . ') {';
-        $footer[] = self::VARIABLE_DISCOUNT . ' += ' . self::VARIABLE_FUNCTION . '();';
+        $footer[] = self::VARIABLE_DISCOUNT . ' = ' . self::VARIABLE_FUNCTION . '();';
+        $footer[] = $this->getVariableDiscountChainClassAddDiscount();
         $footer[] = '}';
-        $footer[] = 'return ' . self::VARIABLE_DISCOUNT . ';';
+        $footer[] = 'return ' . self::VARIABLE_DISCOUNT_CHAIN . ';';
 
         return implode("\n", $footer);
     }

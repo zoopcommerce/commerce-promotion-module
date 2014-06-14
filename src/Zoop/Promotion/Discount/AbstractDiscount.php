@@ -2,18 +2,14 @@
 
 namespace Zoop\Promotion\Discount;
 
-use Zoop\Order\DataModel\Item\ItemInterface;
-
-class Discount
+abstract class AbstractDiscount
 {
     protected $isApplied = false;
     protected $cartDiscount = 0;
     protected $shippingDiscount = 0;
     protected $itemDiscount = 0;
-    protected $items = [];
 
     /**
-     *
      * @return boolean
      */
     public function isApplied()
@@ -56,15 +52,6 @@ class Discount
     }
 
     /**
-     * @return array
-     */
-    public function getItems()
-    {
-        return $this->items;
-    }
-
-    /**
-     *
      * @param boolean $isApplied
      */
     public function setIsApplied($isApplied)
@@ -73,7 +60,6 @@ class Discount
     }
 
     /**
-     *
      * @param float $cartDiscount
      */
     public function setCartDiscount($cartDiscount)
@@ -82,7 +68,6 @@ class Discount
     }
 
     /**
-     *
      * @param float $shippingDiscount
      */
     public function setShippingDiscount($shippingDiscount)
@@ -91,31 +76,10 @@ class Discount
     }
 
     /**
-     *
      * @param float $itemDiscount
      */
     public function setItemDiscount($itemDiscount)
     {
         $this->itemDiscount = (float) $itemDiscount;
-    }
-
-    /**
-     *
-     * @param array $items
-     */
-    public function setItems(array $items = [])
-    {
-        $this->items = $items;
-    }
-
-    /**
-     *
-     * @param ItemInterface $item
-     */
-    public function addItem(ItemInterface $item)
-    {
-        if(!in_array($item, $this->items)) {
-            $this->items[] = $item;
-        }
     }
 }

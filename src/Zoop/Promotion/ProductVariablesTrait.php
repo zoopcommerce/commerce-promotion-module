@@ -10,32 +10,30 @@ trait ProductVariablesTrait
     protected static $variableProductSalePrice = '->getPrice()->getSale()';
     protected static $variableProductWholesalePrice = '->getPrice()->getWholesale()';
 
-    public static function getVariableProductPrefix()
+    public static function getVariableProduct()
     {
         return self::$variableProductPrefix;
     }
 
     public static function getVariableProductId()
     {
-        return self::$variableProductPrefix . self::$variableProductId;
+        return self::getVariableProduct() . self::$variableProductId;
     }
 
     public static function getVariableProductWholesalePrice()
     {
-        return self::$variableProductPrefix . self::$variableProductWholesalePrice;
+        return self::getVariableProduct() . self::$variableProductWholesalePrice;
     }
 
     public static function getVariableProductFullPrice()
     {
-        return self::$variableProductPrefix . self::$variableProductFullPrice;
+        return self::getVariableProduct() . self::$variableProductFullPrice;
     }
 
     public function getProductFunctionArguments()
     {
         $arguments = [
-            $this->getVariableProductId(),
-            $this->getVariableProductWholesalePrice(),
-            $this->getVariableProductFullPrice()
+            $this->getVariableProduct()
         ];
 
         return implode(', ', $arguments);
@@ -44,9 +42,7 @@ trait ProductVariablesTrait
     public function getProductDiscountRuleFunctionArguments()
     {
         $arguments = [
-            $this->getVariableProductId(),
-            $this->getVariableProductWholesalePrice(),
-            $this->getVariableProductFullPrice()
+            $this->getVariableProduct()
         ];
 
         return implode(', ', $arguments);

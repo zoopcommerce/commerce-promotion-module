@@ -18,8 +18,8 @@ class OrderFixedAmountOff extends AbstractCartRule implements RuleInterface
                 ') * ' .
                 self::RULE_VALUE_VARIABLE . ';
 
-            ' . $this->getVariableDiscountClassInstantiation() . '
-            ' . $this->getVariableDiscountClassAddItem() . '
+            ' . $this->getVariableCartDiscountClassInstantiation() . '
+            ' . $this->getVariableDiscountClassSetItem() . '
             ' . $this->getVariableDiscountClassSetCartDiscount() . '
             ' . $this->getVariableDiscountClassSetIsApplied() . '
 

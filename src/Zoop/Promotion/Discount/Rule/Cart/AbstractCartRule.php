@@ -16,7 +16,7 @@ abstract class AbstractCartRule extends AbstractRule
         $ruleValue = $this->getValue();
         $compiledRule[] = self::RULE_VALUE_VARIABLE . ' = ' . (is_numeric($ruleValue) ? $ruleValue : '"' . $this->getValue() . '"') . ';';
         $compiledRule[] = $this->getFunction();
-        $compiledRule[] = 'return new '. $this->getVariableDiscountClass() . ';';
+        $compiledRule[] = 'return new '. $this->getVariableCartDiscountClass() . ';';
 
         return implode("\n", $compiledRule);
     }

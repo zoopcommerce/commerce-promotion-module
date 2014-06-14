@@ -6,9 +6,10 @@ trait DiscountVariablesTrait
 {
     protected static $variableDiscountChainClass = '\Zoop\Promotion\Discount\DiscountChain';
     protected static $variableDiscountChainClassAddDiscountFunction = 'addDiscount';
-    protected static $variableDiscountClass = '\Zoop\Promotion\Discount\Discount';
-    protected static $variableDiscountClassSetItemsFunction = 'setItems';
-    protected static $variableDiscountClassAddItemFunction = 'addItem';
+    protected static $variableCartDiscountClass = '\Zoop\Promotion\Discount\CartDiscount';
+    protected static $variableProductDiscountClass = '\Zoop\Promotion\Discount\ProductDiscount';
+    protected static $variableDiscountClassSetItemFunction = 'setItem';
+    protected static $variableDiscountClassSetProductFunction = 'setProduct';
     protected static $variableDiscountClassSetCartDiscountFunction = 'setCartDiscount';
     protected static $variableDiscountClassSetItemDiscountFunction = 'setItemDiscount';
     protected static $variableDiscountClassSetShippingDiscountFunction = 'setShippingDiscount';
@@ -17,9 +18,17 @@ trait DiscountVariablesTrait
     /**
      * @return string
      */
-    public static function getVariableDiscountClass()
+    public static function getVariableCartDiscountClass()
     {
-        return self::$variableDiscountClass;
+        return self::$variableCartDiscountClass;
+    }
+    
+    /**
+     * @return string
+     */
+    public static function getVariableProductDiscountClass()
+    {
+        return self::$variableProductDiscountClass;
     }
 
     /**
@@ -49,24 +58,33 @@ trait DiscountVariablesTrait
     /**
      * @return string
      */
-    public static function getVariableDiscountClassInstantiation($discountVarName = 'discount')
+    public static function getVariableCartDiscountClassInstantiation($discountVarName = 'discount')
     {
-        return '$' . $discountVarName . ' = new ' . self::getVariableDiscountClass() . '();';
-    }
-    /**
-     * @return string
-     */
-    public static function getVariableDiscountClassSetItems($discountVarName = 'discount', $itemsVarName = 'items')
-    {
-        return '$' . $discountVarName . '->' . self::$variableDiscountClassSetItemsFunction . '($' . $itemsVarName . ');';
+        return '$' . $discountVarName . ' = new ' . self::getVariableCartDiscountClass() . '();';
     }
 
     /**
      * @return string
      */
-    public static function getVariableDiscountClassAddItem($discountVarName = 'discount', $itemVarName = 'item')
+    public static function getVariableProductDiscountClassInstantiation($discountVarName = 'discount')
     {
-        return '$' . $discountVarName . '->' . self::$variableDiscountClassAddItemFunction . '($' . $itemVarName . ');';
+        return '$' . $discountVarName . ' = new ' . self::getVariableProductDiscountClass() . '();';
+    }
+    
+    /**
+     * @return string
+     */
+    public static function getVariableDiscountClassSetItem($discountVarName = 'discount', $itemsVarName = 'item')
+    {
+        return '$' . $discountVarName . '->' . self::$variableDiscountClassSetItemFunction . '($' . $itemsVarName . ');';
+    }
+    
+    /**
+     * @return string
+     */
+    public static function getVariableDiscountClassSetProduct($discountVarName = 'discount', $itemsVarName = 'product')
+    {
+        return '$' . $discountVarName . '->' . self::$variableDiscountClassSetProductFunction . '($' . $itemsVarName . ');';
     }
 
     /**

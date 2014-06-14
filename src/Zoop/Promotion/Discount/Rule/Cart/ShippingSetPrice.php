@@ -23,8 +23,8 @@ class ShippingSetPrice extends AbstractCartRule implements RuleInterface
                 return (float) ' . $this->getVariableOrderItemTotalShippingPrice() . ';
             }
 
-            ' . $this->getVariableDiscountClassInstantiation() . '
-            ' . $this->getVariableDiscountClassAddItem() . '
+            ' . $this->getVariableCartDiscountClassInstantiation() . '
+            ' . $this->getVariableDiscountClassSetItem() . '
             ' . $this->getVariableDiscountClassSetShippingDiscount() . '
             ' . $this->getVariableDiscountClassSetIsApplied() . '
 

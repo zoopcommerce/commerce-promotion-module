@@ -8,6 +8,7 @@ use Zoop\Promotion\Helper\PromotionHelper;
 use Zoop\Promotion\Helper\PromotionManager;
 use Zoop\Promotion\DataModel\LimitedPromotion;
 use Zoop\Promotion\DataModel\UnlimitedPromotion;
+use Zoop\Promotion\DataModel\Discount\FixedAmountOff;
 
 class PromotionHelperTest extends AbstractTest
 {
@@ -15,9 +16,18 @@ class PromotionHelperTest extends AbstractTest
 
     public function testApplyCartDiscount()
     {
+        $this->clearDatabase();
         $ph = $this->getPromotionHelper();
 
         $order = self::createOrder();
+        
+        $discount = new FixedAmountOff;
+        $variable = new \Zoop\Promotion\DataModel\Discount\Variable\Order;
+        $discount->setVariable($variable);
+        $discount->setValue(10);
+        $discount->setLevel('Cart');
+
+        self::createLimitedPromotion(1, 1, 0, 0, null, null, [], true, $discount);
 
         $ph->applyCartDiscount($order);
     }

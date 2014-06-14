@@ -22,8 +22,8 @@ class ShippingFixedAmountOff extends AbstractCartRule implements RuleInterface
                 $discountAmount = (float) ' . $this->getVariableOrderTotalShippingPrice() . ';
             }
 
-            ' . $this->getVariableDiscountClassInstantiation() . '
-            ' . $this->getVariableDiscountClassAddItem() . '
+            ' . $this->getVariableCartDiscountClassInstantiation() . '
+            ' . $this->getVariableDiscountClassSetItem() . '
             ' . $this->getVariableDiscountClassSetShippingDiscount() . '
             ' . $this->getVariableDiscountClassSetIsApplied() . '
 
